@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan cg1,cg2,cz,cu,cn,cs;
+
+clock dz, dz1, du, du1, dg, dg1, dg2;</declaration>
+	<template>
+		<name>Zahlung</name>
+		<location id="id0" x="-314" y="-170">
+			<name x="-365" y="-204">wirksam</name>
+			<label kind="invariant" x="-365" y="-161">dz&lt;=28</label>
+		</location>
+		<location id="id1" x="-314" y="-85">
+			<name x="-365" y="-119">erfuellt</name>
+		</location>
+		<location id="id2" x="-238" y="-170">
+			<name x="-248" y="-204">unerfuellt</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-297" y="-161">dz&gt;=28</label>
+			<label kind="synchronisation" x="-296" y="-187">cz!</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+		</transition>
+	</template>
+	<template>
+		<name>Uebergabe</name>
+		<location id="id3" x="-127" y="-59">
+			<name x="-137" y="-93">unerfuellt</name>
+		</location>
+		<location id="id4" x="-238" y="-59">
+			<name x="-297" y="-93">wirksam</name>
+			<label kind="invariant" x="-289" y="-51">du&lt;=28</label>
+		</location>
+		<location id="id5" x="-238" y="17">
+			<name x="-289" y="-8">erfuellt</name>
+		</location>
+		<init ref="id4"/>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-212" y="-85">du&gt;=28</label>
+			<label kind="synchronisation" x="-204" y="-59">cu!</label>
+		</transition>
+	</template>
+	<template>
+		<name>RuecktrittAnna</name>
+		<location id="id6" x="-178" y="-136">
+		</location>
+		<location id="id7" x="-42" y="-136">
+			<name x="-52" y="-170">Ruecktritt</name>
+		</location>
+		<init ref="id6"/>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-136" y="-161">cz?</label>
+		</transition>
+	</template>
+	<template>
+		<name>RuecktrittMax</name>
+		<location id="id8" x="-178" y="-136">
+		</location>
+		<location id="id9" x="-42" y="-136">
+			<name x="-52" y="-170">Ruecktritt</name>
+		</location>
+		<init ref="id8"/>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-136" y="-161">cu?</label>
+		</transition>
+	</template>
+	<template>
+		<name>Nacherfuellung</name>
+		<location id="id10" x="-263" y="-136">
+			<name x="-323" y="-170">unwirksam</name>
+		</location>
+		<location id="id11" x="-187" y="-136">
+			<name x="-197" y="-170">wirksam</name>
+			<label kind="invariant" x="-170" y="-127">dg1-dg&lt;=28</label>
+		</location>
+		<location id="id12" x="-85" y="-136">
+			<name x="-95" y="-170">erfuellt</name>
+		</location>
+		<location id="id13" x="-187" y="-42">
+			<name x="-212" y="-25">unerfuellt</name>
+		</location>
+		<init ref="id10"/>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-280" y="-102">dg1-dg&lt;28</label>
+			<label kind="synchronisation" x="-272" y="-85">cs?</label>
+			<nail x="-246" y="-110"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id13"/>
+			<label kind="guard" x="-178" y="-93">dg1-dg&gt;=28</label>
+			<label kind="synchronisation" x="-178" y="-76">cs?</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="-169" y="-153">cn!</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-245" y="-153">cg1?</label>
+		</transition>
+	</template>
+	<template>
+		<name>Schadensersatz</name>
+		<location id="id14" x="-187" y="-136">
+			<name x="-197" y="-170">wirksam</name>
+			<label kind="invariant" x="-178" y="-127">dg2-dg&lt;=28</label>
+		</location>
+		<location id="id15" x="-59" y="-136">
+			<name x="-69" y="-170">erfuellt</name>
+		</location>
+		<location id="id16" x="-263" y="-136">
+			<name x="-323" y="-170">unwirksam</name>
+		</location>
+		<init ref="id16"/>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="-238" y="-110">cn?</label>
+			<nail x="-229" y="-110"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-136" y="-178">cs!</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-245" y="-153">cg2?</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">GarantieBrezen</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id17" x="0" y="76">
+			<name x="-68" y="59">wirksam</name>
+			<label kind="invariant" x="-51" y="93">dg&lt;=14</label>
+		</location>
+		<location id="id18" x="187" y="76">
+			<name x="177" y="42">unerfuellt</name>
+		</location>
+		<location id="id19" x="0" y="144">
+			<name x="-59" y="127">erfuellt</name>
+		</location>
+		<location id="id20" x="85" y="76">
+			<committed/>
+		</location>
+		<init ref="id17"/>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="103" y="59">cg2!</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id19"/>
+			<label kind="guard" x="8" y="102">dg&gt;=14</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id20"/>
+			<label kind="guard" x="17" y="76">1&lt;dg &amp;&amp; dg&lt;14</label>
+			<label kind="synchronisation" x="17" y="34">cg1!</label>
+			<label kind="assignment" x="17" y="51">dg:=0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+// List one or more processes to be composed into a system.
+system Zahlung, RuecktrittAnna, Uebergabe, RuecktrittMax, GarantieBrezen, Nacherfuellung, Schadensersatz;
+ </system>
+	<queries>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

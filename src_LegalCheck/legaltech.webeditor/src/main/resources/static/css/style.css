@@ -1,0 +1,130 @@
+.header1 {
+	color: #0000FF;
+	font-size: 25px;
+	width:98%;
+}
+
+.header2 {
+	color: #FF0000;
+	font-size: 20px;
+	width:90%;
+}
+
+.unsat{
+	border-style: dotted;
+}
+
+h1 {
+	color: #0000FF;
+	font-size: 25px;
+}
+
+h2 {
+	color: #FF0000;
+	font-size: 20px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table th, table td {
+	padding: 5px;
+}
+
+label {
+	width: 200px;
+	float: left;
+}
+
+.column {
+	flex: 50%;
+}
+
+html {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	height: 100%;
+	margin: 10px;
+	padding: 10px;
+	background: #eeeeee;
+}
+
+body {
+/*	flex: 0 1 auto;*/
+/*	align-self: auto;*/
+	width: 100%;
+	height: 100%;
+	max-width: 1024px;
+}
+
+#back{
+	background: #fafafa;
+}
+
+#content {
+    max-width: 1024px;
+    width: 95%;
+	padding:15px;
+}
+
+.plus {
+	border-style: dotted;
+}
+
+/* Below css for tree view */
+
+/* Remove default bullets */
+ul, #myUL {
+	list-style-type: none;
+}
+
+/* Remove margins and padding from the parent ul */
+#myUL {
+	margin-left: 20px;
+	padding: 0;
+}
+
+/* Style the caret/arrow */
+.caret {
+	cursor: pointer;
+	user-select: none; /* Prevent text selection */
+}
+
+.split-column {
+  float: left;
+  width: 99%;
+}
+
+/* Clear floats after the columns */
+.split:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.caret::before {
+	content: "\25B6";
+	color: black;
+	display: inline-block;
+	margin-right: 6px;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.caret-down::before {
+	transform: rotate(90deg);
+}
+
+/* Hide the nested list */
+.nested {
+	display: none;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.active {
+	display: block;
+}

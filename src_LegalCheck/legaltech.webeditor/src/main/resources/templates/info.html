@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Set Options</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+	<div id='back'>
+		<div th:include="navigation :: navigation"></div>
+		<div id='content'>
+			<h1>Info</h1>
+			<br />
+			<!--  <span th:value="${JobList}"></span>-->
+			<table>
+				<thead>
+					<tr>
+						<th>Job</th>
+						<th>Version</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${JobList.empty}">
+						<td colspan="2">No Jobs Available</td>
+					</tr>
+					<tr th:each="job: ${JobList}">
+						<td><span th:text="${job.name}"> Name </span></td>
+						<td><span th:text="${job.version}"> Version </span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

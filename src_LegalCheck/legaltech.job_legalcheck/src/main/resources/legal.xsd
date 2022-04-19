@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://legaltech.sen.uni-konstanz.de"
+	targetNamespace="http://legaltech.sen.uni-konstanz.de"
+	elementFormDefault="qualified">
+
+	<xs:element name="root" />
+
+	<xs:element name="model" />
+
+	<xs:complexType name="SPA">
+		<xs:sequence>
+			<xs:element name="Claim" maxOccurs="unbounded"
+				minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="ref" type="xs:IDREF"
+						use="required" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PurchaseObject" minOccurs="1">
+				<xs:complexType>
+					<xs:attribute name="ref" type="xs:IDREF"
+						use="required" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PurchasePrice" maxOccurs="1"
+				minOccurs="1">
+				<xs:complexType>
+					<xs:attribute name="ref" type="xs:IDREF"
+						use="required" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Seller">
+				<xs:complexType>
+					<xs:attribute name="ref" type="xs:IDREF"
+						use="required" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Purchaser" minOccurs="1">
+				<xs:complexType>
+					<xs:attribute name="ref" type="xs:IDREF"
+						use="required" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="NewElement" type="xs:string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Person">
+		<xs:complexContent>
+			<xs:extension base="Legal">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Claim">
+		<xs:complexContent>
+			<xs:extension base="Right">
+				<xs:sequence>
+					<xs:element name="Performance" type="Performance">
+					</xs:element>
+					<xs:element name="Creditor" maxOccurs="1" minOccurs="1">
+						<xs:complexType>
+							<xs:attribute name="ref" type="xs:IDREF"
+								use="required" />
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Debtor" maxOccurs="1" minOccurs="1">
+						<xs:complexType>
+							<xs:attribute name="ref" type="xs:IDREF"
+								use="required" />
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="DueDate" type="Date"></xs:element>
+					<xs:element name="Latest" type="Date"></xs:element>
+					<xs:element name="Limitation" type="Date"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SecondaryClaim">
+		<xs:complexContent>
+			<xs:extension base="Claim">
+				<xs:attribute name="Content" type="xs:string"></xs:attribute>
+				<xs:attribute name="Trigger" type="xs:string"></xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PrimaryClaim">
+		<xs:complexContent>
+			<xs:extension base="Claim">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="IndemnityClaim">
+		<xs:complexContent>
+			<xs:extension base="SecondaryClaim"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="WarrantyClaim">
+		<xs:complexContent>
+			<xs:extension base="SecondaryClaim"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PerformanceClaim">
+		<xs:complexContent>
+			<xs:extension base="WarrantyClaim"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="RestitutionClaim">
+		<xs:complexContent>
+			<xs:extension base="WarrantyClaim"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="CompensationClaim">
+		<xs:complexContent>
+			<xs:extension base="WarrantyClaim">
+				<xs:sequence>
+					<xs:element name="Damage" type="Function"></xs:element>
+					<xs:element name="Max" type="xs:double"></xs:element>
+					<xs:element name="Min" type="xs:double"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:simpleType name="Date">
+		<xs:restriction base="xs:string">
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Object">
+		<xs:complexContent>
+			<xs:extension base="Legal">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Right">
+		<xs:complexContent>
+			<xs:extension base="Object"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Thing">
+		<xs:complexContent>
+			<xs:extension base="Object"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="NaturalPerson">
+		<xs:complexContent>
+			<xs:extension base="Person"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="LegalPerson">
+		<xs:complexContent>
+			<xs:extension base="Person">
+				<xs:sequence>
+					<xs:element name="Registration" type="Registration"
+						maxOccurs="1" minOccurs="0">
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Clause">
+		<xs:sequence>
+			<xs:element name="item" type="xs:string"></xs:element>
+			<xs:element name="legal" type="Reference"></xs:element>
+			<xs:element name="Clause" type="Clause"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="Clause1">
+		<xs:complexContent>
+			<xs:extension base="Clause"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Clause2">
+		<xs:complexContent>
+			<xs:extension base="Clause"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Clause3">
+		<xs:complexContent>
+			<xs:extension base="Clause"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Reference">
+		<xs:attribute name="ref" type="xs:IDREF" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="PropertyRight">
+		<xs:complexContent>
+			<xs:extension base="Right">
+				<xs:sequence>
+					<xs:element name="Owner" type="Reference">
+						<xs:annotation>
+							<xs:appinfo>
+								<xs:attribute name="type2">
+									Person
+								</xs:attribute>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Property" type="Reference">
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PropertyTransfer">
+		<xs:sequence>
+			<xs:element name="From" maxOccurs="1" minOccurs="1">
+				<xs:complexType>
+					<xs:attribute name="ref" type="xs:IDREF"
+						use="required" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="To" maxOccurs="1" minOccurs="1">
+				<xs:complexType>
+					<xs:attribute name="ref" type="xs:IDREF"
+						use="required" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Property" maxOccurs="1" minOccurs="1">
+				<xs:complexType>
+					<xs:attribute name="ref" type="xs:IDREF"
+						use="required" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PurchasePrice">
+		<xs:complexContent>
+			<xs:extension base="Object">
+				<xs:sequence>
+					<xs:element name="Price" type="xs:double"></xs:element>
+					<xs:element name="ChangeMin" type="xs:double">
+					</xs:element>
+					<xs:element name="ChangeMax" type="xs:double"></xs:element>
+				</xs:sequence>
+
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:simpleType name="Registration">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Corporation">
+		<xs:complexContent>
+			<xs:extension base="LegalPerson">
+				<xs:sequence>
+					<xs:element name="Share" type="Share"
+						maxOccurs="unbounded" minOccurs="0"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Share">
+		<xs:complexContent>
+			<xs:extension base="Right"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Shares">
+		<xs:complexContent>
+			<xs:extension base="Right"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:element name="Rechte" type="Right"></xs:element>
+
+	<xs:element name="DueDate" type="Date"></xs:element>
+
+	<xs:complexType name="Performance"></xs:complexType>
+
+	<xs:simpleType name="Head2">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Head">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="String">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Integer">
+		<xs:restriction base="xs:integer"></xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Function">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Legal">
+		<xs:attribute name="id" type="xs:ID" use="required" />
+	</xs:complexType>
+
+
+</xs:schema>

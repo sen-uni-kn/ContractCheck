@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="runID" th:value="${runID}" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>LegalTech</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<script type="text/javascript" src="webjars/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript"
+	src="webjars/Snap.svg/0.4.1/snap.svg-min.js"></script>
+<script type="text/javascript" src="js/uml/underscore-min.js"></script>
+<script type="text/javascript" src="js/uml/seq-diagram-min.js"></script>
+<script type="text/javascript"
+	src="webjars/webfontloader/1.6.28/webfontloader.js"></script>
+<script type="text/javascript" src="js/messengerEditor.js"></script>
+<script type="text/javascript">fire_ajax_getParas()</script>
+</head>
+
+<body>
+	<div id='back'>
+		<div th:include="navigation :: navigation"></div>
+		<div id='paras'></div>
+		<div class="msg" id="result">Result:</div>
+		<div class="msg" id="feedback">Messages:</div>
+	</div>
+</body>
+</html>

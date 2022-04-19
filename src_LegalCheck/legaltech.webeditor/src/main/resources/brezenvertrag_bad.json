@@ -1,0 +1,196 @@
+{
+	"_comment": "Objects allow to implement analyses in software",
+	"contract": [
+		{
+			"ID": "Head1",
+			"Index": "1",
+			"Text": "$text",
+			"Multiplicity": "1",
+			"Variable": [
+				"text:Head"
+			],
+			"Assignment": [
+				"text=Brezenkaufvertrag"
+			]
+		},
+		{
+			"ID": "Abschnitt1",
+			"Index": "2",
+			"Text": "$text",
+			"Multiplicity": "*",
+			"Variable": [
+				"text:Paragraph"
+			],
+			"Assignment": [
+				"text=Vertragstext"
+			]
+		},
+		{
+			"ID": "Kaufvertrag1",
+			"Index": "3",
+			"Text": "Der Verkäufer:in $verkaeufer.Name verkauft das Unternehmen $unternehmen.Name an Käufer:in $kaeufer.Name für $preis.Preis €. Die Übergabe des Unternehmens findet am Tag $uebergabe.Frist statt.",
+			"Multiplicity": "1",
+			"Variable": [
+				"kaeufer:Person",
+				"verkaeufer:Person",
+				"unternehmen:Unternehmen",
+				"preis:Preis",
+				"ukv:Unternehmenskaufvertrag",
+				"eigentum(Date, Gegenstand):Person:Function",
+				"eintragung(Person):Boolean:Function",
+				"uebergabe:Verpflichtung",
+				"zahlung:Verpflichtung",
+				"vor1:Eigentumsuebergang",
+				"vor2:Eigentumsuebergang"
+			],
+			"Assignment": [
+				"ukv.Verkaeufer=$verkaeufer",
+				"ukv.Kaeufer=$kaeufer",
+				"ukv.Closing=$uebergabe.Frist",
+				"kaeufer.Name=Max Mustermann",
+				"verkaeufer.Name=Anna Musterfrau",
+				"preis.Preis=40000",
+				"preis.changeLimitMin=2000",
+				"preis.changeLimitMax=8000",
+				"unternehmen.Name=Brezenunternehmen GmbH",
+				"ukv.Kaufpreis=$preis",
+				"ukv.Kaufgegenstand=$unternehmen",
+				"ukv.Pflicht=$uebergabe",
+				"ukv.Pflicht=$zahlung",
+				"ukv.Closing=28",
+				"uebergabe.Name=Übergabe",
+				"uebergabe.Schuldner=$verkaeufer",
+				"uebergabe.Glaeubiger=$kaeufer",
+				"uebergabe.Frist=28",
+				"uebergabe.Tatsache=$vor1",
+				"vor1.Von=$verkaeufer",
+				"vor1.Eigentum=$unternehmen",
+				"vor1.An=$kaeufer",
+				"zahlung.Name=Zahlung",
+				"zahlung.Schuldner=$kaeufer",
+				"zahlung.Glaeubiger=$verkaeufer",
+				"zahlung.Tatsache=$vor2",
+				"zahlung.Frist=28",
+				"vor2.Von=$kaeufer",
+				"vor2.Eigentum=$preis",
+				"vor2.An=$verkaeufer"
+			]
+		},
+		{
+			"ID": "RuecktrittKaeufer",
+			"Index": "4",
+			"Text": "Falls die $pflicht nicht erfuellt wird, darf $rueckK.Schuldner zurücktreten.",
+			"Variable": [
+				"pflicht:$Pflicht",
+				"rueckK:Ruecktritt"
+			],
+			"Assignment": [
+				"pflicht=$Kaufvertrag1_uebergabe",
+				"pflicht.Pflicht=$rueckK",
+				"rueckK.Name=Rücktritt Käufer",
+				"rueckK.Pflicht=$pflicht",
+				"rueckK.Frist=14",
+				"rueckK.Schuldner=$pflicht.Glaeubiger"
+			]
+		},
+		{
+			"ID": "RuecktrittVerkaeufer",
+			"Index": "5",
+			"Text": "Falls die $pflicht nicht erfuellt wird, darf $rueckV.Schuldner zurücktreten.",
+			"Variable": [
+				"pflicht:$Pflicht",
+				"rueckV:Ruecktritt"
+			],
+			"Assignment": [
+				"pflicht=$Kaufvertrag1_zahlung",
+				"pflicht.Folge=$rueckV",
+				"rueckV.Name=Rücktritt Verkäufer",
+				"rueckV.Pflicht=$pflicht",
+				"rueckV.Frist=14",
+				"rueckV.Schuldner=$pflicht.Glaeubiger"
+			]
+		},
+		{
+			"ID": "GarantieProdukt1",
+			"Index": "6",
+			"Text": "$garantie.Schuldner garantiert $garantie.glaeubiger, dass das Unternehmen mindestens $anzahl $sache am Tag produziert.",
+			"Variable": [
+				"garantie:Garantie",
+				"brezen:Integer",
+				"anzahl:Integer",
+				"sache:String"
+			],
+			"Assignment": [
+				"garantie.Name=Brezengarantie",
+				"garantie.Glaeubiger=$Kaufvertrag1_kaeufer",
+				"garantie.Schuldner=$Kaufvertrag1_verkaeufer",
+				"garantie.Tatsache=GarantieProdukt1_brezen=GarantieProdukt1_anzahl",
+				"garantie.Frist=14",
+				"Kaufvertrag1_ukv.Folge=$garantie",
+				"sache=Brezen",
+				"anzahl=10000"
+			]
+		},
+		{
+			"ID": "Nacherfuellung1",
+			"Index": "7",
+			"Text": "Wird die $pflicht nicht erfüllt, kann $nach.Frist Tage nacherfüllt werden.",
+			"Variable": [
+				"pflicht:$Pflicht",
+				"nach:Nacherfuellung"
+			],
+			"Assignment": [
+				"pflicht=$GarantieProdukt1_garantie",
+				"pflicht.Folge=$nach",
+				"nach.Name=Brezennacherfüllung",
+				"nach.Pflicht=$pflicht",
+				"nach.Frist=21",
+				"nach.Schuldner=$pflicht.Schuldner",
+				"nach.Glaeubiger=$pflicht.Glaeubiger"
+			]
+		},
+		{
+			"ID": "Schadensersatz1",
+			"Index": "8",
+			"Text": "Wird die $pflicht nicht erfüllt, wird ab einem Betrag von $ersatz.Min folgender Schadensersatz fällig $ersatz.Schaden",
+			"Variable": [
+				"pflicht:$Pflicht",
+				"ersatz:Schadensersatz"
+			],
+			"Assignment": [
+				"pflicht=$GarantieProdukt1_garantie",
+				"pflicht.Folge=$ersatz",
+				"ersatz.Name=Brezenschadensersatz",
+				"ersatz.Pflicht=$pflicht",
+				"ersatz.Min=1000",
+				"ersatz.Frist=1",
+				"ersatz.Preis=$Kaufvertrag1_preis",
+				"ersatz.Schaden=((GarantieProdukt1_brezen-GarantieProdukt1_anzahl)/100)*1000",
+				"ersatz.Schuldner=$ersatz.Schuldner",
+				"ersatz.Glaeubiger=$ersatz.Glaeubiger"
+			]
+		},
+		{
+			"ID": "Uebereignet1",
+			"Index": "9",
+			"Text": "Die Anteile am $mittel.Eigentum ist an $mittel.Eigentuemer sicherheitsübereignet.",
+			"Variable": [
+				"bank:Person",
+				"unternehmen:$Unternehmen",
+				"mittel:MittelbarerBesitz"
+			],
+			"Assignment": [
+				"bank.Name=Bank",
+				"unternehmen=$Kaufvertrag1_unternehmen",
+				"mittel.Eigentuemer=$bank",
+				"mittel.Eigentum=$unternehmen"
+			],
+			"Tatbestand": [
+				{
+					"Eval": "true",
+					"Text": "Bank ist sicherheitsübereignet."
+				}
+			]
+		}
+	]
+}

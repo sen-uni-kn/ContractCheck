@@ -1,0 +1,8 @@
+<contract>
+	<person name="A" />
+	<person name="B" />
+	<object name="Bakery" person="A" />
+	<object name="5000€" person="B" />
+	<warranty condition="pretzels>=10000" object="Bakery">
+	</warranty>
+</contract>    

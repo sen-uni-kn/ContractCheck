@@ -1,0 +1,17 @@
+todo:
+
+- FormulaParser replace constants with variable values
+
+- Bug: computation of compensation does not work
+- Bug: WebInterface does not show some input elements
+
+Licenses:
+ BSD-2-Clause License: https://github.com/bramp/js-sequence-diagrams
+
+Version 1.1.0
++ Version submited to github without old projects
+
+Version 1.0.0
++ start of LegalTech Projekt
++ Bugfix: compensation refers to trigger date or due date and not closing date
++ submission to Spin2022

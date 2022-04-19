@@ -1,0 +1,56 @@
+  <packagedElement xmi:type="uml:Class" xmi:id="_KKHx_9gqEeuJB6yewHpatQ" name="NatuerlichePerson">
+    <generalization xmi:id="_KKHyANgqEeuJB6yewHpatQ" general="_KKHyKNgqEeuJB6yewHpatQ"/>
+  </packagedElement>
+
+<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_KKHyNNgqEeuJB6yewHpatQ" name="Anna" classifier="_KKHx_9gqEeuJB6yewHpatQ">
+    <slot xmi:id="_KKHyNdgqEeuJB6yewHpatQ" definingFeature="_KKHyKdgqEeuJB6yewHpatQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_KKHyNtgqEeuJB6yewHpatQ" value="Anna"/>
+    </slot>
+  </packagedElement>
+  
+   
+    <packagedElement xmi:type="uml:Association" xmi:id="_KKHLANgqEeuJB6yewHpatQ" memberEnd="_KKHK9tgqEeuJB6yewHpatQ _KKHLAdgqEeuJB6yewHpatQ">
+    <ownedEnd xmi:id="_KKHLAdgqEeuJB6yewHpatQ" name="Pflicht" visibility="public" type="_KKHK9NgqEeuJB6yewHpatQ" isUnique="false" association="_KKHLANgqEeuJB6yewHpatQ"/>
+  </packagedElement>
+  
+    <packagedElement xmi:type="uml:Class" xmi:id="_KKHK9NgqEeuJB6yewHpatQ" name="Schuldverhältnis">
+    <generalization xmi:id="_KKHK9dgqEeuJB6yewHpatQ" general="_KKHyF9gqEeuJB6yewHpatQ"/>
+    <ownedAttribute xmi:id="_KKHK9tgqEeuJB6yewHpatQ" name="Schuldner" visibility="public" type="_KKHyHdgqEeuJB6yewHpatQ" isUnique="false" aggregation="composite" association="_KKHLANgqEeuJB6yewHpatQ"/>
+  </packagedElement>
+  
+  
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_KKHybdgqEeuJB6yewHpatQ" classifier="_KKHLANgqEeuJB6yewHpatQ">
+    <slot xmi:id="_KKHybtgqEeuJB6yewHpatQ" definingFeature="_KKHK9tgqEeuJB6yewHpatQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_KKHyb9gqEeuJB6yewHpatQ" name="verkäufer" instance="_KKHyNNgqEeuJB6yewHpatQ"/>
+    </slot>
+    <slot xmi:id="_KKHycNgqEeuJB6yewHpatQ" definingFeature="_KKHLAdgqEeuJB6yewHpatQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_KKHycdgqEeuJB6yewHpatQ" instance="_KKHyW9gqEeuJB6yewHpatQ"/>
+    </slot>
+  </packagedElement>
+  
+   <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_KKHyW9gqEeuJB6yewHpatQ" name="GarantieRechtswirksam" classifier="_KKHK7dgqEeuJB6yewHpatQ">
+    <slot xmi:id="_KKHyXNgqEeuJB6yewHpatQ" definingFeature="_KKHK_tgqEeuJB6yewHpatQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_KKHyXdgqEeuJB6yewHpatQ" value="[] hatEintragung(Geschaeftsanteil, Eintragung)"/>
+    </slot>
+  </packagedElement>
+  
+  <packagedElement xmi:type="uml:Class" xmi:id="_KKHK7dgqEeuJB6yewHpatQ" name="Garantie">
+  --------------------------------------------------------------------------------------------------------------------------
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_KKHyN9gqEeuJB6yewHpatQ" name="SPA" classifier="_KKHK1NgqEeuJB6yewHpatQ"/>
+  
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_KKHyPdgqEeuJB6yewHpatQ" classifier="_KKHK3dgqEeuJB6yewHpatQ">
+    <slot xmi:id="_KKHyPtgqEeuJB6yewHpatQ" definingFeature="_KKHK1dgqEeuJB6yewHpatQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_KKHyP9gqEeuJB6yewHpatQ" name="übergabePflichtPreis" instance="_KKHygtgqEeuJB6yewHpatQ"/>
+    </slot>
+    <slot xmi:id="_KKHyQNgqEeuJB6yewHpatQ" definingFeature="_KKHK3tgqEeuJB6yewHpatQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_KKHyQdgqEeuJB6yewHpatQ" instance="_KKHyN9gqEeuJB6yewHpatQ"/>
+    </slot>
+  </packagedElement>
+    
+   <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_KKHygtgqEeuJB6yewHpatQ" name="ÜbergabePflichtPreis" classifier="_KKHyH9gqEeuJB6yewHpatQ">
+    <slot xmi:id="_KKHyg9gqEeuJB6yewHpatQ" definingFeature="_KKHK_tgqEeuJB6yewHpatQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_KKHyhNgqEeuJB6yewHpatQ" value="&lt;> Übergabe(Max, Kaufpreis, Anna)"/>
+    </slot>
+  </packagedElement>
+  
+  

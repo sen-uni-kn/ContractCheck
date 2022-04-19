@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<contract 
+<!--xmlns="http://www.w3schools.com"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<xsi:noNamespaceSchemaLocation="anyURI" >
+xsi:schemaLocation="http://www.w3schools.com file:contract.xsd"-->
+>
+	<signing id="sign_date" />
+	<person name="A" />
+	<person name="B" />
+	<object name="Bakery" owner="A" />
+	<object id="price" name="price" value="50000" owner="B" />
+
+	<transfer by="B" object="50000€" to="A" date="$sign_date+28d" />
+	<transfer by="A" object="Bakery" to="B" date="$sign_date" />
+
+	<warranty by="A" object="Bakery" condition="pretzels>=10000"
+		deadline="$sign_date+14d">
+		<cure deadline="+28d" result="$price-10000€" />
+	</warranty>
+</contract>    

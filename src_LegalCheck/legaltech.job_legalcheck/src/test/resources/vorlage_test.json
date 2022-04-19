@@ -1,0 +1,57 @@
+{
+	"contract": [
+		{
+			"ID": "Kauf",
+			"Text": "Der Verkäufer:in $verkaeufer verkauft das Unternehmen $unternehmen an Käufer:in $kaeufer",
+			"Multiplicity": "1",
+			"Object": [
+				"verkaeufer:Person,Verkaeufer",
+				"kaeufer:Person,Kaeufer",
+				"unternehmen:Unternehmen,Kaufgegenstand",
+				"eigentum(Gegenstand):Person",
+				"closing:Date"
+			],
+			"Assignment": [
+				"verkaeufer=Musterfrau",
+				"kaeufer=Mustermann"
+			]
+		},
+		{
+			"ID": "PflichtZahlung",
+			"Text": "$person verpflichtet sich zur Zahlung des Kaufpreises von $preis.",
+			"Object": [
+				"preis:Integer,Kaufpreis",
+				"date_$id:Date"
+			],
+			"Assignment": [
+				"preis=40000"
+			]
+		},
+		{
+			"ID": "GarantieProdukt",
+			"Text": "$verkaeufer garantiert, dass das Unternehmen $unternehmen mindestens $anzahl $sache am Tag produziert.",
+			"Object": [
+				"anzahl:Integer",
+				"sache:String",
+				"date:Date"
+			],
+			"Assignment": [
+				"anzahl=10000",
+				"sache=Brezen",
+				"unternehmen=Brezenunternehmen"
+			]
+		},
+		{
+			"ID": "Schadensersatz1",
+			"Text": "Produziert das Unternehmen weniger $sache am Tag als garantiert, wird folgender Schadensersatz fällig $berechnung",
+			"Object": [
+				"sache_real=Integer",
+				"schaden:Integer",
+				"berechnung:String"
+			],
+			"Assignment": [
+				"berechnung=(* (/ (- $anzahl $sache_real ) 100 ) 1000"
+			]
+		}
+	]
+}

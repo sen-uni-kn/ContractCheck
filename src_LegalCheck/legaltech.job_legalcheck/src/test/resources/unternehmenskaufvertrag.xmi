@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_8Q2JgNQ6Eeu4scno0i1GnQ" name="unternehmenskaufvertrag">
+  <eAnnotations xmi:id="_8Q2JgdQ6Eeu4scno0i1GnQ" source="Objing">
+    <contents xmi:type="uml:Property" xmi:id="_8Q2JgtQ6Eeu4scno0i1GnQ" name="exporterVersion">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_8Q2Jg9Q6Eeu4scno0i1GnQ" value="3.0.0"/>
+    </contents>
+  </eAnnotations>
+  <ownedRule xmi:id="_8Q2JhNQ6Eeu4scno0i1GnQ" name="KäuferExists" constrainedElement="_8Q2wwtQ6Eeu4scno0i1GnQ">
+    <ownedComment xmi:id="_8Q2JhdQ6Eeu4scno0i1GnQ">
+      <body>exists</body>
+    </ownedComment>
+    <specification xmi:type="uml:LiteralString" xmi:id="_8Q2JhtQ6Eeu4scno0i1GnQ" value="exists Käufer"/>
+  </ownedRule>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2Jh9Q6Eeu4scno0i1GnQ" name="Unternehmenskaufvertrag">
+    <ownedAttribute xmi:id="_8Q2JiNQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2JodQ6Eeu4scno0i1GnQ" isUnique="false" aggregation="composite" association="_8Q2JjtQ6Eeu4scno0i1GnQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8Q2JidQ6Eeu4scno0i1GnQ" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2JitQ6Eeu4scno0i1GnQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2Ji9Q6Eeu4scno0i1GnQ" name="closingDate" visibility="public" isUnique="false">
+      <ownedComment xmi:id="_8Q2JjNQ6Eeu4scno0i1GnQ">
+        <body>&lt;Enter note text here></body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2JjdQ6Eeu4scno0i1GnQ" name="signingDate" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2JjtQ6Eeu4scno0i1GnQ" memberEnd="_8Q2JiNQ6Eeu4scno0i1GnQ _8Q2Jj9Q6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2Jj9Q6Eeu4scno0i1GnQ" visibility="public" type="_8Q2Jh9Q6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2JjtQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2JkNQ6Eeu4scno0i1GnQ" name="Vertragspartei">
+    <generalization xmi:id="_8Q2JkdQ6Eeu4scno0i1GnQ" general="_8Q2w9NQ6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2JktQ6Eeu4scno0i1GnQ" name="name" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2Jk9Q6Eeu4scno0i1GnQ" name="vorname" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2JlNQ6Eeu4scno0i1GnQ" name="anschrift" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2JldQ6Eeu4scno0i1GnQ" name="Preis">
+    <ownedAttribute xmi:id="_8Q2JltQ6Eeu4scno0i1GnQ" name="vereinbarterPreis" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2Jl9Q6Eeu4scno0i1GnQ" name="zuzüglicheBeträge" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2JmNQ6Eeu4scno0i1GnQ" name="preisLimitMax" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2JmdQ6Eeu4scno0i1GnQ" name="preisLimitMin" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_8Q2JmtQ6Eeu4scno0i1GnQ" name="preisAnpassen" visibility="public">
+      <ownedParameter xmi:id="_8Q2Jm9Q6Eeu4scno0i1GnQ" name="value" isUnique="false">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8Q2JnNQ6Eeu4scno0i1GnQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2JndQ6Eeu4scno0i1GnQ" value="1"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_8Q2JntQ6Eeu4scno0i1GnQ" value=""/>
+      </ownedParameter>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2Jn9Q6Eeu4scno0i1GnQ" name="Garantie">
+    <generalization xmi:id="_8Q2JoNQ6Eeu4scno0i1GnQ" general="_8Q2JodQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2JodQ6Eeu4scno0i1GnQ" name="Schuldverhältnis">
+    <ownedAttribute xmi:id="_8Q2JotQ6Eeu4scno0i1GnQ" name="Gläubiger" visibility="public" type="_8Q2JkNQ6Eeu4scno0i1GnQ" isUnique="false" aggregation="composite" association="_8Q2wntQ6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2Jo9Q6Eeu4scno0i1GnQ" name="Schuldner" visibility="public" type="_8Q2JkNQ6Eeu4scno0i1GnQ" isUnique="false" aggregation="composite" association="_8Q2woNQ6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2JpNQ6Eeu4scno0i1GnQ" name="erfüllt" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2JpdQ6Eeu4scno0i1GnQ" name="frist" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2JptQ6Eeu4scno0i1GnQ" name="aufgabe" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2Jp9Q6Eeu4scno0i1GnQ" name="verjährung" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2JqNQ6Eeu4scno0i1GnQ" name="Bedingung" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2wkNQ6Eeu4scno0i1GnQ" name="Mahnungsdatum" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_8Q2wkdQ6Eeu4scno0i1GnQ" name="anzeige" visibility="public">
+      <ownedParameter xmi:id="_8Q2wktQ6Eeu4scno0i1GnQ" name="date" isUnique="false">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8Q2wk9Q6Eeu4scno0i1GnQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2wlNQ6Eeu4scno0i1GnQ" value="1"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_8Q2wldQ6Eeu4scno0i1GnQ" value=""/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_8Q2wltQ6Eeu4scno0i1GnQ" name="pruefeBedingung" visibility="public">
+      <ownedParameter xmi:id="_8Q2wl9Q6Eeu4scno0i1GnQ" isUnique="false" direction="return">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8Q2wmNQ6Eeu4scno0i1GnQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2wmdQ6Eeu4scno0i1GnQ" value="1"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_8Q2wmtQ6Eeu4scno0i1GnQ" value=""/>
+      </ownedParameter>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2wm9Q6Eeu4scno0i1GnQ" memberEnd="_8Q2wnNQ6Eeu4scno0i1GnQ _8Q2wndQ6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2wnNQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2wotQ6Eeu4scno0i1GnQ" isUnique="false" aggregation="composite" association="_8Q2wm9Q6Eeu4scno0i1GnQ"/>
+    <ownedEnd xmi:id="_8Q2wndQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2JodQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2wm9Q6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2wntQ6Eeu4scno0i1GnQ" memberEnd="_8Q2JotQ6Eeu4scno0i1GnQ _8Q2wn9Q6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2wn9Q6Eeu4scno0i1GnQ" name="Recht" visibility="public" type="_8Q2JodQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2wntQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2woNQ6Eeu4scno0i1GnQ" memberEnd="_8Q2Jo9Q6Eeu4scno0i1GnQ _8Q2wodQ6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2wodQ6Eeu4scno0i1GnQ" name="Pflicht" visibility="public" type="_8Q2JodQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2woNQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2wotQ6Eeu4scno0i1GnQ" name="Rechtsfolge" isAbstract="true">
+    <ownedAttribute xmi:id="_8Q2wo9Q6Eeu4scno0i1GnQ" name="eintrittsdatum" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2wpNQ6Eeu4scno0i1GnQ" name="freibetrag" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2wpdQ6Eeu4scno0i1GnQ" name="verjährungsdatum" visibility="public" isUnique="false">
+      <ownedComment xmi:id="_8Q2wptQ6Eeu4scno0i1GnQ">
+        <body>&lt;Enter note text here></body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2wp9Q6Eeu4scno0i1GnQ" name="Haftungshöchstbetrag" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_8Q2wqNQ6Eeu4scno0i1GnQ" name="fordern" visibility="public"/>
+    <ownedOperation xmi:id="_8Q2wqdQ6Eeu4scno0i1GnQ" name="erfüllen" visibility="public">
+      <ownedParameter xmi:id="_8Q2wqtQ6Eeu4scno0i1GnQ" name="sat" isUnique="false">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8Q2wq9Q6Eeu4scno0i1GnQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2wrNQ6Eeu4scno0i1GnQ" value="1"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_8Q2wrdQ6Eeu4scno0i1GnQ" value=""/>
+      </ownedParameter>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2wrtQ6Eeu4scno0i1GnQ" name="Gegenstand">
+    <ownedComment xmi:id="_8Q2wr9Q6Eeu4scno0i1GnQ">
+      <body></body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_8Q2wsNQ6Eeu4scno0i1GnQ" name="hatEintragung" visibility="public" type="_8Q2xCdQ6Eeu4scno0i1GnQ" isUnique="false" aggregation="shared" association="_8Q2wwNQ6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2wsdQ6Eeu4scno0i1GnQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2wstQ6Eeu4scno0i1GnQ" name="firmenName" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2ws9Q6Eeu4scno0i1GnQ" name="HRB" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2wtNQ6Eeu4scno0i1GnQ" name="Amtsgericht" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2wtdQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2wrtQ6Eeu4scno0i1GnQ" isUnique="false"/>
+    <ownedOperation xmi:id="_8Q2wttQ6Eeu4scno0i1GnQ" name="zahlungsfaehig" visibility="public">
+      <ownedParameter xmi:id="_8Q2wt9Q6Eeu4scno0i1GnQ" isUnique="false" direction="return">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8Q2wuNQ6Eeu4scno0i1GnQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2wudQ6Eeu4scno0i1GnQ" value="1"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_8Q2wutQ6Eeu4scno0i1GnQ" value=""/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_8Q2wu9Q6Eeu4scno0i1GnQ" name="nichtUeberschuldet" visibility="public">
+      <ownedParameter xmi:id="_8Q2wvNQ6Eeu4scno0i1GnQ" isUnique="false" direction="return">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8Q2wvdQ6Eeu4scno0i1GnQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2wvtQ6Eeu4scno0i1GnQ" value="1"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_8Q2wv9Q6Eeu4scno0i1GnQ" value=""/>
+      </ownedParameter>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2wwNQ6Eeu4scno0i1GnQ" memberEnd="_8Q2wsNQ6Eeu4scno0i1GnQ _8Q2wwdQ6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2wwdQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2wrtQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2wwNQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2wwtQ6Eeu4scno0i1GnQ" name="Käufer">
+    <generalization xmi:id="_8Q2ww9Q6Eeu4scno0i1GnQ" general="_8Q2JkNQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2wxNQ6Eeu4scno0i1GnQ" name="Verkäufer">
+    <generalization xmi:id="_8Q2wxdQ6Eeu4scno0i1GnQ" general="_8Q2JkNQ6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2wxtQ6Eeu4scno0i1GnQ" name="istEigentümer" visibility="public" type="_8Q2wrtQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2wydQ6Eeu4scno0i1GnQ">
+      <ownedComment xmi:id="_8Q2wx9Q6Eeu4scno0i1GnQ">
+        <body>&lt;Enter note text here></body>
+      </ownedComment>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8Q2wyNQ6Eeu4scno0i1GnQ" value="*"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2wydQ6Eeu4scno0i1GnQ" memberEnd="_8Q2wxtQ6Eeu4scno0i1GnQ"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2wytQ6Eeu4scno0i1GnQ" name="ÜbergabeVerpflichtung">
+    <generalization xmi:id="_8Q2wy9Q6Eeu4scno0i1GnQ" general="_8Q2JodQ6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2wzNQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2wrtQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2wz9Q6Eeu4scno0i1GnQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8Q2wzdQ6Eeu4scno0i1GnQ" value="*"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2wztQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2JldQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2w0dQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2wz9Q6Eeu4scno0i1GnQ" memberEnd="_8Q2wzNQ6Eeu4scno0i1GnQ _8Q2w0NQ6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2w0NQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2wytQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2wz9Q6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2w0dQ6Eeu4scno0i1GnQ" memberEnd="_8Q2wztQ6Eeu4scno0i1GnQ _8Q2w0tQ6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2w0tQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2wytQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2w0dQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2w09Q6Eeu4scno0i1GnQ" name="Kaufpreisanpassung" isLeaf="true">
+    <generalization xmi:id="_8Q2w1NQ6Eeu4scno0i1GnQ" general="_8Q2wotQ6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2w1dQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2JldQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2w19Q6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2w1tQ6Eeu4scno0i1GnQ" name="anpassungshöhe" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2w19Q6Eeu4scno0i1GnQ" name="anpassen" memberEnd="_8Q2w1dQ6Eeu4scno0i1GnQ _8Q2w2NQ6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2w2NQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2w09Q6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2w19Q6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2w2dQ6Eeu4scno0i1GnQ" name="Schadenersatz">
+    <generalization xmi:id="_8Q2w2tQ6Eeu4scno0i1GnQ" general="_8Q2wotQ6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2w29Q6Eeu4scno0i1GnQ" name="max" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2w3NQ6Eeu4scno0i1GnQ" name="gesamtMin" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_8Q2w3dQ6Eeu4scno0i1GnQ" name="berechneSchaden" visibility="public">
+      <ownedComment xmi:id="_8Q2w3tQ6Eeu4scno0i1GnQ">
+        <body>Gericht schätzt Schaden.</body>
+      </ownedComment>
+      <ownedParameter xmi:id="_8Q2w39Q6Eeu4scno0i1GnQ" isUnique="false" direction="return">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8Q2w4NQ6Eeu4scno0i1GnQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2w4dQ6Eeu4scno0i1GnQ" value="1"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_8Q2w4tQ6Eeu4scno0i1GnQ" value=""/>
+      </ownedParameter>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2w49Q6Eeu4scno0i1GnQ" name="Rücktritt" isLeaf="true">
+    <generalization xmi:id="_8Q2w5NQ6Eeu4scno0i1GnQ" general="_8Q2wotQ6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2w5dQ6Eeu4scno0i1GnQ" name="erstattungshöhe" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2w5tQ6Eeu4scno0i1GnQ" name="Nacherfüllung">
+    <ownedComment xmi:id="_8Q2w59Q6Eeu4scno0i1GnQ">
+      <body>&lt;Enter note text here></body>
+    </ownedComment>
+    <generalization xmi:id="_8Q2w6NQ6Eeu4scno0i1GnQ" general="_8Q2wotQ6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2w6dQ6Eeu4scno0i1GnQ" name="nacherfüllung" visibility="public" type="_8Q2wrtQ6Eeu4scno0i1GnQ" isUnique="false">
+      <ownedComment xmi:id="_8Q2w6tQ6Eeu4scno0i1GnQ">
+        <body>&lt;Enter note text here></body>
+      </ownedComment>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2w69Q6Eeu4scno0i1GnQ" name="bis" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2w7NQ6Eeu4scno0i1GnQ" name="Dritter">
+    <generalization xmi:id="_8Q2w7dQ6Eeu4scno0i1GnQ" general="_8Q2w9NQ6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2w7tQ6Eeu4scno0i1GnQ" name="Eigentum" visibility="public" type="_8Q2wrtQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2w79Q6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:AssociationClass" xmi:id="_8Q2w79Q6Eeu4scno0i1GnQ" name="Recht" memberEnd="_8Q2w7tQ6Eeu4scno0i1GnQ _8Q2w89Q6Eeu4scno0i1GnQ">
+    <ownedAttribute xmi:id="_8Q2w8NQ6Eeu4scno0i1GnQ" name="gegenstand" visibility="public" type="_8Q2wrtQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2xCtQ6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2w8dQ6Eeu4scno0i1GnQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2w8tQ6Eeu4scno0i1GnQ" name="Gläubiger" visibility="public" type="_8Q2w7NQ6Eeu4scno0i1GnQ" isUnique="false"/>
+    <ownedEnd xmi:id="_8Q2w89Q6Eeu4scno0i1GnQ" visibility="public" type="_8Q2w7NQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2w79Q6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2w9NQ6Eeu4scno0i1GnQ" name="Person">
+    <ownedAttribute xmi:id="_8Q2w9dQ6Eeu4scno0i1GnQ" name="recht" visibility="public" type="_8Q2xD9Q6Eeu4scno0i1GnQ" isUnique="false" aggregation="shared" association="_8Q2w_dQ6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2w9tQ6Eeu4scno0i1GnQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2w99Q6Eeu4scno0i1GnQ" name="eigentum" visibility="public" type="_8Q2wrtQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2xANQ6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2w-NQ6Eeu4scno0i1GnQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2w-dQ6Eeu4scno0i1GnQ" name="Pflicht" visibility="public" type="_8Q2xD9Q6Eeu4scno0i1GnQ" isUnique="false" aggregation="shared" association="_8Q2xA9Q6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2w-tQ6Eeu4scno0i1GnQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8Q2w-9Q6Eeu4scno0i1GnQ" name="eigentümer" visibility="public" type="_8Q2xDdQ6Eeu4scno0i1GnQ" isUnique="false" aggregation="shared" association="_8Q2xBtQ6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2w_NQ6Eeu4scno0i1GnQ"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2w_dQ6Eeu4scno0i1GnQ" memberEnd="_8Q2w9dQ6Eeu4scno0i1GnQ _8Q2w_tQ6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2w_tQ6Eeu4scno0i1GnQ" name="Gläubiger" visibility="public" type="_8Q2w9NQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2w_dQ6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2w_9Q6Eeu4scno0i1GnQ"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2xANQ6Eeu4scno0i1GnQ" memberEnd="_8Q2w99Q6Eeu4scno0i1GnQ _8Q2xAdQ6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2xAdQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2w9NQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2xANQ6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2xAtQ6Eeu4scno0i1GnQ"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2xA9Q6Eeu4scno0i1GnQ" name="Schuldner" memberEnd="_8Q2w-dQ6Eeu4scno0i1GnQ _8Q2xBNQ6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2xBNQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2w9NQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2xA9Q6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2xBdQ6Eeu4scno0i1GnQ"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2xBtQ6Eeu4scno0i1GnQ" memberEnd="_8Q2w-9Q6Eeu4scno0i1GnQ _8Q2xB9Q6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2xB9Q6Eeu4scno0i1GnQ" visibility="public" type="_8Q2w9NQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2xBtQ6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2xCNQ6Eeu4scno0i1GnQ"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2xCdQ6Eeu4scno0i1GnQ" name="Eintragung"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2xCtQ6Eeu4scno0i1GnQ" memberEnd="_8Q2w8NQ6Eeu4scno0i1GnQ _8Q2xC9Q6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2xC9Q6Eeu4scno0i1GnQ" visibility="public" type="_8Q2w79Q6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2xCtQ6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2xDNQ6Eeu4scno0i1GnQ"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2xDdQ6Eeu4scno0i1GnQ" name="Eigentum">
+    <generalization xmi:id="_8Q2xDtQ6Eeu4scno0i1GnQ" general="_8Q2w79Q6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2xD9Q6Eeu4scno0i1GnQ" name="Schuldverhältnis">
+    <generalization xmi:id="_8Q2xENQ6Eeu4scno0i1GnQ" general="_8Q2w79Q6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2xEdQ6Eeu4scno0i1GnQ" name="HerausgabeRecht">
+    <generalization xmi:id="_8Q2xEtQ6Eeu4scno0i1GnQ" general="_8Q2xDdQ6Eeu4scno0i1GnQ"/>
+    <ownedAttribute xmi:id="_8Q2xE9Q6Eeu4scno0i1GnQ" name="besitz" visibility="public" type="_8Q2xGNQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2xFdQ6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2xFNQ6Eeu4scno0i1GnQ"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8Q2xFdQ6Eeu4scno0i1GnQ" memberEnd="_8Q2xE9Q6Eeu4scno0i1GnQ _8Q2xFtQ6Eeu4scno0i1GnQ">
+    <ownedEnd xmi:id="_8Q2xFtQ6Eeu4scno0i1GnQ" visibility="public" type="_8Q2xEdQ6Eeu4scno0i1GnQ" isUnique="false" association="_8Q2xFdQ6Eeu4scno0i1GnQ">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8Q2xF9Q6Eeu4scno0i1GnQ"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8Q2xGNQ6Eeu4scno0i1GnQ" name="Besitz">
+    <generalization xmi:id="_8Q2xGdQ6Eeu4scno0i1GnQ" general="_8Q2w79Q6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xGtQ6Eeu4scno0i1GnQ" name="ShareDeal" classifier="_8Q2Jh9Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xG9Q6Eeu4scno0i1GnQ" definingFeature="_8Q2JjdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:Expression" xmi:id="_8Q2xHNQ6Eeu4scno0i1GnQ" symbol="23/12/2020"/>
+    </slot>
+    <slot xmi:id="_8Q2xHdQ6Eeu4scno0i1GnQ" definingFeature="_8Q2Ji9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:Expression" xmi:id="_8Q2xHtQ6Eeu4scno0i1GnQ" symbol="23/12/2020"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xH9Q6Eeu4scno0i1GnQ" name="Käufer" classifier="_8Q2wwtQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xINQ6Eeu4scno0i1GnQ" definingFeature="_8Q2JktQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q2xIdQ6Eeu4scno0i1GnQ" value="Mustermann"/>
+    </slot>
+    <slot xmi:id="_8Q2xItQ6Eeu4scno0i1GnQ" definingFeature="_8Q2Jk9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q2xI9Q6Eeu4scno0i1GnQ" value="Anton"/>
+    </slot>
+    <slot xmi:id="_8Q2xJNQ6Eeu4scno0i1GnQ" definingFeature="_8Q2JlNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q2xJdQ6Eeu4scno0i1GnQ" value="Beispiel Str. 1"/>
+    </slot>
+    <slot xmi:id="_8Q2xJtQ6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xJ9Q6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xKNQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xKdQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xKtQ6Eeu4scno0i1GnQ">
+      <ownedComment xmi:id="_8Q2xK9Q6Eeu4scno0i1GnQ">
+        <body>&lt;Enter note text here></body>
+      </ownedComment>
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xLNQ6Eeu4scno0i1GnQ" name="shareDeal" instance="_8Q2xGtQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xLdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xLtQ6Eeu4scno0i1GnQ" instance="_8Q2xH9Q6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xL9Q6Eeu4scno0i1GnQ" name="Verkäufer" classifier="_8Q2wxNQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xMNQ6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xMdQ6Eeu4scno0i1GnQ" definingFeature="_8Q2JktQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q2xMtQ6Eeu4scno0i1GnQ" value="Bertha"/>
+    </slot>
+    <slot xmi:id="_8Q2xM9Q6Eeu4scno0i1GnQ" definingFeature="_8Q2Jk9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q2xNNQ6Eeu4scno0i1GnQ" value="Musterfrau"/>
+    </slot>
+    <slot xmi:id="_8Q2xNdQ6Eeu4scno0i1GnQ" definingFeature="_8Q2JlNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q2xNtQ6Eeu4scno0i1GnQ" value="Musterstr. 2"/>
+    </slot>
+    <slot xmi:id="_8Q2xN9Q6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xONQ6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xOdQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xOtQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xO9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xPNQ6Eeu4scno0i1GnQ" name="shareDeal" instance="_8Q2xGtQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xPdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xPtQ6Eeu4scno0i1GnQ" instance="_8Q2xL9Q6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xP9Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xQNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xQdQ6Eeu4scno0i1GnQ" name="instance" instance="_8Q2xRNQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xQtQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xQ9Q6Eeu4scno0i1GnQ" instance="_8Q2xL9Q6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xRNQ6Eeu4scno0i1GnQ" name="Instance" classifier="_8Q2wrtQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xRdQ6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xRtQ6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xR9Q6Eeu4scno0i1GnQ" definingFeature="_8Q2wstQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q2xSNQ6Eeu4scno0i1GnQ" value="BeispielGmbH"/>
+    </slot>
+    <slot xmi:id="_8Q2xSdQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xStQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xS9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xTNQ6Eeu4scno0i1GnQ" name="shareDeal" instance="_8Q2xGtQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xTdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xTtQ6Eeu4scno0i1GnQ" instance="_8Q2xRNQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xT9Q6Eeu4scno0i1GnQ" name="Kaufpreis" classifier="_8Q2JldQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xUNQ6Eeu4scno0i1GnQ" definingFeature="_8Q2JltQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:Expression" xmi:id="_8Q2xUdQ6Eeu4scno0i1GnQ" symbol="10000"/>
+    </slot>
+    <slot xmi:id="_8Q2xUtQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xU9Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xVNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xVdQ6Eeu4scno0i1GnQ" name="instance" instance="_8Q2xRNQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xVtQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xV9Q6Eeu4scno0i1GnQ" instance="_8Q2xT9Q6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xWNQ6Eeu4scno0i1GnQ" name="Kaufpreisanpassung" classifier="_8Q2w09Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xWdQ6Eeu4scno0i1GnQ" definingFeature="_8Q2w1tQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:Expression" xmi:id="_8Q2xWtQ6Eeu4scno0i1GnQ" symbol="0.3"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xW9Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xXNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xXdQ6Eeu4scno0i1GnQ" name="kaufpreis" instance="_8Q2xT9Q6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xXtQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xX9Q6Eeu4scno0i1GnQ" instance="_8Q2xWNQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xYNQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xYdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xYtQ6Eeu4scno0i1GnQ" name="kaufpreiszahlung" instance="_8Q2xZdQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xY9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xZNQ6Eeu4scno0i1GnQ" instance="_8Q2xWNQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xZdQ6Eeu4scno0i1GnQ" name="Kaufpreiszahlung" classifier="_8Q2wytQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xZtQ6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xZ9Q6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xaNQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xadQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xatQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xa9Q6Eeu4scno0i1GnQ" name="shareDeal" instance="_8Q2xGtQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xbNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xbdQ6Eeu4scno0i1GnQ" instance="_8Q2xZdQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xbtQ6Eeu4scno0i1GnQ" name="Garantie" classifier="_8Q2Jn9Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xb9Q6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xcNQ6Eeu4scno0i1GnQ" definingFeature="_8Q2Jp9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralNull" xmi:id="_8Q2xcdQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xctQ6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xc9Q6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xdNQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xddQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xdtQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xd9Q6Eeu4scno0i1GnQ" name="shareDeal" instance="_8Q2xGtQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xeNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xedQ6Eeu4scno0i1GnQ" instance="_8Q2xbtQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xetQ6Eeu4scno0i1GnQ" name="Nacherfüllung" classifier="_8Q2w5tQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xe9Q6Eeu4scno0i1GnQ" definingFeature="_8Q2w6dQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:Expression" xmi:id="_8Q2xfNQ6Eeu4scno0i1GnQ" symbol="Share"/>
+    </slot>
+    <slot xmi:id="_8Q2xfdQ6Eeu4scno0i1GnQ" definingFeature="_8Q2wpdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralNull" xmi:id="_8Q2xftQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xf9Q6Eeu4scno0i1GnQ" definingFeature="_8Q2wo9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralNull" xmi:id="_8Q2xgNQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xgdQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xgtQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xg9Q6Eeu4scno0i1GnQ" name="garantie" instance="_8Q2xbtQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xhNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xhdQ6Eeu4scno0i1GnQ" instance="_8Q2xetQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xhtQ6Eeu4scno0i1GnQ" name="Schadenersatz" classifier="_8Q2w2dQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xh9Q6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q2xiNQ6Eeu4scno0i1GnQ" definingFeature="_8Q2wpNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:Expression" xmi:id="_8Q2xidQ6Eeu4scno0i1GnQ" symbol="8000"/>
+    </slot>
+    <slot xmi:id="_8Q2xitQ6Eeu4scno0i1GnQ" definingFeature="_8Q2wpdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralNull" xmi:id="_8Q2xi9Q6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xjNQ6Eeu4scno0i1GnQ" definingFeature="_8Q2wo9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralNull" xmi:id="_8Q2xjdQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xjtQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xj9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xkNQ6Eeu4scno0i1GnQ" name="garantie" instance="_8Q2xbtQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xkdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xktQ6Eeu4scno0i1GnQ" instance="_8Q2xhtQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xk9Q6Eeu4scno0i1GnQ" name="Rücktritt" classifier="_8Q2w49Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xlNQ6Eeu4scno0i1GnQ" definingFeature="_8Q2wo9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralNull" xmi:id="_8Q2xldQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xltQ6Eeu4scno0i1GnQ" definingFeature="_8Q2wpdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralNull" xmi:id="_8Q2xl9Q6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xmNQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xmdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xmtQ6Eeu4scno0i1GnQ" name="garantie" instance="_8Q2xbtQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q2xm9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q2xnNQ6Eeu4scno0i1GnQ" instance="_8Q2xk9Q6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xndQ6Eeu4scno0i1GnQ" name="Max" classifier="_8Q2wwtQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q2xntQ6Eeu4scno0i1GnQ" definingFeature="_8Q2Jk9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q2xn9Q6Eeu4scno0i1GnQ" value="Max"/>
+    </slot>
+    <slot xmi:id="_8Q2xoNQ6Eeu4scno0i1GnQ" definingFeature="_8Q2JktQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q2xodQ6Eeu4scno0i1GnQ" value="Mustermann"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q2xotQ6Eeu4scno0i1GnQ"/>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3XoNQ6Eeu4scno0i1GnQ" name="SPA" classifier="_8Q2Jh9Q6Eeu4scno0i1GnQ"/>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3XodQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3XotQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3Xo9Q6Eeu4scno0i1GnQ" name="übergabePflichtAnteil" instance="_8Q3X3NQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q3XpNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3XpdQ6Eeu4scno0i1GnQ" instance="_8Q3XoNQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3XptQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3Xp9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3XqNQ6Eeu4scno0i1GnQ" name="übergabePflichtPreis" instance="_8Q3X1NQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q3XqdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3XqtQ6Eeu4scno0i1GnQ" instance="_8Q3XoNQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3Xq9Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3XrNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3XrdQ6Eeu4scno0i1GnQ" name="garantie1" instance="_8Q3XutQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q3XrtQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3Xr9Q6Eeu4scno0i1GnQ" instance="_8Q3XoNQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3XsNQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3XsdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3XstQ6Eeu4scno0i1GnQ" name="garantieBefugt" instance="_8Q3X7NQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q3Xs9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3XtNQ6Eeu4scno0i1GnQ" instance="_8Q3XoNQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3XtdQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3XttQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3Xt9Q6Eeu4scno0i1GnQ" name="veraeusserungsbefugnis" instance="_8Q3X79Q6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q3XuNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3XudQ6Eeu4scno0i1GnQ" instance="_8Q3XoNQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3XutQ6Eeu4scno0i1GnQ" name="GarantieRechtswirksam" classifier="_8Q2Jn9Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3Xu9Q6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q3XvNQ6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q3XvdQ6Eeu4scno0i1GnQ" definingFeature="_8Q2JqNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q3XvtQ6Eeu4scno0i1GnQ" value="existiert hatEintragung(Geschaeftsanteil, Eintragung)"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3Xv9Q6Eeu4scno0i1GnQ" name="hat">
+    <slot xmi:id="_8Q3XwNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3XwdQ6Eeu4scno0i1GnQ" name="rechtsfolgeNichtWirksamkeit" instance="_8Q3X5NQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q3XwtQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3Xw9Q6Eeu4scno0i1GnQ" instance="_8Q3XutQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3XxNQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3XxdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3XxtQ6Eeu4scno0i1GnQ" name="schadensersatz" instance="_8Q3X59Q6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q3Xx9Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3XyNQ6Eeu4scno0i1GnQ" instance="_8Q3XutQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3XydQ6Eeu4scno0i1GnQ" name="Geschaeftsanteil" classifier="_8Q2wrtQ6Eeu4scno0i1GnQ">
+    <ownedComment xmi:id="_8Q3XytQ6Eeu4scno0i1GnQ">
+      <body>&lt;Enter note text here></body>
+    </ownedComment>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3Xy9Q6Eeu4scno0i1GnQ" name="hatEintragung" classifier="_8Q2wwNQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3XzNQ6Eeu4scno0i1GnQ" definingFeature="_8Q2wsNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3XzdQ6Eeu4scno0i1GnQ" name="instance1" instance="_8Q3X4tQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q3XztQ6Eeu4scno0i1GnQ" definingFeature="_8Q2wwdQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3Xz9Q6Eeu4scno0i1GnQ" instance="_8Q3XydQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X0NQ6Eeu4scno0i1GnQ" name="Kaufpreis1" classifier="_8Q2JldQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3X0dQ6Eeu4scno0i1GnQ" definingFeature="_8Q2JltQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:Expression" xmi:id="_8Q3X0tQ6Eeu4scno0i1GnQ" symbol="30000€"/>
+    </slot>
+    <specification xmi:type="uml:OpaqueExpression" xmi:id="_8Q3X09Q6Eeu4scno0i1GnQ" type="_8Q2JldQ6Eeu4scno0i1GnQ">
+      <body>20000</body>
+    </specification>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X1NQ6Eeu4scno0i1GnQ" name="ÜbergabePflichtPreis" classifier="_8Q2wytQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3X1dQ6Eeu4scno0i1GnQ"/>
+    <slot xmi:id="_8Q3X1tQ6Eeu4scno0i1GnQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X19Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3X2NQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3X2dQ6Eeu4scno0i1GnQ" name="geschaeftsanteil" instance="_8Q3X0NQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q3X2tQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3X29Q6Eeu4scno0i1GnQ" instance="_8Q3X1NQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X3NQ6Eeu4scno0i1GnQ" name="ÜbergabePflichtAnteil" classifier="_8Q2wytQ6Eeu4scno0i1GnQ"/>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X3dQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3X3tQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3X39Q6Eeu4scno0i1GnQ" name="geschaeftsanteil" instance="_8Q3XydQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q3X4NQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3X4dQ6Eeu4scno0i1GnQ" instance="_8Q3X3NQ6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X4tQ6Eeu4scno0i1GnQ" name="Instance1" classifier="_8Q2xCdQ6Eeu4scno0i1GnQ">
+    <specification xmi:type="uml:OpaqueExpression" xmi:id="_8Q3X49Q6Eeu4scno0i1GnQ" type="_8Q2xCdQ6Eeu4scno0i1GnQ">
+      <body>EintragungBäckerei</body>
+    </specification>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X5NQ6Eeu4scno0i1GnQ" name="Folge1" classifier="_8Q2w5tQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3X5dQ6Eeu4scno0i1GnQ" definingFeature="_8Q2w69Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q3X5tQ6Eeu4scno0i1GnQ" value="$Mahnungdatum+4 Wochen"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X59Q6Eeu4scno0i1GnQ" name="Folge2" classifier="_8Q2w2dQ6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3X6NQ6Eeu4scno0i1GnQ" definingFeature="_8Q2w29Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:Expression" xmi:id="_8Q3X6dQ6Eeu4scno0i1GnQ" symbol="20% Kaufpreis"/>
+    </slot>
+    <slot xmi:id="_8Q3X6tQ6Eeu4scno0i1GnQ" definingFeature="_8Q2w3NQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q3X69Q6Eeu4scno0i1GnQ" value="5000"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X7NQ6Eeu4scno0i1GnQ" name="GarantieBefugt" classifier="_8Q2Jn9Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3X7dQ6Eeu4scno0i1GnQ" definingFeature="_8Q2JqNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q3X7tQ6Eeu4scno0i1GnQ" value="not exists RechtDritter(Geschaeftsanteil)"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X79Q6Eeu4scno0i1GnQ" name="Veraeusserungsbefugnis" classifier="_8Q2Jn9Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3X8NQ6Eeu4scno0i1GnQ" definingFeature="_8Q2JqNQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:LiteralString" xmi:id="_8Q3X8dQ6Eeu4scno0i1GnQ" value="eigentuemer(Anna, geschaeftsanteil)"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X8tQ6Eeu4scno0i1GnQ" name="Sicherungseigentum" classifier="_8Q2w79Q6Eeu4scno0i1GnQ"/>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X89Q6Eeu4scno0i1GnQ" name="Sparkasse" classifier="_8Q2w7NQ6Eeu4scno0i1GnQ"/>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_8Q3X9NQ6Eeu4scno0i1GnQ" classifier="_8Q2w79Q6Eeu4scno0i1GnQ">
+    <slot xmi:id="_8Q3X9dQ6Eeu4scno0i1GnQ" definingFeature="_8Q2w7tQ6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3X9tQ6Eeu4scno0i1GnQ" name="geschaeftsanteil" instance="_8Q3XydQ6Eeu4scno0i1GnQ"/>
+    </slot>
+    <slot xmi:id="_8Q3X99Q6Eeu4scno0i1GnQ" definingFeature="_8Q2w89Q6Eeu4scno0i1GnQ">
+      <value xmi:type="uml:InstanceValue" xmi:id="_8Q3X-NQ6Eeu4scno0i1GnQ" instance="_8Q3X89Q6Eeu4scno0i1GnQ"/>
+    </slot>
+  </packagedElement>
+</uml:Model>

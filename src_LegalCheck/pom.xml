@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>kn.uni.sen.joblibrary.legaltech</groupId>
+	<version>1.1.0</version>
+	<packaging>pom</packaging>
+	<name>JobLibrary_LegalTech - Trunk</name>
+	<artifactId>trunk_legaltech</artifactId>
+	<description>The trunk contains all sub classes of the component legal tech project</description>
+	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<carrotsearch.version>0.5.2</carrotsearch.version>
+		<jobscheduler.version>1.6.0</jobscheduler.version>
+		<junit.version>4.13.2</junit.version>
+		<jdom2.version>2.0.6.1</jdom2.version>
+		<json.version>20211205</json.version>
+		<z3.version>4.8.14</z3.version>
+	</properties>
+	<scm>
+		<url>https://svn.uni-konstanz.de/soft/QuantUM+/joblibrary_quantum</url>
+		<connection>scm:svn:https://svn.uni-konstanz.de/soft/QuantUM+/joblibrary_quantum</connection>
+		<developerConnection>scm:svn:https://svn.uni-konstanz.de/soft/QuantUM+/joblibrary_quantum/trunk</developerConnection>
+	</scm>
+	<modules>
+		<module>legaltech.job_legalcheck</module>
+		<module>legaltech.joblibrary</module>
+		<module>legaltech.webeditor</module>
+	</modules>
+</project>

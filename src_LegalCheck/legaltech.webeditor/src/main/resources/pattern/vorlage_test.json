@@ -1,0 +1,130 @@
+{
+	"_comment": "Objects allow to implement analyses in software",
+	"contract": [
+		{
+			"ID": "Head1",
+			"Text": "$text",
+			"Multiplicity": "1",
+			"Variable": [
+				"text:String"
+			],
+			"Assignment": [
+				"text=Vertragsüberschrift"
+			]
+		},
+		{
+			"ID": "Abschnitt1",
+			"Text": "$text",
+			"Multiplicity": "*",
+			"Variable": [
+				"text:String"
+			],
+			"Assignment": [
+				"text=Abschnitt"
+			]
+		},
+		{
+			"ID": "Kaufvertrag1",
+			"Text": "Der Verkäufer:in $verkaeufer.Name verkauft das Unternehmen $unternehmen.Name an Käufer:in $kaeufer.Name für $preis.Preis €.",
+			"Multiplicity": "1",
+			"Variable": [
+				"kaeufer:Person",
+				"verkaeufer:Person",
+				"unternehmen:Unternehmen",
+				"preis:Preis",
+				"ukv:Unternehmenskaufvertrag",
+				"eigentum(Date, Gegenstand):Person:Function",
+				"eintragung(Person):Boolean:Function",
+				"pflicht1:Verpflichtung",
+				"pflicht2:Verpflichtung",
+				"vor1:Eigentumsuebergang",
+				"vor2:Eigentumsuebergang"
+			],
+			"Assignment": [
+				"ukv.Verkaeufer=$verkaeufer",
+				"ukv.Kaeufer=$kaeufer",
+				"ukv.Closing=28",
+				"kaeufer.name=Mustermann",
+				"verkaeufer.name=Musterfrau",
+				"ukv.Kaufpreis=$preis",
+				"ukv.Kaufgegenstand=$unternehmen",
+				"ukv.Pflicht=$pflicht1",
+				"ukv.Pflicht=$pflicht2",
+				"pflicht1.Schuldner=$verkaeufer",
+				"pflicht1.Glaeubiger=$kaeufer",
+				"pflicht1.Frist=28",
+				"pflicht1.Voraussetzung=$vor1",
+				"vor1.Von=$verkaeufer",
+				"vor1.Eigentum=$unternehmen",
+				"vor1.An=$kaeufer",
+				"pflicht2.Voraussetzung=$vor2",
+				"vor2.Von=$kaeufer",
+				"vor2.Eigentum=$preis",
+				"vor2.An=$verkauefer"
+			]
+		},
+		{
+			"ID": "Ruecktritt",
+			"Text": "Falls die $pflicht nicht erfuellt wird, darf $pflicht.Glaeubiger zurücktreten.",
+			"Variable": [
+				"pflicht:$Pflicht",
+				"rueck:Ruecktritt"
+			],
+			"Assignment": [
+				"pflicht=$Kaufvertrag1_pflicht1",
+				"pflicht.pflicht=$rueck",
+				"rueck.Schuldner=$pflicht.Glaeubiger"
+			]
+		},
+		{
+			"ID": "GarantieProdukt1",
+			"Text": "$garantie.schuldner garantiert $garantie.glaeubiger, dass das Unternehmen mindestens $anzahl $sache am Tag produziert.",
+			"Variable": [
+				"garantie:Garantie",
+				"brezen:Integer",
+				"anzahl:Integer",
+				"sache:String"
+			],
+			"Assignment": [
+				"garantie.Glaeubiger=$Kaufvertrag1_verkaeufer",
+				"garantie.Schuldner=$Kaufvertrag1_kaeufer",
+				"garantie.Voraussetzung=brezen=$anzahl",
+				"Kaufvertrag1_ukv.pflicht=$garantie"
+			]
+		},
+		{
+			"ID": "Nacherfuellung1",
+			"Text": "Produziert das Unternehmen weniger $sache am Tag als garantiert, kann $tage nacherfüllt werden.",
+			"Variable": [
+				"pflicht:Pflicht",
+				"pflicht2:Nacherfuellung"
+			],
+			"Assignment": [
+				"GarantieProdukt1_garantie.pflicht=$pflicht2"
+			]
+		},
+		{
+			"ID": "Schadensersatz1",
+			"Index": "7",
+			"Text": "Produziert das Unternehmen weniger $sache am Tag als garantiert, wird ab einem Betrag von $pflicht2.Min folgender Schadensersatz fällig $pflicht2.Berechnung",
+			"Variable": [
+				"sache_real:Integer",
+				"pflicht2:Schadensersatz"
+			],
+			"Assignment": [
+			]
+		},
+		{
+			"ID": "Uebereignet",
+			"Index": "8",
+			"Text": "Die Anteile am $mittel.Eigentum ist an ein $bank.Name sicherheitsübereignet.",
+			"Variable": [
+				"bank:Person",
+				"mittel:MittelbarerBesitz"
+			],
+			"Assignment": [
+				"mittel.Eigentuemer=$bank"
+			]
+		}
+	]
+}
