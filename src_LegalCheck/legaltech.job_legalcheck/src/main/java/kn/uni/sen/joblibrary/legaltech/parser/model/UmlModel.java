@@ -3,6 +3,12 @@ package kn.uni.sen.joblibrary.legaltech.parser.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/** data structure to store a UML class diagram
+ * does not store the contract in this diagram but the meta-model
+ * todo: use meta model from *.xsd and UmlModel2
+ * 
+ * @author Martin Koelbl
+ */
 public class UmlModel
 {
 	List<UmlNode> NodeList = new ArrayList<>();

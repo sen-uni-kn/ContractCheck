@@ -1,0 +1,268 @@
+{
+	"_comment": "Objects allow to implement analyses in software",
+	"contract": [
+		{
+			"ID": "Head1",
+			"Index": "1",
+			"Text": "$text",
+			"Multiplicity": "1",
+			"Object": [
+				"text:Head"
+			],
+			"Assignment": [
+				"text=Bakery SPA"
+			]
+		},
+		{
+			"ID": "Clause1",
+			"Index": "2",
+			"Text": "§$c1 $text",
+			"Multiplicity": "*",
+			"Object": [
+				"text:Head2",
+				"c1:Clause1"
+			],
+			"Assignment": [
+				"text=Main Content",
+				"c1.Item=1"
+			]
+		},
+		{
+			"ID": "Block1",
+			"Index": "3",
+			"Text": "$c2 The seller $seller.Name hereby sells shares of $shares.Name , with all rights and obligations pertaining thereto (including the dividend right for the current financial year), to the Purchaser $purchaser.Name, who accepts such sale.",
+			"Multiplicity": "1",
+			"Object": [
+				"c2:Clause2",
+				"spa:SPA",
+				"seller:Person",
+				"purchaser:Person",
+				"shares:Share",
+				"transfer:PrimaryClaim"
+			],
+			"Assignment": [
+				"c2.Item=1.1",
+				"purchaser.Name=Chris",
+				"seller.Name=Eva",
+				"spa.Seller=$seller",
+				"spa.Purchaser=$purchaser",
+				"spa.Closing=28",
+				"shares.Name=Bakery AG",
+				"spa.Object=$shares",
+				"spa.Claim=$transfer",
+				"spa.Closing=28",
+				"transfer.Name=TransferClaim",
+				"transfer.Debtor=$seller",
+				"transfer.Creditor=$purchaser",
+				"transfer.DueDate=28",
+				"transfer.Performance='$Block1_shares.transfer($purchaser)'"
+			]
+		},
+		{
+			"ID": "Block2",
+			"Index": "4",
+			"Object": [
+				"c2:Clause2",
+				"spa:$SPA",
+				"price:PurchasePrice",
+				"payment:PrimaryClaim"
+			],
+			"Text": "$c2 The purchaser pays the purchase price $price.Amount € to the seller on date $payment.DueDate .",
+			"Assignment": [
+				"c2.Item=1.2",
+				"spa=$Block1_spa",
+				"spa.Price=$price",
+				"price.Amount=40000",
+				"spa.Claim=$payment",
+				"payment.Name=PayClaim",
+				"payment.Debtor=$Block1_purchaser",
+				"payment.Creditor=$Block1_seller",
+				"payment.Performance='$Block2_price.transfer($seller)'",
+				"payment.DueDate=28"
+			]
+		},
+		{
+			"ID": "Block3",
+			"Index": "5",
+			"Text": "$c2 If the $claim is not performed, the $withdraw.Creditor has the right to withdraw.",
+			"Object": [
+				"c2:Clause2",
+				"claim:$Claim",
+				"withdraw:RestitutionClaim"
+			],
+			"Assignment": [
+				"c2.Item=1.3",
+				"claim=$Block1_transfer",
+				"withdraw.Name=Restitution Purchaser",
+				"withdraw.Trigger=$claim",
+				"withdraw.Debtor=$claim.Creditor",
+				"withdraw.Creditor=$claim.Debtor"
+			]
+		},
+		{
+			"ID": "Block4",
+			"Index": "6",
+			"Text": "$c2 If the $claim is not performed, the $withdraw.Creditor has the right to withdraw.",
+			"Object": [
+				"c2:Clause2",
+				"claim:$Claim",
+				"withdraw:RestitutionClaim"
+			],
+			"Assignment": [
+				"c2.Item=1.4",
+				"claim=$Block2_payment",
+				"withdraw.Name=Restitution Seller",
+				"withdraw.Trigger=$claim",
+				"withdraw.Debtor=$claim.Creditor",
+				"withdraw.Creditor=$claim.Debtor"
+			]
+		},
+		{
+			"ID": "Block5",
+			"Index": "7",
+			"Text": "§$c1 The Seller hereby represents and warrants to the Purchaser in the form of an independent guarantee pursuant to Section 311 (1) of the German Civil Code and exclusively in accordance with the provisions of this Agreement that the following statements (the ``Warranties“) are true and correct as of the date of this Agreement  and that the Warranties set forth in this paragraph will also be true and correct as of the Closing Date:",
+			"Object": [
+				"c1:Clause1"
+			],
+			"Assignment": [
+				"c1.Item=2"
+			]
+		},
+		{
+			"ID": "Block6",
+			"Index": "8",
+			"Text": "$c2 The company can produce at least the $amount of $thing every day. In case this warranty does not hold, it need to be asserted within $warranty.Limitation days.",
+			"Object": [
+				"c2:Clause2",
+				"warranty:WarrantyClaim",
+				"count:Integer",
+				"amount:Integer",
+				"thing:String"
+			],
+			"Assignment": [
+				"c2.Item=2.1",
+				"warranty.Name=PretzelWarranty",
+				"warranty.DueDate=28",
+				"warranty.Creditor=$Block1_purchaser",
+				"warranty.Limitation=+ 14",
+				"thing=Pretzels",
+				"warranty.Debtor=$Block1_seller",
+				"Block1_spa.Claim=$warranty",
+				"warranty.Performance='(= Block6_count Block6_amount)'",
+				"amount=10000"
+			]
+		},
+		{
+			"ID": "Block7",
+			"Index": "9",
+			"Text": "§$c1 The Purchaser’s rights arising from any inaccuracy of any of the Warranties contained in §$para shall be limited to supplementary performance claims and compensation claims against the Seller, subject to the provisions of",
+			"Object": [
+				"c1:Clause1",
+				"claim:$Claim",
+				"para:$Clause1"
+			],
+			"Assignment": [
+				"c1.Item=3",
+				"para=$Block5_c1"
+			]
+		},
+		{
+			"ID": "Block8",
+			"Index": "10",
+			"Text": "$c2 In case the $claim is not met and then the creditor may demand subsequent performance within $per.DuteDate business days from the debtor after having transfered the shares.",
+			"Object": [
+				"c2:Clause2",
+				"claim:$Claim",
+				"per:PerformanceClaim"
+			],
+			"Assignment": [
+				"c2.Item=3.1",
+				"claim=$Block6_warranty",
+				"per.Trigger=$claim",
+				"per.Name=Claim1",
+				"per.DueDate=+28",
+				"per.Performance=$claim.Performance",
+				"per.Debtor=$claim.Debtor",
+				"per.Creditor=$claim.Creditor",
+				"per.Limitation=70"
+			]
+		},
+		{
+			"ID": "Block9",
+			"Index": "11",
+			"Text": "$c2 In case the $claim is not met and the damage is above $comp.Min € then a compensation $claim.Performance is paid within $comp.DueDate days.",
+			"Object": [
+				"c2:Clause2",
+				"claim:$Claim",
+				"comp:CompensationClaim"
+			],
+			"Assignment": [
+				"c2.Item=3.2",
+				"claim=$Block6_warranty",
+				"comp.Name=Claim2",
+				"comp.Trigger=$claim",
+				"comp.Min=1000",
+				"comp.DueDate=+42",
+				"comp.Compensation=(*(/ (- Block6_amount Block6_count) 100) 1000)",
+				"comp.Debtor=$claim.Debtor",
+				"comp.Creditor=$claim.Creditor",
+				"comp.Limitation=70"
+			]
+		},{
+			"ID": "Block10",
+			"Index": "12",
+			"Text": "In case the $claim is not met, the $price is changed.",
+			"Object": [
+				"claim:$Claim",
+				"price:$PurchasePrice",
+				"change:PriceAdjustment"
+			],
+			"Assignment": [
+				"claim=$Block6_warranty",
+				"price=$Block2_price",
+				"change.Name=PriceAdjustment",
+				"change.Trigger=$claim",
+				"change.Min=1000",
+				"change.DueDate=+0",
+				"change.Change='(*(/ (- $Block6_amount $Block6_count) 100) 1000)'",
+				"change.Debtor=$claim.Debtor",
+				"change.Creditor=$claim.Creditor",
+				"change.Limitation=70"
+			]
+		},
+		{
+			"ID": "Block11",
+			"Index": "13",
+			"Text": "§$c1 Claims in § $para expire after $d business days.",
+			"Object": [
+				"c1:Clause1",
+				"para:$Clause1",
+				"d:Date"
+			],
+			"Assignment": [
+				"c1.Item=4",
+				"para=$Block7_c1",
+				"d=(+ 28 42)",
+				"${//Claim[@id=//Clause1[./Item='4']//*/@ref]}.Limitation=$d"
+			]
+		},
+		{
+			"ID": "Block12",
+			"Index": "14",
+			"Text": "§$c1 The $object is transferred by way of security to $owner.Name .",
+			"Object": [
+				"c1:Clause1",
+				"owner:Person",
+				"object:$Object",
+				"prop:PropertyRight"
+			],
+			"Assignment": [
+				"c1.Item=5",
+				"owner.Name=Bank",
+				"object=$Block1_shares",
+				"prop.Owner=$owner",
+				"prop.Property=$object"
+			]
+		}
+	]
+}

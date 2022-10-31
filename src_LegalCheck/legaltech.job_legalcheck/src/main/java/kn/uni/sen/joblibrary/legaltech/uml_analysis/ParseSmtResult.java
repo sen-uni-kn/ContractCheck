@@ -22,6 +22,11 @@ import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlNode2;
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
 import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
 
+/**
+ * parses the analysis results from a Z3 call
+ * 
+ * @author Martin Koelbl
+ */
 public class ParseSmtResult
 {
 	UmlModel2 umlModel;
@@ -237,11 +242,11 @@ public class ParseSmtResult
 		// return "Anna->Max: Does something\\nNote over of B: Bob thinks";
 	}
 
-	public String getDiagram(Date dateExtra)
+	public String getDiagram(List<Date> list)
 	{
-		return createDiagram(dateExtra);
+		return createDiagram(list);
 	}
-	
+
 	public String getMinMax()
 	{
 		String minMax = "";
@@ -265,6 +270,8 @@ public class ParseSmtResult
 
 	private UmlNode2 getUmlNode(String name)
 	{
+		if (name.contains("."))
+			name = name.substring(0, name.indexOf("."));
 		String n = getName(name);
 
 		UmlNode2 v = umlModel.getNodeByName(n);
@@ -287,11 +294,13 @@ public class ParseSmtResult
 		return list;
 	}
 
-	private String createDiagram(Date dateExtra)
+	private String createDiagram(List<Date> list2)
 	{
 		List<Date> list = getDateFromModel();
-		if (dateExtra != null && list != null)
-			list.add(dateExtra);
+
+		if (list2 != null)
+			for (Date d : list2)
+				list.add(d);
 		Collections.sort(list);
 		StringBuilder build = new StringBuilder();
 		for (Date d : list)
@@ -304,7 +313,9 @@ public class ParseSmtResult
 				continue;
 			build.append(v);
 		}
-		return build.toString();
+		String s = build.toString();
+		RunJavaScript.runScript(s, "result");
+		return s;
 	}
 
 	private boolean isPflichtErfuellt(UmlNode2 node, float val)
@@ -353,6 +364,11 @@ public class ParseSmtResult
 		String from = "P1";
 		String to = "P2";
 		UmlNode2 node = getUmlNode(d.Name);
+		String extra = "";
+		if ((d.Name != null) && d.Name.contains("."))
+		{
+			extra = d.Name.substring(d.Name.indexOf(".") + 1) + " ";
+		}
 
 		if (node == null)
 			return null;
@@ -385,10 +401,14 @@ public class ParseSmtResult
 			break;
 		}
 
+		boolean bIndem = isIndemnity(node);
+		// if (bIndem)
+		// System.out.println("me");
+
 		String text = getArrowText(claim, d.Value);
 		if (text == null)
 			text = getName(getName(d.Name)) + "(" + d.getValue() + ")";
-		if (d.Value == -1)
+		if ((d.Value == -1) || (bIndem))
 		{
 			// if (node.inheritatesFrom(LegalUml.Garantie))
 			// return "Note over " + to + ":" + text;
@@ -396,18 +416,32 @@ public class ParseSmtResult
 			return "Note over " + from + ":" + text;
 		}
 
-		if (bClaim ^ bGaran)
+		boolean b = text.contains("asserted");
+
+		if ((bClaim ^ bGaran) || b)
 		{
 			String f = from;
 			from = to;
 			to = f;
 		}
-		return "" + from + "->" + to + ":" + text;
+		if (!!!extra.isEmpty())
+		{
+			text = text.replace("performed", "");
+		}
+
+		return "" + from + "->" + to + ":" + extra + text;
 	}
 
 	private boolean isWarranty(UmlNode2 claim)
 	{
 		return claim.isOfClass(LegalUml.Warranty);
+	}
+
+	private boolean isIndemnity(UmlNode2 claim)
+	{
+		if (claim.inheritatesFrom(LegalUml.Indemnity))
+			return true;
+		return claim.isOfClass(LegalUml.Indemnity);
 	}
 
 	private UmlNode2 getPflicht(UmlNode2 node)

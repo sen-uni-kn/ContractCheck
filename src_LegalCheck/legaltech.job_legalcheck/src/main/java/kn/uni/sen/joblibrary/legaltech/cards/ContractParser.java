@@ -13,6 +13,10 @@ import org.json.JSONTokener;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.model.RunContext;
 
+/** Parses a json string and stores contract in @see Contract by its @ContractCard 
+ * 
+ * @author Martin Koelbl
+ */
 public class ContractParser
 {
 	public static final String ID = "ID";

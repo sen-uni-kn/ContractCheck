@@ -41,7 +41,7 @@
 			],
 			"Assignment": [
 				"purchaser.Name=Chris",
-				"seller.Name=Anna",
+				"seller.Name=Eva",
 				"spa.Seller=$seller",
 				"spa.Purchaser=$purchaser",
 				"spa.Closing=28",
@@ -64,7 +64,7 @@
 				"price:PurchasePrice",
 				"payment:PrimaryClaim"
 			],
-			"Text": "The purchaser pays the purchase price $price.Amount € on Date $payment.DueDate to the seller. ",
+			"Text": "",
 			"Assignment": [
 				"spa=$Block1_spa",
 				"spa.Price=$price",
@@ -73,7 +73,7 @@
 				"payment.Name=PayClaim",
 				"payment.Debtor=$Block1_purchaser",
 				"payment.Creditor=$Block1_seller",
-				"payment.Performance='$Block2_price.transfer($Block1_seller)'",
+				"payment.Performance='$Block2_price.transfer($seller)'",
 				"payment.DueDate=28"
 			]
 		},
@@ -90,8 +90,7 @@
 				"withdraw.Name=Restitution Purchaser",
 				"withdraw.Trigger=$claim",
 				"withdraw.Debtor=$claim.Creditor",
-				"withdraw.Creditor=$claim.Debtor",
-				"withdraw.DueDate=+0"
+				"withdraw.Creditor=$claim.Debtor"
 			]
 		},
 		{

@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>kn.uni.sen.joblibrary.legaltech</groupId>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<packaging>pom</packaging>
 	<name>JobLibrary_LegalTech - Trunk</name>
 	<artifactId>trunk_legaltech</artifactId>
@@ -27,7 +27,11 @@
 	</scm>
 	<modules>
 		<module>legaltech.job_legalcheck</module>
+		<module>legaltech.job_legalcard</module>
+		<module>legaltech.job_legalexecute</module>
+		<module>legaltech.job_contractcheck</module>
 		<module>legaltech.joblibrary</module>
+		<module>legaltech.web</module>
 		<module>legaltech.webeditor</module>
 	</modules>
 </project>

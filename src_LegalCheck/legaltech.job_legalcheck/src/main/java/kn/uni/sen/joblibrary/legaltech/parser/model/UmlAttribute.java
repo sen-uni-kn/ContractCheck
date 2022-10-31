@@ -1,5 +1,10 @@
 package kn.uni.sen.joblibrary.legaltech.parser.model;
 
+/**
+ * attribute of a UML class node
+ * 
+ * @author Martin Koelbl
+ */
 public class UmlAttribute extends UmlElementSimple
 {
 	String Name;

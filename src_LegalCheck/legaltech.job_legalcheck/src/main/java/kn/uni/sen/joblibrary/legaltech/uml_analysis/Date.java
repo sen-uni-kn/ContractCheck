@@ -2,16 +2,21 @@ package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
 import kn.uni.sen.jobscheduler.common.resource.ResourceDouble;
 
+/**
+ * internal data structure to store a date with its current and minimal value
+ * 
+ * @author Martin Koelbl
+ */
 public class Date implements Comparable<Date>
 {
 	public String Name = "";
 	public float Value = Float.NaN;
 	public float ValueMin = Float.NaN;
-	
+
 	public Date()
-	{	
+	{
 	}
-	
+
 	public Date(String name, String value)
 	{
 		Name = name;
@@ -23,10 +28,10 @@ public class Date implements Comparable<Date>
 	{
 		return (int) (Value - d2.Value);
 	}
-	
+
 	public void setValue(String val)
 	{
-		setValue((float)ResourceDouble.parseStringDouble(val));
+		setValue((float) ResourceDouble.parseStringDouble(val));
 	}
 
 	public void setValue(float val)

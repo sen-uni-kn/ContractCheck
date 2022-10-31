@@ -29,6 +29,10 @@ import kn.uni.sen.joblibrary.legaltech.parser.model.UmlNode;
 import kn.uni.sen.joblibrary.legaltech.parser.model.UmlOperation;
 import kn.uni.sen.jobscheduler.common.model.Job;
 
+/** Parser to analyze contract given as a Modelio .xmi
+ * 
+ * @author Martin Koelbl
+ */
 public class UmlParser
 {
 	Job job;

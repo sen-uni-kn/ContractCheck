@@ -1,5 +1,6 @@
 package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlModel2;
@@ -12,6 +13,11 @@ import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.resource.ResourceDouble;
 
+/**
+ * analyzes whether price changed after the price is due and paid
+ *  
+ * @author Martin Koelbl
+ */
 public class UmlAnalysisContractPriceChangeTime extends UmlAnalysisContractAbstract
 {
 	public static final String Name = "Timing";
@@ -86,9 +92,11 @@ public class UmlAnalysisContractPriceChangeTime extends UmlAnalysisContractAbstr
 				{
 					name = claim.getNodeAttributeName();
 					String name2 = payNode.getNodeAttributeName();
-					String diagram = res.getDiagram(datePay);
+					List<Date> list = new ArrayList<>();
+					list.add(datePay);
+					String diagram = res.getDiagram(list);
 					if (res.sat)
-						reportRun(name, "" + name + " geschieht nach " + name2 + "!", diagram, UmlResultState.WARNING);
+						reportRun(name, "" + name + " occurs after " + name2 + "!", diagram, UmlResultState.WARNING);
 				}
 				log();
 			}

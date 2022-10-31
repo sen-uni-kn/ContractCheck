@@ -1,5 +1,10 @@
 package kn.uni.sen.joblibrary.legaltech.smt_model;
 
+/**
+ * declare a smt variable
+ * 
+ * @author Martin Koelbl
+ */
 public class SmtDeclare implements SmtElement
 {
 	String name;

@@ -17,6 +17,8 @@
 						use="required" />
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="Signing" type="Date"></xs:element>
+			<xs:element name="Closing" type="Date"></xs:element>
 			<xs:element name="PurchaseObject" minOccurs="1">
 				<xs:complexType>
 					<xs:attribute name="ref" type="xs:IDREF"
@@ -42,7 +44,6 @@
 						use="required" />
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="NewElement" type="xs:string"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -51,6 +52,20 @@
 			<xs:extension base="Legal">
 				<xs:sequence>
 					<xs:element name="Name" type="xs:string"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PriceAdjustment">
+		<xs:complexContent>
+			<xs:extension base="SecondaryClaim">
+				<xs:sequence>
+					<xs:element name="Name" type="xs:string"></xs:element>
+					<xs:element name="Price" type="PurchasePrice" maxOccurs="1" minOccurs="1">
+					</xs:element>
+					<xs:element name="Change" type="Performance">
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -75,7 +90,7 @@
 						</xs:complexType>
 					</xs:element>
 					<xs:element name="DueDate" type="Date"></xs:element>
-					<xs:element name="Latest" type="Date"></xs:element>
+					<xs:element name="Arise" type="Date"></xs:element>
 					<xs:element name="Limitation" type="Date"></xs:element>
 				</xs:sequence>
 			</xs:extension>
@@ -294,9 +309,6 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-
-	<xs:element name="Rechte" type="Right"></xs:element>
-
 	<xs:element name="DueDate" type="Date"></xs:element>
 
 	<xs:complexType name="Performance"></xs:complexType>
@@ -315,6 +327,10 @@
 
 	<xs:simpleType name="Integer">
 		<xs:restriction base="xs:integer"></xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Float">
+		<xs:restriction base="xs:float"></xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="Function">

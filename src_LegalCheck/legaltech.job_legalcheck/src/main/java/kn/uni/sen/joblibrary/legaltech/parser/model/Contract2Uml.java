@@ -14,6 +14,11 @@ import kn.uni.sen.jobscheduler.common.helper.Helper.Pair;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 
+/** First implementation of an conversion from contract cards to UML
+ * 
+ * @author Martin Koelbl
+ */
+@Deprecated
 public class Contract2Uml
 {
 	Job job;

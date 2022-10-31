@@ -8,8 +8,11 @@ todo:
 Licenses:
  BSD-2-Clause License: https://github.com/bramp/js-sequence-diagrams
 
+Version 1.2.0
+
 Version 1.1.0
-+ Version submited to github without old projects
++ first version in github
++ claims have times arise, duedate and limitation
 
 Version 1.0.0
 + start of LegalTech Projekt

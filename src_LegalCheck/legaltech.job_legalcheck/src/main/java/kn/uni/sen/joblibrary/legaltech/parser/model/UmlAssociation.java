@@ -3,6 +3,11 @@ package kn.uni.sen.joblibrary.legaltech.parser.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * association between UML class nodes
+ * 
+ * @author Martin Koelbl
+ */
 public class UmlAssociation extends UmlElementSimple
 {
 	public static final String ASS_INHERITATES = "inheritates";

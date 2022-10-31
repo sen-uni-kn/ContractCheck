@@ -19,6 +19,10 @@ import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 
+/** Converts a @see Contract in a UML class diagram
+ * 
+ * @author Martin Koelbl
+ */
 public class Contract2Uml2
 {
 	Job job;
@@ -193,7 +197,7 @@ public class Contract2Uml2
 		return val;
 	}
 
-	public void setAssingmentValue(String id, String val, ContractCard c)
+	public void setAssignmentValue(String id, String val, ContractCard c)
 	{
 		String idCard = c.getID();
 		// if (id.equals("rueckK.Schuldner"))
@@ -207,6 +211,9 @@ public class Contract2Uml2
 		if (node == null)
 			node = getNodeByID(model, idCard + "_" + nodeID);
 
+		// if("50_transfer".equals(nodeID))
+		// System.out.println("me");
+
 		String idAttr = getIDAttr(id);
 		idAttr = parseLanguage(idAttr);
 		if (val.startsWith("$"))
@@ -218,7 +225,7 @@ public class Contract2Uml2
 				n = getNodeByID(model, ids);
 			if (n == null)
 			{
-				System.out.println("" + val.substring(1) + " not found!");
+				System.out.println("Card: " + idCard + " " + val.substring(1) + " not found!");
 				return;
 			}
 
@@ -251,6 +258,9 @@ public class Contract2Uml2
 	{
 		for (String assign : c.getAssignmentList())
 		{
+			if (assign.startsWith("%"))
+				continue;
+
 			// System.out.println(v);
 			String id = c.getAssignmentName(assign);
 			String val = c.getAssignmentValue(assign);
@@ -266,7 +276,7 @@ public class Contract2Uml2
 				Helper.Pair<String, ContractCard> pair = new Helper.Pair<String, ContractCard>(assign, c);
 				assList.add(pair);
 			}
-			setAssingmentValue(id, val, c);
+			setAssignmentValue(id, val, c);
 		}
 	}
 
@@ -288,6 +298,9 @@ public class Contract2Uml2
 		String idRest = assign.substring(idx2 + 1, idx3);
 		String val = assign.substring(idx3 + 1);
 
+		if ((expr != null) && (expr.contains("$")))
+			System.out.println("Implement search query with variables");
+
 		List<UmlNode2> list = model.findNodesByExpression(expr);
 		for (UmlNode2 n : list)
 		{
@@ -295,9 +308,8 @@ public class Contract2Uml2
 			if (name.isEmpty())
 				continue;
 			String id = name + idRest;
-			setAssingmentValue(id, val, card);
+			setAssignmentValue(id, val, card);
 		}
-
 	}
 
 	public UmlModel2 convert(Contract contract)

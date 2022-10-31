@@ -1,5 +1,11 @@
 package kn.uni.sen.joblibrary.legaltech.smt_model;
 
+/**
+ * parses a mathematically formula and converts it to SMT todo: improve parse
+ * algorithm
+ * 
+ * @author Martin Koelbl
+ */
 public class FormulaParser
 {
 	private int findNextSign(String math, char[] pat, int start)

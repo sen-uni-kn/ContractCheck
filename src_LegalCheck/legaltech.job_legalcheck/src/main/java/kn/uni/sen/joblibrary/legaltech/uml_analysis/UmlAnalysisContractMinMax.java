@@ -10,6 +10,12 @@ import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.resource.ResourceDouble;
 
+/**
+ * Compute the minimal and maximal possible value for every contract variable
+ * while some contract variables are already assigned
+ * 
+ * @author Martin Koelbl
+ */
 public class UmlAnalysisContractMinMax extends UmlAnalysisContractAbstract
 {
 	public static final String Name = "MinMax";

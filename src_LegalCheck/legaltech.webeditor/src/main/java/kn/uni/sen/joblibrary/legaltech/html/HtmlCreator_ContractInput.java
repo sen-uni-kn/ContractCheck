@@ -82,7 +82,19 @@ public class HtmlCreator_ContractInput
 			return card.getNodeValue(text);
 		if (type.startsWith(LegalUml.Clause))
 		{
+			//don't set value of reference
+			String val2 = card.getVariableDeclare(text);
+			if(val2.contains("$"))
+			{
+				String ref = card.getNodeValue(text);
+				Contract con = card.getContract();
+				String val4 = con.getNodeValueNice(ref);
+				//String val3 = card.getNodeValue(ref);
+				return val4;
+			}
+
 			String val = clauseComputer.getClause(type, null);
+			//set value of current clause
 			card.setVariableAssignment(text, val);
 			return val;
 		}

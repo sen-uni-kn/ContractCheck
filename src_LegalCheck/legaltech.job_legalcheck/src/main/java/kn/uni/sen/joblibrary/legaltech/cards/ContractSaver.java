@@ -10,6 +10,10 @@ import org.json.JSONObject;
 
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 
+/** stores the contract cards of a contract in json
+ * 
+ * @author Martin Koelbl
+ */
 public class ContractSaver
 {
 	public String saveFile(Contract contract, String file)

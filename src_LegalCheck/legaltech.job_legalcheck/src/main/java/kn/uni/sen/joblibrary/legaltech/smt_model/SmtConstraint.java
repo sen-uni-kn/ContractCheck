@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * defines an SMT contraint
+ * 
+ * @author Martin Koelbl
+ */
 public class SmtConstraint implements SmtElement
 {
 	List<SmtElement> children = new ArrayList<>();

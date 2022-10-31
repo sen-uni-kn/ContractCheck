@@ -1,0 +1,10 @@
+<experiment>
+	<parameter>
+		<resource id="model" value="pretzelSPA3_bad.json" src="file"/>
+	</parameter>
+	<analysis name="{index}_{$model}">
+		<job name="Job_LegalCheck">
+			<input name="Contract" ref="model" />
+		</job>
+	</analysis>
+</experiment>

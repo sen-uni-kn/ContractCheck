@@ -42,7 +42,7 @@ public class Experiment_LegalTech_Console extends Experiment_Console
 
 	private String getLib()
 	{
-		String version = "1.0.0";
+		String version = "1.2.0";
 		String lib = "legaltech.webeditor-" + version /* + "-jar-with-dependencies" */ + ".jar";
 		String libMaven = "target" + ResourceFolder.getSplitSign() + lib;
 		if (ResourceFile.exists(libMaven))

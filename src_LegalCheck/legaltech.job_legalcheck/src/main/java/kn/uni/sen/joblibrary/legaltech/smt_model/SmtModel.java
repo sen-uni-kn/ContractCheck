@@ -9,6 +9,12 @@ import java.util.Map;
 
 import kn.uni.sen.joblibrary.legaltech.parser.model.Pair;
 
+/**
+ * data structure to SMT model which can then be written to a file to be
+ * analyzed
+ * 
+ * @author Martin Koelbl
+ */
 public class SmtModel implements SmtElement
 {
 	List<SmtDeclare> declList = new ArrayList<>();
@@ -54,7 +60,7 @@ public class SmtModel implements SmtElement
 		SmtConstraint as = new SmtConstraint("assert", name, this);
 		return addConstraint(as, i);
 	}
-	
+
 	public SmtConstraint createAssertSoft(String name, int i)
 	{
 		SmtConstraint as = new SmtConstraint("assert-soft", name, this);
@@ -100,7 +106,8 @@ public class SmtModel implements SmtElement
 			text.append(con.getValue().toText() + "\n");
 		}
 		text.append("\n");
-		text.append(extraCode);
+		if (extraCode != null)
+			text.append(extraCode);
 		for (SmtCommand cmd : cmdList)
 			text.append(cmd.toText() + "\n");
 		return text.toString();
