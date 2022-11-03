@@ -8,6 +8,11 @@ import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlNode2;
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
 import kn.uni.sen.jobscheduler.common.model.Job;
 
+/**
+ * Searches the contract for syntactic errors
+ *  
+ * @author Martin Koelbl
+ */
 public class UmlAnalysisSyntax extends UmlAnalysisAbstract
 {
 	public static final String Name = "Syntax";
@@ -60,12 +65,38 @@ public class UmlAnalysisSyntax extends UmlAnalysisAbstract
 					&& !!!node.inheritatesFrom(LegalUml.Compensation))
 				reportError("" + name + " is missing a consequence claim!");
 
+			//if ("ManagementApprove".equals(name))
+			//	System.out.println("me");
+
 			String val = getFrist(model, node);
+			if (name == null)
+				name = node.getName();
 			if (val == null)
 				reportError("" + name + " is missing a due date!");
 		}
+
+		// has every duty and claim a deadline?
+		// nodes = model.getClassInstances(LegalUml.PrimaryClaim);
+		// for (UmlNode2 node : nodes)
+		// {
+		// String name = node.getAttributeValue("Name");
+		// List<UmlNode2> claims = node.getAssoziationsByName(LegalUml.Trigger);
+		// if ((claims == null) || (claims.isEmpty()))
+		// reportError("" + name + " is missing a consequence claim!");
+		// String val = getFrist(node);
+		// if (val == null)
+		// reportError("" + name + " is missing a due date!");
+		// }
+		// nodes = model.getClassInstances(LegalUml.SecondaryClaim);
+		// for (UmlNode2 node : nodes)
+		// {
+		// String name = node.getName();
+		// String val = getFrist(node);
+		// if (val == null)
+		// reportError("" + name + " is missing a due date!");
+		// }
 	}
-	
+
 	public String getFrist(UmlModel2 model, UmlNode2 duty)
 	{
 		if (duty == null)

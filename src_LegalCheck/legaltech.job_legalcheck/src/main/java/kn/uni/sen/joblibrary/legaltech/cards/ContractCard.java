@@ -12,6 +12,10 @@ import kn.uni.sen.joblibrary.legaltech.parser.model.UmlAssociation;
 import kn.uni.sen.joblibrary.legaltech.parser.model.UmlAttribute;
 import kn.uni.sen.joblibrary.legaltech.parser.model.UmlNode;
 
+/**	Contract card formalizes some part of a contract text by variables and their assignment
+ * 
+ * @author Martin Koelbl
+ */
 public class ContractCard
 {
 	Contract contract = null;
@@ -273,7 +277,6 @@ public class ContractCard
 		String rest = null;
 		if (index != -1)
 		{
-			;
 			text = name.substring(0, index);
 			rest = name.substring(index + 1);
 		}

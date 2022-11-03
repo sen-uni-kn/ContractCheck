@@ -9,6 +9,7 @@ import kn.uni.sen.joblibrary.legaltech.cards.ContractParser;
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.ReportResult;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysis;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractDoubleJeopardy;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractDuties;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractLimitation;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractMinMax;
@@ -27,6 +28,11 @@ import kn.uni.sen.jobscheduler.common.resource.ResourceString;
 import kn.uni.sen.jobscheduler.common.resource.ResourceTag;
 import kn.uni.sen.jobscheduler.common.resource.ResourceType;
 
+/**
+ * job that analyzes a contract, main function is task() as with any job
+ * 
+ * @author Martin Koelbl
+ */
 public class Job_LegalCheck extends JobAbstract implements ReportResult
 {
 	public static final String CONTRACT_FILE = "Contract";
@@ -39,6 +45,7 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 	public static final String MINMAX = "MinMax";
 	public static final String RESULT_KIND = "Kind";
 	public static final String UNSAT_CORE = "UnsatCore";
+	// List<UmlResult> ErrList = new LinkedList<>();
 
 	ResourceString ResultNext = null;
 
@@ -107,7 +114,7 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 			resA = new ResourceString(UmlAnalysisSyntax.Name);
 			resA.addNext(new ResourceString(UmlAnalysisContractDuties.Name));
 			resA.addNext(new ResourceString(UmlAnalysisContractPriceChangeTime.Name));
-			resA.addNext(new ResourceString(UmlAnalysisContractMinMax.Name));
+			resA.addNext(new ResourceString(UmlAnalysisContractDoubleJeopardy.Name));
 			resA.addNext(new ResourceString(UmlAnalysisContractLimitation.Name));
 		}
 		while (resA != null)
@@ -125,6 +132,8 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 				anas.add(new UmlAnalysisContractMinMax(this, val, resV));
 			if (val.equals(UmlAnalysisContractLimitation.Name))
 				anas.add(new UmlAnalysisContractLimitation(this, val));
+			if (val.equals(UmlAnalysisContractDoubleJeopardy.Name))
+				anas.add(new UmlAnalysisContractDoubleJeopardy(this, val));
 			resA = resA.getNextByType();
 		}
 		return anas;

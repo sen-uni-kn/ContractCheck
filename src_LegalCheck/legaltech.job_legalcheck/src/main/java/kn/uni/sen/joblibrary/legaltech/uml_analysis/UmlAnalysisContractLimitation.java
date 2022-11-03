@@ -1,5 +1,6 @@
 package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,12 @@ import kn.uni.sen.joblibrary.legaltech.smt_model.SmtElement;
 import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
 import kn.uni.sen.jobscheduler.common.model.Job;
 
+/**
+ * Analyze whether an execution exists where the limitation of a claim occurs
+ * before the claim becomes due
+ * 
+ * @author Martin Koelbl
+ */
 public class UmlAnalysisContractLimitation extends UmlAnalysisContractAbstract
 {
 	public static final String Name = "Limitation";
@@ -22,25 +29,52 @@ public class UmlAnalysisContractLimitation extends UmlAnalysisContractAbstract
 	}
 
 	// show date of pay in diagram
-	//Date dateLimit = null;
+	// Date dateLimit = null;
 
-	protected SmtConstraint getClaimAfter(UmlModel2 model, UmlNode2 duty, UmlNode2 trig, String limit)
+	protected boolean getClaimAfter(UmlModel2 model, UmlNode2 duty, UmlNode2 trig, String limitT, SmtModel smtModel)
 	{
-		//dateLimit = null;
+		// dateLimit = null;
 		if (trig == null)
-			return null;
+			return false;
 		SmtElement decl = listDutyClaim.get(trig.getElement());
 
 		SmtDeclare con = listDutyClaim.get(duty.getElement());
+		SmtElement conDue = getClaimDateMin(model, trig, duty);
 		SmtConstraint dutyCon = getDutyConstraint(model, duty, con);
 		SmtConstraint not = new SmtConstraint("not").addConstraint(dutyCon);
 		SmtConstraint and = new SmtConstraint("and").addConstraint(not);
 
-		if ((decl == null) || (limit == null))
-			return null;
-		SmtConstraint limitCon = new SmtConstraint(limit);
-		SmtConstraint smaller = new SmtConstraint("<").addConstraint(limitCon).addConstraint(decl);
-		return and.addConstraint(smaller);
+		if ((decl == null) || (limitT == null))
+			return false;
+		SmtConstraint limitCon = new SmtConstraint(limitT);
+
+		SmtDeclare limit = new SmtDeclare("const", "clLimit", "Int");
+		SmtDeclare due = new SmtDeclare("const", "clDue", "Int");
+		smtModel.addDeclaration(limit);
+		smtModel.addDeclaration(due);
+
+		SmtConstraint lim = new SmtConstraint("=");
+		lim.addConstraint(limit);
+		lim.addConstraint(limitCon);
+		and.addConstraint(lim);
+
+		SmtConstraint du = new SmtConstraint("=");
+		du.addConstraint(due);
+		du.addConstraint(conDue);
+		and.addConstraint(du);
+
+		SmtConstraint sm = new SmtConstraint("<");
+		sm.addConstraint(limit);
+		sm.addConstraint(due);
+		and.addConstraint(sm);
+		// SmtConstraint and = new SmtConstraint("and");
+
+		SmtConstraint ass = smtModel.createAssert("LimitCheck", 9);
+		ass.addConstraint(and);
+		return true;
+		// SmtConstraint smaller = new
+		// SmtConstraint("<").addConstraint(limitCon).addConstraint(decl);
+		// return and.addConstraint(smaller);
 	}
 
 	public void checkDutiesTiming(UmlModel2 model)
@@ -53,23 +87,27 @@ public class UmlAnalysisContractLimitation extends UmlAnalysisContractAbstract
 			if ((smtModel == null) || (duty == null))
 				return;
 			// SmtDeclare con = listDutyClaim.get(duty);
-			String val = duty.getAttributeValue(LegalUml.Limitation);
-			if ((val == null) || val.isEmpty())
-				continue;
-			
-			Date dateLimit = new Date("Date_Limitation", val);
 
 			Set<UmlNode2> triggers = getTriggerSet(claims, duty);
+			triggers.add(duty);
 			for (UmlNode2 trig : triggers)
 			{
+				// UmlNode2 trig = duty;
+				trigLimit = trig;
 				smtModel = createSMTCode(model);
-				SmtConstraint extraCon = getClaimAfter(model, duty, trig, val);
-				if (extraCon == null)
-					continue;
-				String extra = extraCon.toText();
-				extra = "(assert (! " + extra + " :named a_time))\n\n";
 
-				String code = smtModel.toText(extra);
+				// String val = trig.getAttributeValue(LegalUml.Limitation);
+				SmtElement min = getClaimDateMin(model, trig, duty);
+				String val = getLimitation(model, trig, min);
+				if ((val == null) || val.isEmpty())
+					continue;
+
+				if (!!!getClaimAfter(model, duty, trig, val, smtModel))
+					continue;
+				// String extra = extraCon.toText();
+				// extra = "(assert (! " + extra + " :named a_time))\n\n";
+
+				String code = smtModel.toText();
 				if (code == null)
 					return;
 
@@ -77,14 +115,21 @@ public class UmlAnalysisContractLimitation extends UmlAnalysisContractAbstract
 				if ((name == null) || name.isBlank())
 					name = "_" + (dutyCount + 1);
 				ParseSmtResult res = runSmtAnalysis(model, code, "_" + name, smtModel);
-				if (res != null)
+				if (res != null && res.sat)
 				{
 					name = trig.getNodeAttributeName();
-					String name2 = duty.getNodeAttributeName();
-					String diagram = res.getDiagram(dateLimit);
-					if (res.sat)
-						reportRun(name, "" + name + " can occur after limitation of " + name2 + "!", diagram,
-								UmlResultState.WARNING);
+					String nameCon = trig.getName();
+					// String name2 = duty.getNodeAttributeName();
+					Float limVal = res.getValue("clLimit");
+					Float dueVal = res.getValue("clDue");
+					Date dateLimit = new Date("Date_" + nameCon + ".Limitation", "" + limVal);
+					Date dateDue = new Date("Date_" + nameCon + ".DueDate", "" + dueVal);
+					List<Date> list = new ArrayList<>();
+					list.add(dateLimit);
+					list.add(dateDue);
+					String diagram = res.getDiagram(list);
+					reportRun(name, "" + name + " can occur after limitation of " + name + "!", diagram,
+							UmlResultState.WARNING);
 				}
 				log();
 			}

@@ -1,0 +1,82 @@
+ 
+//#Safe
+/*
+ * Implementation of Lamport's bakery algorithm for mutual exclusion
+ * https://en.wikipedia.org/wiki/Lamport%27s_bakery_algorithm
+ * 
+ * Author: Matthias Heizmann (heizmann@informatik.uni-freiburg.de)
+ * Date: 2018-10-03
+ *
+ */
+
+
+
+var day : int;
+var pretzel : int;
+var war : int;
+ 
+procedure ULTIMATE.start() returns()
+modifies critical, n0, n1;
+{
+   // At the beginning, no process is in the critical section.
+   day := 0;
+   
+   fork 0 Warranty();
+   fork 1 Claim();
+}
+
+procedure Warranty() returns ()
+modifies critical, n0;
+{
+    while(true)
+    {
+        day++;
+    }
+}
+
+procedure Warranty() returns ()
+modifies critical, n0;
+{
+    while(true)
+    {
+        day++;
+    }
+}
+
+procedure Warranty() returns ()
+modifies critical, n0;
+{
+    INIT:
+    if(d=28)
+      goto ARISE;
+    assume(d<28);
+    goto INIT;
+    
+    ARISE:
+    if(pretzel>=10000)
+        goto FULFILLED;
+    if(d>=70)
+        goto UNDURCHSETZBAR;
+    if(d>=70)
+        goto UNDURCHSETZBAR;
+        
+    goto ARISE;
+    
+    
+    UNDURCHSETZBAR:
+        goto UNDURCHSETZBAR;
+
+    FULFILLED:
+        goto FULFILLED;
+}
+
+procedure Claim1() returns ()
+modifies critical, n1;
+{
+    INIT:
+    if(d=28)
+      goto ARISE;
+    assume(d<28);
+    goto INIT;
+ 
+}

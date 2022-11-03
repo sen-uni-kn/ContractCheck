@@ -3,6 +3,12 @@ package kn.uni.sen.joblibrary.legaltech.parser.model;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * legal UML model with German legal keywords When a German contract is parsed,
+ * convert the keywords from German into English and then do the analyses
+ * 
+ * @author Martin Koelbl
+ */
 public class LegalUmlGerman
 {
 	static List<String[]> german = new LinkedList<>();
@@ -37,6 +43,7 @@ public class LegalUmlGerman
 		german.add(new String[] { "Debtor", "Schuldner" });
 		german.add(new String[] { "Creditor", "Glaeubiger" });
 		german.add(new String[] { "SecondaryClaim", "Sekundaerpflicht" });
+		german.add(new String[] { "IndemnityClaim", "Freistellung" });
 		german.add(new String[] { "RestitutionClaim", "Ruecktritt" });
 		german.add(new String[] { "Claim", "Regelung" });
 		german.add(new String[] { "Content", "Voraussetzung" });

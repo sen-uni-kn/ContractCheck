@@ -11,6 +11,12 @@ import kn.uni.sen.joblibrary.legaltech.smt_model.SmtDeclare;
 import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
 import kn.uni.sen.jobscheduler.common.model.Job;
 
+/**
+ * Analyze the contract and every claim whether each is satisfiable for at least
+ * one contract execution
+ * 
+ * @author Martin Koelbl
+ */
 public class UmlAnalysisContractDuties extends UmlAnalysisContractAbstract
 {
 	public static final String Name = "Sat";
@@ -29,6 +35,8 @@ public class UmlAnalysisContractDuties extends UmlAnalysisContractAbstract
 		String code = smtModel.toText();
 		if (code == null)
 			return;
+		// code = "(set-option :produce-unsat-cores true)\n" + code;
+		// code += "(get-unsat-core)";
 
 		ParseSmtResult res = runSmtAnalysis(model, code, "_SPA", smtModel);
 		if (res != null)
@@ -59,6 +67,8 @@ public class UmlAnalysisContractDuties extends UmlAnalysisContractAbstract
 
 			SmtConstraint not = new SmtConstraint("not").addConstraint(dutyCon);
 			SmtConstraint and = new SmtConstraint("and").addConstraint(not);
+			// SmtConstraint not2 = new
+			// SmtConstraint("not").addConstraint(trigCon);
 			and.addConstraint(trigCon);
 			String extra = and.toText();
 			extra = "(assert (! " + extra + " :named a_duty))\n\n";
@@ -106,6 +116,8 @@ public class UmlAnalysisContractDuties extends UmlAnalysisContractAbstract
 			String code = smtModel.toText(extra);
 			if (code == null)
 				return;
+			// code = "(set-option :produce-unsat-cores true)\n" + code;
+			// code += "(get-unsat-core)";
 
 			String name = duty.getName();
 			if ((name == null) || name.isBlank())

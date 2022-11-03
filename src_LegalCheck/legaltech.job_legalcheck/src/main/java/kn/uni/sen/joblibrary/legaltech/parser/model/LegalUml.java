@@ -1,5 +1,11 @@
 package kn.uni.sen.joblibrary.legaltech.parser.model;
 
+/**
+ * legal UML model and its key words in english
+ * todo: use only the UML meta-model of a contract in legal.xsd
+ * 
+ * @author Martin Koelbl
+ */
 public class LegalUml
 {
 	static UmlModel model = null;
@@ -45,6 +51,7 @@ public class LegalUml
 	public static final String Withdrawal = "RestitutionClaim";
 	public static final String Content = "Content";
 	public static final String Closing = "Closing";
+	public static final String Signing = "Signing";
 	public static final String PurchaseObject = "Object";
 	public static final String PropertyRight = "PropertyRight";
 	public static final String From = "From";
@@ -65,7 +72,7 @@ public class LegalUml
 	public static final String FactTextB = "TextBreached";
 	public static final String FactEval = "Eval";
 	public static final String Item = "Item";
-	public static final String Indemnity = "Indemnity";
+	public static final String Indemnity = "IndemnityClaim";
 	public static final String Legal = "Legal";
 	public static final String Consequence = "Trigger";
 
@@ -261,6 +268,7 @@ public class LegalUml
 		UmlNode vertrag = new UmlNode("class" + counter++, SPA);
 		vertrag.addInheritate(folge);
 		vertrag.addAttribute(new UmlAttribute(Closing, Closing, date));
+		vertrag.addAttribute(new UmlAttribute(Signing, Signing, date));
 		addAssociation(vertrag, Purchaser, person);
 		addAssociation(vertrag, Seller, person);
 		addAssociation(vertrag, PurchaseObject, gegenstand);

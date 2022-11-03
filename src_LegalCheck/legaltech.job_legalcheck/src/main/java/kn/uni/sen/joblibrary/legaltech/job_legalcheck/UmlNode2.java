@@ -6,6 +6,11 @@ import org.w3c.dom.Element;
 
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
 
+/**
+ * stores a UML class node
+ * 
+ * @author Martin Koelbl
+ */
 public class UmlNode2
 {
 	Element ele;

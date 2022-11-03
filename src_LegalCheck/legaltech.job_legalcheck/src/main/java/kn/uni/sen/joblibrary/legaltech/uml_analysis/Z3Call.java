@@ -18,11 +18,15 @@ import com.microsoft.z3.Status;
 
 import kn.uni.sen.jobscheduler.common.resource.ResourceString;
 
+/**
+ * interface to run the Z3 SMT solver
+ *  
+ * @author Martin Koelbl
+ */
 public class Z3Call
 {
 	// Model modelSolution;
 	String eliminatedModel = null;
-	Z3ContextResult logger;
 
 	double memoryS = Double.NaN;
 	double memory = Double.NaN;
@@ -45,11 +49,6 @@ public class Z3Call
 	protected void finalize()
 	{
 		ctx.close();
-	}
-
-	public void setEventLogger(Z3ContextResult logger)
-	{
-		this.logger = logger;
 	}
 
 	Context ctx = null;

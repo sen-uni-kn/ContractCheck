@@ -3,6 +3,11 @@ package kn.uni.sen.joblibrary.legaltech.parser.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * stores a UML class node
+ * 
+ * @author Martin Koelbl
+ */
 public class UmlNode extends UmlElementSimple
 {
 	public UmlNode(String id, String name)

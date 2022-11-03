@@ -18,9 +18,11 @@ public class Test_MainLegalCheck extends JobAbstractTest
 		// nameFile = "ContractGood.xml";
 		// nameFile = "ShareDeal5.6.xmi";
 		// nameFile = "brezenvertrag_object.json";
-		// nameFile = "brezenvertrag_bad.json";
-		// nameFile = "pretzelSPA_bad.json";
-		nameFile = "pretzelSPA2_bad.json";
+		nameFile = "brezenvertrag_bad.json";
+		// nameFile = "pretzelSPA2_bad.json";
+		// nameFile = "pretzelSPA3_bad.json";
+		// nameFile = "contract_long.json";
+		// nameFile = "pretzelSPA_twice.json";
 	}
 
 	String xsdFile = "legal.xsd";
@@ -29,6 +31,7 @@ public class Test_MainLegalCheck extends JobAbstractTest
 	protected Job createJob()
 	{
 		// ignoreTest = true;
+		// logger.getFilterList().clear();
 		return new Job_LegalCheck(this);
 	}
 

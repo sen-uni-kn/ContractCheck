@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableAsync
 public class LegalTechWebEditor implements WebMvcConfigurer
 {
-	public static final String version = "1.0.0";
+	public static final String version = "1.2.0";
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry)

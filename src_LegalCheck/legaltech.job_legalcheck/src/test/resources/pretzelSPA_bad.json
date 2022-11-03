@@ -47,7 +47,7 @@
 			"Assignment": [
 				"c2.Item=1.1",
 				"purchaser.Name=Chris",
-				"seller.Name=Anna",
+				"seller.Name=Eva",
 				"spa.Seller=$seller",
 				"spa.Purchaser=$purchaser",
 				"spa.Closing=$transfer.DueDate",
@@ -84,7 +84,7 @@
 			"Assignment": [
 				"c2.Item=1.2",
 				"claim=$Block1_transfer",
-				"reward.Trigger=$claim",
+				"claim.Trigger=$reward",
 				"reward.Name=Reward Purchaser",
 				"reward.DueDate=14",
 				"reward.Debtor=$claim.Creditor",
@@ -101,7 +101,7 @@
 			],
 			"Assignment": [
 				"claim=$Block1_payment",
-				"reward.Trigger=$claim",
+				"claim.Trigger=$reward",
 				"reward.Name=Reward Seller",
 				"reward.DueDate=14",
 				"reward.Debtor=$claim.Creditor",

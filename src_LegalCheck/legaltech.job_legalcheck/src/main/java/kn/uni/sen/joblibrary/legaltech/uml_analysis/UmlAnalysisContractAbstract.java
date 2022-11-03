@@ -24,6 +24,12 @@ import kn.uni.sen.jobscheduler.common.resource.ResourceDouble;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 
+/**
+ * An abstract class that generates a contract constraint system that encodes a
+ * single execution of the contract and is modified for a concrete analysis
+ * 
+ * @author Martin Koelbl
+ */
 public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 {
 	public UmlAnalysisContractAbstract(Job j, String name)
@@ -42,6 +48,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 
 	int dutyCount = -1;
 	UmlNode2 duty = null;
+	UmlNode2 trigLimit = null;
 	boolean withSoft = true;
 
 	String statisticsFile;
@@ -98,8 +105,12 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 				this.duty = duty;
 			}
 		}
+		// smtModel.addCommand(new SmtCommand("check-sat"));
+		// if (Helper.getOperatingSystem() != OpSys.WINDOWS)
+		// smtModel.addCommand(new SmtCommand("get-model"));
 
-		// create persons
+		// create person
+		// UmlNode personClass = model.getClass("Person");
 		List<UmlNode2> persons = model.getClassInstances(LegalUml.Person);
 		for (UmlNode2 person : persons)
 		{
@@ -107,6 +118,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		}
 
 		// create things
+		// UmlNode thingClass = model.getClass("Unternehmen"); //Gegenstand
 		List<UmlNode2> things = model.getClassInstances(LegalUml.Object);
 		for (UmlNode2 thing : things)
 		{
@@ -146,6 +158,9 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		SmtConstraint ass = smtModel.createAssert(LegalUml.Registration, 9);
 		SmtConstraint and = new SmtConstraint("and");
 		ass.addConstraint(and);
+		// true is just added to ensure that create file is not failing because
+		// of empty and
+		and.addConstraint(new SmtConstraint("true"));
 
 		List<UmlNode2> list = model.getClassInstances(LegalUml.LegalPerson);
 		for (UmlNode2 ein : eintrags)
@@ -216,7 +231,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 
 		SmtDeclare preis = smtModel.addDeclaration(new SmtDeclare("const", "Preis_" + p.getName(), "Int"));
 		SmtDeclare anpas = smtModel.addDeclaration(new SmtDeclare("const", "Preis_Anpassung", "Int"));
-		SmtConstraint ass = smtModel.createAssert(getCorrectedName(p.getName()), 8);
+		SmtConstraint ass = smtModel.createAssert(getCorrectedName(p.getName()), 7);
 
 		SmtConstraint preisCon = new SmtConstraint(val.replace("€", ""));
 		if (schadenList.isEmpty())
@@ -320,8 +335,10 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 				createPerformance(model, ass, dc, dec);
 		}
 		if (asss.size() != 0)
+			// claim is not a warranty
 			return;
 
+		// below handle warranties
 		List<UmlNode2> attrs = dc.getAssoziationsByName(LegalUml.Content);
 		for (UmlNode2 attr : attrs)
 		{
@@ -370,7 +387,10 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 			thingVar = m.group(1).substring(1);
 			// System.out.println(thingVar);
 		} else
+		{
+
 			return;
+		}
 
 		UmlNode2 per = dc.getAssoziationByName(LegalUml.Debtor);
 		if (per == null)
@@ -724,7 +744,9 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		if (val.startsWith("("))
 			return val;
 
-		String start = min.toText();
+		String start = null;
+		if (min != null)
+			start = min.toText();
 		if ((start == null) || start.isEmpty())
 			start = "0";
 
@@ -734,11 +756,12 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		return val;
 	}
 
-	public String getLatest(UmlModel2 model, UmlNode2 duty, SmtElement min)
+	public String getLimitation(UmlModel2 model, UmlNode2 duty, SmtElement min)
 	{
 		if (duty == null)
 			return null;
-		String val = duty.getAttributeValue(LegalUml.Latest);
+
+		String val = duty.getAttributeValue(LegalUml.Limitation);
 		if (val != null)
 		{
 			if ((val.startsWith("+")) || (val.startsWith("(")))
@@ -756,7 +779,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		return null;
 	}
 
-	private SmtElement getClaimDateMin(UmlModel2 model, UmlNode2 claim, UmlNode2 duty)
+	protected SmtElement getClaimDateMin(UmlModel2 model, UmlNode2 claim, UmlNode2 duty)
 	{
 		if (claim == null)
 			return new SmtConstraint("0");
@@ -771,7 +794,15 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		}
 
 		if (isDutyGarantie(duty))
+		{
+			String val = getDueDate(model, claim);
+			if (val != null)
+			{
+				SmtConstraint con = new SmtConstraint(val);
+				return con;
+			}
 			return listDutyClaim.get(duty.getElement());
+		}
 
 		String val = getDueDate(model, duty);
 		if (val == null)
@@ -783,20 +814,20 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 	{
 		if (claim.inheritatesFrom(LegalUml.PrimaryClaim))
 		{
-			String val = getLatest(model, claim, min);
+			String val = getLimitation(model, claim, min);
 			if ((val != null) && !!!val.isEmpty())
 				return new SmtConstraint(val);
 			return null;
 		} else if (duty == null)
 		{
 			// claim has no trigger
-			String val = getLatest(model, claim, min);
+			String val = getLimitation(model, claim, min);
 			if (val == null)
 				return null;
 			return new SmtConstraint(val);
 		}
 
-		String claimFrist = getLatest(model, claim, min);
+		String claimFrist = getLimitation(model, claim, min);
 		if (claimFrist == null)
 			return null;
 
@@ -888,10 +919,14 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 				and.addConstraint(new SmtConstraint("<").addConstraint(min).addConstraint(dutyFunc));
 		}
 		SmtElement max = getClaimDateMax(model, dc, duty, min);
-		if (max != null)
+		if ((trigLimit != null) && (dc.getElement() == trigLimit.getElement()))
+			// ignore Limitation of trigger in Limitation Analysis
+			; // System.out.println("ignore Limit");
+		else if (max != null)
 			and.addConstraint(new SmtConstraint("<").addConstraint(dutyFunc).addConstraint(max));
-		else if ((min != null) && (duty == null))
-			and.addConstraint(new SmtConstraint("<=").addConstraint(dutyFunc).addConstraint(min));
+		// else if ((min != null) && (duty == null))
+		// and.addConstraint(new
+		// SmtConstraint("<=").addConstraint(dutyFunc).addConstraint(min));
 
 		SmtConstraint as2 = smtModel.createAssert(name1, 3);
 		SmtConstraint or = new SmtConstraint("or");
@@ -911,10 +946,10 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		List<UmlNode2> bedList = duty.getAssoziationsByName(LegalUml.Performance);
 		if (bedList.size() <= 0)
 		{
-			reportWarning("Missing Performance in Duty " + name + " and is ignored.");
-			return;
+			reportWarning("Missing Performance in Claim " + name);
+			// return;
 		} else if (bedList.size() >= 2)
-			reportWarning("Several attributes Performance in Duty " + name);
+			reportWarning("Several attributes Performance in Claim " + name);
 
 		// if (claims.isEmpty())
 		// reportWarning("Missing claims for Duty " + duty.getName());
@@ -939,6 +974,10 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 			or.addConstraint(new SmtConstraint(">=").addConstraint(clFunc).addConstraint(new SmtConstraint("0")));
 			if (withSoft)
 			{
+				if ((trigLimit != null) && (claim.getElement() == trigLimit.getElement()))
+					// ignore soft-assert of trigger in Limitation Analysis
+					continue; // System.out.println("ignore Limit");
+
 				SmtConstraint asD = smtModel.createAssertSoft(null, 4);
 				asD.addConstraint(new SmtConstraint("<").addConstraint(clFunc).addConstraint(new SmtConstraint("0")));
 			}
@@ -968,13 +1007,13 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		{
 			statisticsFile = ResourceFolder.appendFolder(job.getFolderText(), "statistics.txt");
 			ResourceFile.removeFile(statisticsFile);
-			String head = "name & time & mem & constraints & variables";
+			String head = "name & time & mem & constraints & variables\\\\\n";
 			ResourceFile.appendText2File(statisticsFile, head);
 		}
 
 		String fullName = anaName + name;
 		String text = fullName + " & " + timeZ3 + "s & " + memZ3 + "MB & " + constraintCount + " & " + varCount
-				+ "\\\\";
+				+ "\\\\\n";
 		ResourceFile.appendText2File(statisticsFile, text);
 	}
 }

@@ -1,5 +1,10 @@
 package kn.uni.sen.joblibrary.legaltech.parser.model;
 
+/**
+ * data structure e.g. to store two elements as one element in a list
+ * 
+ * @author Martin Koelbl
+ */
 public class Pair<T1, T2>
 {
 	protected T1 key;
