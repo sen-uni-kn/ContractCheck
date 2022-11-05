@@ -75,6 +75,7 @@ public class LegalUml
 	public static final String Indemnity = "IndemnityClaim";
 	public static final String Legal = "Legal";
 	public static final String Consequence = "Trigger";
+	public static final String Depend = "Depend";
 
 	public static final String Clause = "Clause";
 	public static final String Clause1 = "Clause1";
@@ -198,6 +199,7 @@ public class LegalUml
 		regelung.addAttribute(new UmlAttribute(FactTextG, FactTextG, stringN));
 		regelung.addAttribute(new UmlAttribute(FactTextB, FactTextB, stringN));
 		addAssociation(regelung, Debtor, person);
+		addAssociation(regelung, Depend, regelung);
 		addAssociation(regelung, Creditor, person);
 		addAssociation(regelung, Performance, function);
 		model.addNode(regelung);

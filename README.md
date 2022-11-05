@@ -7,6 +7,11 @@ Analysis tool for legal artifacts.
 For the installation make sure that JDK newer than version 11 and Maven are installed on your system. This guide shows the process in Eclipse thus it is recommended to use a new version of Eclipse as your IDE.
 You also need to install the <a href="https://github.com/z3prover/z3/pkgs/container/z3">Z3Prover</a> for the analysis.
 
+## Examples
+
+Two contract encodings and can be analyzed `pretzelSPA_bad.json` and `contract_long.json`.
+The contracts are in the folder `src_LegalCheck/legaltech.job_legalcheck/src/test/resources`.
+
 ## Installation
 
 ### Download Jobscheduler
@@ -67,7 +72,7 @@ keytool -genkeypair -alias tomcat -keyalg RSA -keysize 2048 -storetype PKCS12 -k
 
 - Type in the username and password found in `application.properties` at `spring.security.user.name` and `spring.security.user.password`
 
-- You can now load a contract (e.g. `pretzelSPA_bad.json` in `src-LegalCheck/legaltech.job_legalcheck/src/test/resources`) via New Contract
+- You can now load a contract (e.g. `pretzelSPA_bad.json` in `src_LegalCheck/legaltech.job_legalcheck/src/test/resources`) via New Contract
 
 ### Z3 Installation Tips
 

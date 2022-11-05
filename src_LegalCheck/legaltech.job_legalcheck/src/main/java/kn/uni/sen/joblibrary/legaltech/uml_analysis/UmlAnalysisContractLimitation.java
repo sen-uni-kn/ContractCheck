@@ -77,6 +77,26 @@ public class UmlAnalysisContractLimitation extends UmlAnalysisContractAbstract
 		// return and.addConstraint(smaller);
 	}
 
+	// hack: needed to specify the duties to generate
+	// counts index of duty to generate
+	int dutyCount = -1;
+	// stores duty to generate
+	UmlNode2 duty = null;
+
+	@Override
+	protected List<UmlNode2> getDuties2Generate(List<UmlNode2> duties)
+	{
+		dutyCount = duties.size();
+		if (dutyCount < 0)
+			// generate all duties
+			return duties;
+		// generate duty by specified index
+		List<UmlNode2> list = new ArrayList<>();
+		if (dutyCount < duties.size())
+			list.add(duties.get(dutyCount));
+		return list;
+	}
+
 	public void checkDutiesTiming(UmlModel2 model)
 	{
 		List<UmlNode2> claims = model.getClassInstances(LegalUml.Claim);

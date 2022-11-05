@@ -1,5 +1,6 @@
 package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +28,7 @@ public class UmlAnalysisContractDoubleJeopardy extends UmlAnalysisContractAbstra
 		super(j, name);
 	}
 
-	public void checkTriggers(UmlModel2 model, String name, SmtModel smtModel)
+	void checkTriggers(UmlModel2 model, String name, SmtModel smtModel)
 	{
 		List<UmlNode2> claims = model.getClassInstances(LegalUml.Claim);
 		Set<UmlNode2> triggers = getTriggerSet(claims, duty);
@@ -87,7 +88,27 @@ public class UmlAnalysisContractDoubleJeopardy extends UmlAnalysisContractAbstra
 		}
 	}
 
-	public void checkDutiesDoubleJeopardy(UmlModel2 model)
+	// hack: needed to specify the duties to generate
+	// counts index of duty to generate
+	int dutyCount = -1;
+	// stores duty to generate
+	UmlNode2 duty = null;
+
+	@Override
+	protected List<UmlNode2> getDuties2Generate(List<UmlNode2> duties)
+	{
+		dutyCount = duties.size();
+		if (dutyCount < 0)
+			// generate all duties
+			return duties;
+		// generate duty by specified index
+		List<UmlNode2> list = new ArrayList<>();
+		if (dutyCount < duties.size())
+			list.add(duties.get(dutyCount));
+		return list;
+	}
+
+	void checkDutiesDoubleJeopardy(UmlModel2 model)
 	{
 		// for every primary claim and independent claim create code
 		for (dutyCount = 0; dutyCount == 0 || duty != null; dutyCount++)

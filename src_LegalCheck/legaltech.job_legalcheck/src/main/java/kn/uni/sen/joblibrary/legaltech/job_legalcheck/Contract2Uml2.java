@@ -19,7 +19,8 @@ import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 
-/** Converts a @see Contract in a UML class diagram
+/**
+ * Converts a @see Contract in a UML class diagram
  * 
  * @author Martin Koelbl
  */
@@ -217,7 +218,7 @@ public class Contract2Uml2
 		String idAttr = getIDAttr(id);
 		idAttr = parseLanguage(idAttr);
 		if (val.startsWith("$"))
-		{
+		{ // is reference to another variable
 			String name2 = val.substring(1);
 			Element n = getNodeByID(model, name2);
 			String ids = idCard + "_" + name2;

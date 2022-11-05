@@ -15,8 +15,8 @@ public class LegalUmlGerman
 
 	static void addLanguage()
 	{
-		german.add(new String[] { "SPA", "Unternehmenskaufvertrag" });
-		german.add(new String[] { "LegalPerson", "JuristischePerson" });
+		german.add(new String[] { LegalUml.SPA, "Unternehmenskaufvertrag" });
+		german.add(new String[] { LegalUml.LegalPerson, "JuristischePerson" });
 		german.add(new String[] { "NaturalPerson", "NatuerlichePerson" });
 		german.add(new String[] { "Corporation", "Gesellschaft" });
 		german.add(new String[] { "Claim", "Verpflichtung" });

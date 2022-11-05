@@ -9,6 +9,7 @@ import kn.uni.sen.joblibrary.legaltech.cards.ContractParser;
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.ReportResult;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysis;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractClaimDependency;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractDoubleJeopardy;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractDuties;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractLimitation;
@@ -112,10 +113,12 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 		if (resA == null)
 		{
 			resA = new ResourceString(UmlAnalysisSyntax.Name);
+			resA.addNext(new ResourceString(UmlAnalysisSyntax.Name));
 			resA.addNext(new ResourceString(UmlAnalysisContractDuties.Name));
 			resA.addNext(new ResourceString(UmlAnalysisContractPriceChangeTime.Name));
-			resA.addNext(new ResourceString(UmlAnalysisContractDoubleJeopardy.Name));
 			resA.addNext(new ResourceString(UmlAnalysisContractLimitation.Name));
+			resA.addNext(new ResourceString(UmlAnalysisContractDoubleJeopardy.Name));
+			resA.addNext(new ResourceString(UmlAnalysisContractClaimDependency.Name));
 		}
 		while (resA != null)
 		{
@@ -132,8 +135,10 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 				anas.add(new UmlAnalysisContractMinMax(this, val, resV));
 			if (val.equals(UmlAnalysisContractLimitation.Name))
 				anas.add(new UmlAnalysisContractLimitation(this, val));
-			if (val.equals(UmlAnalysisContractDoubleJeopardy.Name))
+			if (val.equals(UmlAnalysisContractDoubleJeopardy.Name))				
 				anas.add(new UmlAnalysisContractDoubleJeopardy(this, val));
+			if (val.equals(UmlAnalysisContractClaimDependency.Name))				
+				anas.add(new UmlAnalysisContractClaimDependency(this, val));
 			resA = resA.getNextByType();
 		}
 		return anas;

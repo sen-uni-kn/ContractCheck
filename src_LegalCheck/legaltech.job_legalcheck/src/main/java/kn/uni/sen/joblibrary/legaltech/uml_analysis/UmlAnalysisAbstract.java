@@ -128,6 +128,24 @@ public abstract class UmlAnalysisAbstract implements UmlAnalysis
 		report.reportResult(this, res);
 	}
 
+	Set<UmlNode2> getDependentSet(List<UmlNode2> claimList, UmlNode2 claim)
+	{
+		Set<UmlNode2> set = new HashSet<>();
+		String name = claim.getName();
+		for (UmlNode2 c : claimList)
+		{
+			UmlNode2 cn = c.getAssoziationByName(LegalUml.Depend);
+			if (cn == null)
+				continue;
+			String val = cn.getName();
+			if (val == null)
+				continue;
+			if (val.contains(name))
+				set.add(c);
+		}
+		return set;
+	}
+
 	Set<UmlNode2> getTriggerSet(List<UmlNode2> claimList, UmlNode2 claim)
 	{
 		Set<UmlNode2> set = new HashSet<>();

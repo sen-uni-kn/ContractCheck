@@ -12,7 +12,9 @@ import kn.uni.sen.joblibrary.legaltech.parser.model.UmlAssociation;
 import kn.uni.sen.joblibrary.legaltech.parser.model.UmlAttribute;
 import kn.uni.sen.joblibrary.legaltech.parser.model.UmlNode;
 
-/**	Contract card formalizes some part of a contract text by variables and their assignment
+/**
+ * Contract card formalizes some part of a contract text by variables and their
+ * assignment
  * 
  * @author Martin Koelbl
  */

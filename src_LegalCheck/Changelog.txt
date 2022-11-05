@@ -1,14 +1,9 @@
-todo:
-
-- FormulaParser replace constants with variable values
-
-- Bug: computation of compensation does not work
-- Bug: WebInterface does not show some input elements
-
 Licenses:
  BSD-2-Clause License: https://github.com/bramp/js-sequence-diagrams
 
 Version 1.2.0
++ add realistic size contract (long_contract)
++ add analyses
 
 Version 1.1.0
 + first version in github
