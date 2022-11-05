@@ -27,11 +27,7 @@
 	</scm>
 	<modules>
 		<module>legaltech.job_legalcheck</module>
-		<module>legaltech.job_legalcard</module>
-		<module>legaltech.job_legalexecute</module>
-		<module>legaltech.job_contractcheck</module>
 		<module>legaltech.joblibrary</module>
-		<module>legaltech.web</module>
 		<module>legaltech.webeditor</module>
 	</modules>
 </project>
