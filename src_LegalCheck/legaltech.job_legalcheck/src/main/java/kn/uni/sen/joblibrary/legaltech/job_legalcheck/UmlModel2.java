@@ -43,7 +43,8 @@ import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 
-/** data structure to store a UML class diagram
+/**
+ * data structure to store a UML class diagram
  * 
  * @author Martin Koelbl
  */
@@ -656,7 +657,7 @@ public class UmlModel2
 			val = n.getElement().getTextContent();
 			if ((val == null) || (val.isEmpty()))
 				return null;
-		};
+		}
 		return val;
 	}
 

@@ -46,8 +46,6 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 	public static final String owner = "owner";
 	public static final String registration = "registration";
 
-	int dutyCount = -1;
-	UmlNode2 duty = null;
 	UmlNode2 trigLimit = null;
 	boolean withSoft = true;
 
@@ -60,11 +58,11 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		thingMap.clear();
 		listDutyClaim.clear();
 		schadenList.clear();
-		duty = null;
 		smtModel = new SmtModel();
 		SmtConstraint.Count = 0;
 	}
 
+	// core function to generate the SMT code of a contract
 	@Override
 	public SmtModel createSMTCode(UmlModel2 model)
 	{
@@ -96,15 +94,13 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 
 		// create every duty and depending claims
 		List<UmlNode2> duties = contract.getAssoziationsByName(LegalUml.Claim);
-		for (int i = 0; i < duties.size(); i++)
-		{
-			UmlNode2 duty = duties.get(i);
-			if ((dutyCount < 0) || (dutyCount == i))
+		duties = getDuties2Generate(duties);
+		if (duties != null)
+			for (int i = 0; i < duties.size(); i++)
 			{
+				UmlNode2 duty = duties.get(i);
 				addDutyConstraint(model, duty);
-				this.duty = duty;
 			}
-		}
 		// smtModel.addCommand(new SmtCommand("check-sat"));
 		// if (Helper.getOperatingSystem() != OpSys.WINDOWS)
 		// smtModel.addCommand(new SmtCommand("get-model"));
@@ -151,6 +147,11 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		}
 
 		return smtModel;
+	}
+
+	protected List<UmlNode2> getDuties2Generate(List<UmlNode2> duties)
+	{
+		return duties;
 	}
 
 	private void createEintragungConstraint(UmlModel2 model, List<UmlNode2> eintrags, SmtDeclare einFunc)

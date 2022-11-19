@@ -77,13 +77,13 @@
 				<xs:sequence>
 					<xs:element name="Performance" type="Performance">
 					</xs:element>
-					<xs:element name="Creditor" maxOccurs="1" minOccurs="1">
+					<xs:element name="Creditor" minOccurs="1">
 						<xs:complexType>
 							<xs:attribute name="ref" type="xs:IDREF"
 								use="required" />
 						</xs:complexType>
 					</xs:element>
-					<xs:element name="Debtor" maxOccurs="1" minOccurs="1">
+					<xs:element name="Debtor" minOccurs="1">
 						<xs:complexType>
 							<xs:attribute name="ref" type="xs:IDREF"
 								use="required" />
@@ -92,6 +92,7 @@
 					<xs:element name="DueDate" type="Date"></xs:element>
 					<xs:element name="Arise" type="Date"></xs:element>
 					<xs:element name="Limitation" type="Date"></xs:element>
+					<xs:element name="Depend" type="Claim"></xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

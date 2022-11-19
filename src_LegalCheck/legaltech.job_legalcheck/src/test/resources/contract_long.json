@@ -160,6 +160,7 @@
 			],
 			"Assignment": [
 			    "c2.Item=2.4",
+			    "20_spa.Claim=$extra",
 			    "extra.Name=ExtraPay",
 			    "extra.Trigger='$ebitda>$val'",
 			    "extra.Debtor=$20_purchaser",
@@ -185,10 +186,18 @@
 			"Text":"($c2 ) The EBITDA shall be calculated on the basis of the adopted annual financial statements of the Company as of the end of the respective fiscal year. The Purchaser shall ensure that these are prepared in accordance with the provisions of the German Commercial Code (HGB) and the principles of proper accounting while maintaining valuation and balance sheet continuity and are forwarded to the Vendor with the auditor's report and a calculation of the additional purchase price attributable to the respective fiscal year within six months after the close of this fiscal year.",
 			"Multiplicity": "1",
 			"Variable": [
-			    "c2:Clause2"
+			    "c2:Clause2",
+			    "newyear:Date",
+			    "handover:PerformanceClaim"
 			],
 			"Assignment": [
-			    "c2.Item=2.6"
+			    "c2.Item=2.6",
+			    "20_spa.Claim=$handover",
+			    "newyear>=$20_signing",
+			    "newyear<=$20_signing+356",
+			    "handover.Debtor=$20_seller",
+			    "handover.Creditor=$20_purchaser",
+			    "handover.DueDate=$newyear+180"
 			]
 		},{
 			"ID": "94",
@@ -197,10 +206,14 @@
 			"Text":"($c2 ) The additional purchase price shall be due within ten banking days after adoption of the relevant annual financial statements of the Company for the second fiscal year of the earn-out period and shall be paid into an account to be designated by the seller no later than five banking days prior to the due date.",
 			"Multiplicity": "1",
 			"Variable": [
-			    "c2:Clause2"
+			    "c2:Clause2",
+			    "report_date:Date"
 			],
 			"Assignment": [
-			    "c2.Item=2.7"
+			    "c2.Item=2.7",
+			    "reportdate>=$93_newyear",
+			    "91_extra.Depend=$93_handover",
+			    "91_extra.DueDate=$reportdate+10"
 			]
 		},{
 			"ID": "100",
