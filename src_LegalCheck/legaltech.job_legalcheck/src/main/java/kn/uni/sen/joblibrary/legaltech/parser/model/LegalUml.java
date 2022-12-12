@@ -15,6 +15,7 @@ public class LegalUml
 	public static final String IntegerS = "Integer";
 	public static final String BooleanS = "Bool";
 	public static final String DateS = "Date";
+	public static final String FloatS = "Float";
 	public static final String Name = "Name";
 	public static final String SPA = "SPA";
 	public static final String Person = "Person";
@@ -66,7 +67,6 @@ public class LegalUml
 	public static final String Trigger = "Trigger";
 	public static final String Purchaser = "Purchaser";
 	public static final String Reference = "Reference";
-	//public static final String Tatbestand = "Tatbestand";
 	public static final String Performance = "Performance";
 	public static final String FactTextG = "TextPerformed";
 	public static final String FactTextB = "TextBreached";
@@ -76,6 +76,10 @@ public class LegalUml
 	public static final String Legal = "Legal";
 	public static final String Consequence = "Trigger";
 	public static final String Depend = "Depend";
+	public static final String PriceAdjustment = "PriceAdjustment";
+	public static final String Shares = "Shares";
+	public static final String Model = "Model";
+	public static final String Root = "Root";
 
 	public static final String Clause = "Clause";
 	public static final String Clause1 = "Clause1";
