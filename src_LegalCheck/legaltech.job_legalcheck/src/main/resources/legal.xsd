@@ -12,14 +12,18 @@
 		<xs:sequence>
 			<xs:element ref="Claim" maxOccurs="unbounded"
 				minOccurs="0" />
+			<xs:element ref="Depend"/>
 			<xs:element name="Signing" type="Date"></xs:element>
 			<xs:element name="Closing" type="Date"></xs:element>
 			<xs:element ref="PurchaseObject" minOccurs="1"></xs:element>
-			<xs:element ref="Price" maxOccurs="1" minOccurs="1"/>
+			<xs:element ref="Price" maxOccurs="1" minOccurs="1" />
 			<xs:element ref="Seller"></xs:element>
 			<xs:element ref="Purchaser" minOccurs="1"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:element name="Depend" type="Claim">
+	</xs:element>
 
 	<xs:element name="Claim" type="Claim">
 	</xs:element>
@@ -132,8 +136,8 @@
 		<xs:complexContent>
 			<xs:extension base="WarrantyClaim">
 				<xs:sequence>
-					<xs:element name="Damage" type="Function"></xs:element>
-					<xs:element name="Compensation" type="Function"></xs:element>
+					<xs:element name="Damage" type="Formula"></xs:element>
+					<xs:element name="Compensation" type="Formula"></xs:element>
 					<xs:element name="Max" type="xs:double"></xs:element>
 					<xs:element name="Min" type="xs:double"></xs:element>
 				</xs:sequence>
@@ -141,10 +145,51 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:simpleType name="Date">
-		<xs:restriction base="xs:string">
-		</xs:restriction>
-	</xs:simpleType>
+	<xs:complexType name="Type">
+		<xs:complexContent>
+			<xs:extension base="Legal">
+				<xs:sequence>
+					<xs:element ref="Formula" />
+					<xs:element name="Default" type="xs:string" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="Formula" type="Formula">
+	</xs:element>
+
+	<xs:element name="Type">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Type"></xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="Operand">
+		<xs:complexContent>
+			<xs:extension base="Legal">
+				<xs:choice maxOccurs="1">
+					<xs:element ref="Type" />
+					<xs:element name="Formula" type="Formula" />
+					<xs:element name="Value" type="xs:int"></xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Formula">
+		<xs:complexContent>
+			<xs:extension base="Legal">
+				<xs:sequence>
+					<xs:element name="Op1" type="Operand"></xs:element>
+					<xs:element name="Operator" type="xs:string"></xs:element>
+					<xs:element name="Op2" type="Operand"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
 	<xs:complexType name="Object">
 		<xs:complexContent>
@@ -195,7 +240,6 @@
 		</xs:sequence>
 	</xs:complexType>
 
-
 	<xs:complexType name="Clause1">
 		<xs:complexContent>
 			<xs:extension base="Clause"></xs:extension>
@@ -244,13 +288,13 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	
+
 	<xs:element name="From" type="Person">
 	</xs:element>
-	
+
 	<xs:element name="To" type="Person">
 	</xs:element>
-	
+
 	<xs:complexType name="PurchasePrice">
 		<xs:complexContent>
 			<xs:extension base="Object">
@@ -304,25 +348,30 @@
 		<xs:restriction base="xs:string"></xs:restriction>
 	</xs:simpleType>
 
+	<xs:complexType name="Date">
+		<xs:complexContent>
+			<xs:extension base="Type"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
 	<xs:simpleType name="String">
 		<xs:restriction base="xs:string"></xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="Integer">
-		<xs:restriction base="xs:integer"></xs:restriction>
-	</xs:simpleType>
+	<xs:complexType name="Integer">
+		<xs:complexContent>
+			<xs:extension base="Type"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-	<xs:simpleType name="Float">
-		<xs:restriction base="xs:float"></xs:restriction>
-	</xs:simpleType>
-
-	<xs:simpleType name="Function">
-		<xs:restriction base="xs:string"></xs:restriction>
-	</xs:simpleType>
+	<xs:complexType name="Float">
+		<xs:complexContent>
+			<xs:extension base="Type"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
 	<xs:complexType name="Legal">
 		<xs:attribute name="id" type="xs:ID" use="required" />
 	</xs:complexType>
-
 
 </xs:schema>

@@ -545,7 +545,7 @@ public class UmlModel2
 		String parType = ele.getNodeName();
 		UmlNode2 val = getClass(parType);
 		if (val != null)
-			type = val.getAttributeType(name);
+			type = val.getAttributeType(name);;
 		if (type == null || type.isEmpty())
 		{
 			System.out.println("Warning: Unkown type of Attribute " + name + " in " + parType);
