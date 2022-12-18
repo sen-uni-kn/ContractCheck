@@ -76,6 +76,7 @@ public class LegalUml
 	public static final String Legal = "Legal";
 	public static final String Consequence = "Trigger";
 	public static final String Depend = "Depend";
+	public static final String Integer = "Integer";
 
 	public static final String Clause = "Clause";
 	public static final String Clause1 = "Clause1";

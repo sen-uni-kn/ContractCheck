@@ -148,7 +148,7 @@
 				"thing=Pretzels",
 				"warranty.Debtor=$Block1_seller",
 				"Block1_spa.Claim=$warranty",
-				"warranty.Performance='(= Block6_count Block6_amount)'",
+				"warranty.Performance=Block6_count==Block6_amount",
 				"amount=10000"
 			]
 		},
@@ -203,7 +203,7 @@
 				"comp.Trigger=$claim",
 				"comp.Min=1000",
 				"comp.DueDate=+42",
-				"comp.Compensation=(*(/ (- Block6_amount Block6_count) 100) 1000)",
+				"comp.Compensation=((Block6_amount - Block6_count) / 100) * 1000",
 				"comp.Debtor=$claim.Debtor",
 				"comp.Creditor=$claim.Creditor",
 				"comp.Limitation=70"

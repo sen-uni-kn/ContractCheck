@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.w3c.dom.Element;
 
@@ -201,35 +203,33 @@ public class Contract2Uml2
 		return val;
 	}
 
+	// returns a variable referenced by a name
+	Element getReference(UmlModel2 model, String name, String idCard)
+	{
+		Element n = getNodeByID(model, name);
+		String ids = idCard + "_" + name;
+		if (n == null)
+			n = getNodeByID(model, ids);
+		return n;
+	}
+
 	public void setAssignmentValue(String id, String val, ContractCard c)
 	{
 		String idCard = c.getID();
-		// if (id.equals("rueckK.Schuldner"))
-		// System.out.println("");
-
-		// if ("Ruecktritt2_pflicht".startsWith(idCard + "_" + id))
-		// System.out.println("id");
-
 		String nodeID = c.getNodeFirstID(id);
-		Element node = getNodeByID(model, nodeID);
-		if (node == null)
-			node = getNodeByID(model, idCard + "_" + nodeID);
+		Element node = getReference(model, nodeID, idCard);
 
 		String idAttr = getIDAttr(id);
 		idAttr = parseLanguage(idAttr);
 		if (val.startsWith("$"))
 		{ // is reference to another variable
 			String name2 = val.substring(1);
-			Element n = getNodeByID(model, name2);
-			String ids = idCard + "_" + name2;
-			if (n == null)
-				n = getNodeByID(model, ids);
+			Element n = getReference(model, name2, idCard);
 			if (n == null)
 			{
-				System.out.println("Card: " + idCard + " " + val.substring(1) + " not found!");
+				System.out.println("Card: " + idCard + " " + name2 + " not found!");
 				return;
 			}
-
 			if ((node != null))
 			{
 				if (idAttr == null)
@@ -237,16 +237,32 @@ public class Contract2Uml2
 				model.addAssociation2Node(node, idAttr, n);
 			} else
 			{
+				// create reference entry
 				if (idAttr == null)
 					nodeMap.put(idCard + "_" + id, n);
 				else
 				{
 					System.out.println("" + id + " not found!");
-					return;
 				}
 			}
-		} else if (node != null)
+			return;
+		}
+
+		if (node == null)
 		{
+			System.out.println("Warning " + val + " ignored in Card " + c.getID());
+			return;
+		}
+
+		if (isFormula(val) && (idAttr != null))
+		{
+			// parse formula and assign to attribute
+			Element ele = createFormula(model, null, c, val);
+			model.addAssociation2Node(node, idAttr, ele);
+			return;
+		} else
+		{
+
 			String v = getIDValue(val);
 			if (idAttr != null)
 				model.addAttribute(node, idAttr, v);
@@ -255,12 +271,136 @@ public class Contract2Uml2
 		}
 	}
 
+	// searches for an operator in assign
+	// find == true -> ignores "="
+	int findOperator(String formula, boolean find)
+	{
+		// sequence of operators defines binding
+		Map<String, Integer> map = new HashMap<>();
+		String[] ops = { "<", ">", "=", "+", "-", "*", "/" };
+		for (String op : ops)
+			map.put(op, -1);
+		int brackets = 0;
+		// last sign cannot be an operator
+		for (int i = 0; i < formula.length() - 1; i++)
+		{
+			char c = formula.charAt(i);
+			if (c == '(')
+				brackets++;
+			if (c == ')')
+				brackets--;
+
+			// only if no bracket is open
+			if (brackets == 0)
+			{
+				// search for the first occurrence of every sign
+				Integer val = map.get("" + c);
+				if ((val != null) && (val == -1))
+				{
+					if (find && (c == '=') && (formula.charAt(i + 1) != '='))
+						// single equivalence could be an assignment
+						continue;
+					// remove "=" operator
+					map.put("" + c, i);
+				}
+			}
+		}
+		// return the most binding operator
+		for (String op : ops)
+		{
+			int idx = map.get(op);
+			if (idx != -1)
+				return idx;
+		}
+		return -1;
+	}
+
+	// remove brackets when
+	String checkBrackets(String form)
+	{
+		if (form.isEmpty() || form.charAt(0) != '(' || form.charAt(form.length() - 1) != ')')
+			return form;
+		int brackets = 1;
+		for (int i = 1; i < form.length() - 1; i++)
+		{
+			if (form.charAt(i) == '(')
+				brackets++;
+			else if (form.charAt(i) == ')')
+				brackets--;
+			if (brackets == 0)
+				// braket is closed in formula
+				return form;
+		}
+		// first character opens and last character closes same bracket pair
+		return form.substring(1, form.length() - 1);
+	}
+
+	public static boolean isValue(String val)
+	{
+		String rex = "^([+-]?\\d*\\.?\\d*)$";
+		Pattern pattern = Pattern.compile(rex);
+		Matcher matcher = pattern.matcher(val);
+		return matcher.matches();
+	}
+
+	int formulaCounter = 1;
+	int variableCounter = 1;
+
+	// (a + (b * 4)) < 4
+	private Element createFormula(UmlModel2 model, Element func, ContractCard c, String assign)
+	{
+		assign = checkBrackets(assign);
+		assign = assign.replace(" ", "");
+		int idx = findOperator(assign, false);
+		if (idx < 0)
+		{
+			Element var = getReference(model, assign, c.getID());
+			if (var != null)
+			{ // is reference to another variable
+				return var;
+			} else if (isValue(assign))
+			{ // is value
+				String name = "" + c.getID() + "_" + (variableCounter++);
+				Element n = createNode(model, null, LegalUml.Integer, name);
+				n.setTextContent(assign);
+				return n;
+			} else
+				System.out.println("Card: " + c.getID() + " " + assign + " not found!");
+		}
+		String id = c.getID() + "_formula" + (formulaCounter++);
+		Element n = createNode(model, null, "Formula", id);
+		String left = assign.substring(0, idx);
+		String op = "" + assign.charAt(idx);
+		if (assign.charAt(idx + 1) == '=')
+		{
+			op += "=";
+			idx += 1;
+		}
+		String right = assign.substring(idx + 1);
+		Element op1 = createFormula(model, n, c, left);
+		Element op2 = createFormula(model, n, c, right);
+		if ((op1 == null) || (op2 == null))
+			// an operand is missing
+			return null;
+		model.addAssociation2Node(n, "Op1", op1);
+		model.addAttribute(n, "Operator", op);
+		model.addAssociation2Node(n, "Op2", op2);
+		return n;
+	}
+
 	public void convertAssignmentCard(UmlModel2 model, ContractCard c)
 	{
 		for (String assign : c.getAssignmentList())
 		{
 			if (assign.startsWith("%"))
 				continue;
+
+			if (isFormula(assign) && !isAssignment(assign))
+			{ // assignment is an additional constraint for a variable
+				assign = assign.replace("'", "");
+				createFormula(model, null, c, assign);
+				continue;
+			}
 
 			// System.out.println(v);
 			String id = c.getAssignmentName(assign);
@@ -279,6 +419,32 @@ public class Contract2Uml2
 			}
 			setAssignmentValue(id, val, c);
 		}
+	}
+
+	private boolean isAssignment(String assign)
+	{
+		// search for "=" and not "=="
+		// would be nicer with a regex
+		assign = assign.replace("<=", "").replace(">=", "").replace("==", "");
+		if (assign.contains("="))
+			return true;
+		return false;
+	}
+
+	private boolean isFormula(String assign)
+	{
+		if (assign.startsWith("${"))
+			// '${' is start for search query
+			return false;
+		if (assign.contains("=+"))
+			// special assignment, no formula
+			return false;
+
+		int idx = findOperator(assign, true);
+		if (idx < 0)
+			// no operator found -> no formula
+			return false;
+		return true;
 	}
 
 	private void convertAssignmentCard2(UmlModel2 model, String assign, ContractCard card)
