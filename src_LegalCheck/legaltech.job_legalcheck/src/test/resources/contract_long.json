@@ -123,7 +123,7 @@
 			    "claim.Name=RatePrice",
 			    "claim.Debtor=$20_purchaser",
 			    "claim.Creditor=$20_seller",
-			    "claim.Change='($70_price*$rate)/100*(($20_spa.Closing-$date)/365)'",
+			    "claim.Compensation='($70_price*$rate)/100*(($20_spa.Closing-$date)/365)'",
 			    "claim.DueDate=$date"
 			]
 		},{
@@ -563,10 +563,9 @@
 			    "war.Name=WellBehave",
 			    "war.Debtor=$20_seller",
 			    "war.Creditor=$20_purchaser",
-			    "war.DueDate=$date",
-			    "war.EndTime=$20_spa.Signing",
-			    "war.Content='$160_text'",
-			    "war.DueDate=0"
+			    "$date<=$20_spa.Signing",
+			    "war.DueDate=$20_spa.Signing",
+			    "war.Content='$160_text'"
 			]
 		},{
 			"ID": "311",

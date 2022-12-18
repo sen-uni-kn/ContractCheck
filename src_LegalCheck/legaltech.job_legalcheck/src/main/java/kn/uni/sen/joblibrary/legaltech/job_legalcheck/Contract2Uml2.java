@@ -47,8 +47,8 @@ public class Contract2Uml2
 			job.logEventStatus(JobEvent.WARNING, "Unkown Type " + type);
 		}
 
-		Element ele;
-		ele = model.createElement(parent, type, id);
+		//reuse old id when attribute already existed
+		Element ele = model.createElement(parent, type, id);
 		nodeMap.put(id, ele);
 		return ele;
 	}
@@ -140,7 +140,7 @@ public class Contract2Uml2
 		if (!!!clauseStack.empty())
 		{
 			Element par = clauseStack.peek();
-			model.addAssociation2Node(par, LegalUml.Legal, node);
+			model.addAssociation2Node(par, LegalUml.Reference, node);
 		}
 	}
 
@@ -211,9 +211,6 @@ public class Contract2Uml2
 		Element node = getNodeByID(model, nodeID);
 		if (node == null)
 			node = getNodeByID(model, idCard + "_" + nodeID);
-
-		// if("50_transfer".equals(nodeID))
-		// System.out.println("me");
 
 		String idAttr = getIDAttr(id);
 		idAttr = parseLanguage(idAttr);

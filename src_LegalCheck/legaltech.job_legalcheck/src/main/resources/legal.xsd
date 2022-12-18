@@ -10,42 +10,37 @@
 
 	<xs:complexType name="SPA">
 		<xs:sequence>
-			<xs:element name="Claim" maxOccurs="unbounded"
-				minOccurs="0">
-				<xs:complexType>
-					<xs:attribute name="ref" type="xs:IDREF"
-						use="required" />
-				</xs:complexType>
-			</xs:element>
+			<xs:element ref="Claim" maxOccurs="unbounded"
+				minOccurs="0" />
 			<xs:element name="Signing" type="Date"></xs:element>
 			<xs:element name="Closing" type="Date"></xs:element>
-			<xs:element name="PurchaseObject" minOccurs="1">
-				<xs:complexType>
-					<xs:attribute name="ref" type="xs:IDREF"
-						use="required" />
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="PurchasePrice" maxOccurs="1"
-				minOccurs="1">
-				<xs:complexType>
-					<xs:attribute name="ref" type="xs:IDREF"
-						use="required" />
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="Seller">
-				<xs:complexType>
-					<xs:attribute name="ref" type="xs:IDREF"
-						use="required" />
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="Purchaser" minOccurs="1">
-				<xs:complexType>
-					<xs:attribute name="ref" type="xs:IDREF"
-						use="required" />
-				</xs:complexType>
-			</xs:element>
+			<xs:element ref="PurchaseObject" minOccurs="1"></xs:element>
+			<xs:element ref="Price" maxOccurs="1" minOccurs="1"/>
+			<xs:element ref="Seller"></xs:element>
+			<xs:element ref="Purchaser" minOccurs="1"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:element name="Claim" type="Claim">
+	</xs:element>
+
+	<xs:element name="Seller" type="Person">
+	</xs:element>
+
+	<xs:element name="Purchaser" type="Person">
+	</xs:element>
+
+	<xs:element name="Price" type="PurchasePrice">
+	</xs:element>
+
+	<xs:element name="PurchaseObject" type="Object">
+	</xs:element>
+
+	<xs:element name="Creditor" type="Person">
+	</xs:element>
+
+	<xs:element name="Debtor" type="Person">
+	</xs:element>
 
 	<xs:complexType name="Person">
 		<xs:complexContent>
@@ -57,12 +52,16 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:element name="Person" type="Person">
+	</xs:element>
+
 	<xs:complexType name="PriceAdjustment">
 		<xs:complexContent>
 			<xs:extension base="SecondaryClaim">
 				<xs:sequence>
 					<xs:element name="Name" type="xs:string"></xs:element>
-					<xs:element name="Price" type="PurchasePrice" maxOccurs="1" minOccurs="1">
+					<xs:element name="Price" type="PurchasePrice"
+						maxOccurs="1" minOccurs="1">
 					</xs:element>
 					<xs:element name="Change" type="Performance">
 					</xs:element>
@@ -77,22 +76,13 @@
 				<xs:sequence>
 					<xs:element name="Performance" type="Performance">
 					</xs:element>
-					<xs:element name="Creditor" minOccurs="1">
-						<xs:complexType>
-							<xs:attribute name="ref" type="xs:IDREF"
-								use="required" />
-						</xs:complexType>
-					</xs:element>
-					<xs:element name="Debtor" minOccurs="1">
-						<xs:complexType>
-							<xs:attribute name="ref" type="xs:IDREF"
-								use="required" />
-						</xs:complexType>
-					</xs:element>
+					<xs:element ref="Creditor" minOccurs="1" />
+					<xs:element ref="Debtor" minOccurs="1" />
 					<xs:element name="DueDate" type="Date"></xs:element>
 					<xs:element name="Arise" type="Date"></xs:element>
 					<xs:element name="Limitation" type="Date"></xs:element>
 					<xs:element name="Depend" type="Claim"></xs:element>
+					<xs:element name="Non" type="xs:boolean"></xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -143,6 +133,7 @@
 			<xs:extension base="WarrantyClaim">
 				<xs:sequence>
 					<xs:element name="Damage" type="Function"></xs:element>
+					<xs:element name="Compensation" type="Function"></xs:element>
 					<xs:element name="Max" type="xs:double"></xs:element>
 					<xs:element name="Min" type="xs:double"></xs:element>
 				</xs:sequence>
@@ -197,9 +188,10 @@
 
 	<xs:complexType name="Clause">
 		<xs:sequence>
-			<xs:element name="item" type="xs:string"></xs:element>
-			<xs:element name="legal" type="Reference"></xs:element>
+			<xs:element name="Item" type="xs:string"></xs:element>
+			<xs:element ref="Reference"></xs:element>
 			<xs:element name="Clause" type="Clause"></xs:element>
+			<xs:element name="Clause2" type="Clause"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -222,25 +214,21 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="Reference">
-		<xs:attribute name="ref" type="xs:IDREF" use="required" />
-	</xs:complexType>
+	<xs:element name="Reference" type="Legal">
+	</xs:element>
+
+	<xs:element name="Owner" type="Person">
+	</xs:element>
+
+	<xs:element name="Property" type="Object">
+	</xs:element>
 
 	<xs:complexType name="PropertyRight">
 		<xs:complexContent>
 			<xs:extension base="Right">
 				<xs:sequence>
-					<xs:element name="Owner" type="Reference">
-						<xs:annotation>
-							<xs:appinfo>
-								<xs:attribute name="type2">
-									Person
-								</xs:attribute>
-							</xs:appinfo>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="Property" type="Reference">
-					</xs:element>
+					<xs:element ref="Owner" />
+					<xs:element ref="Property" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -248,32 +236,26 @@
 
 	<xs:complexType name="PropertyTransfer">
 		<xs:sequence>
-			<xs:element name="From" maxOccurs="1" minOccurs="1">
-				<xs:complexType>
-					<xs:attribute name="ref" type="xs:IDREF"
-						use="required" />
-				</xs:complexType>
+			<xs:element ref="From" maxOccurs="1" minOccurs="1">
 			</xs:element>
-			<xs:element name="To" maxOccurs="1" minOccurs="1">
-				<xs:complexType>
-					<xs:attribute name="ref" type="xs:IDREF"
-						use="required" />
-				</xs:complexType>
+			<xs:element ref="To" maxOccurs="1" minOccurs="1">
 			</xs:element>
-			<xs:element name="Property" maxOccurs="1" minOccurs="1">
-				<xs:complexType>
-					<xs:attribute name="ref" type="xs:IDREF"
-						use="required" />
-				</xs:complexType>
+			<xs:element ref="Property" maxOccurs="1" minOccurs="1">
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+	
+	<xs:element name="From" type="Person">
+	</xs:element>
+	
+	<xs:element name="To" type="Person">
+	</xs:element>
+	
 	<xs:complexType name="PurchasePrice">
 		<xs:complexContent>
 			<xs:extension base="Object">
 				<xs:sequence>
-					<xs:element name="Price" type="xs:double"></xs:element>
+					<xs:element name="Amount" type="xs:double"></xs:element>
 					<xs:element name="ChangeMin" type="xs:double">
 					</xs:element>
 					<xs:element name="ChangeMax" type="xs:double"></xs:element>

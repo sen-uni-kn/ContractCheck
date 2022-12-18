@@ -222,29 +222,30 @@ public class UmlModel2
 		return null;
 	}
 
-	private Element xPathSearchElement(Element start, String query)
+	public static Element xPathSearchElement(Element start, String query)
 	{
-		// Document docSchema = parseSchema();
-		// if (docSchema == null)
-		// return null;
-		// Given the id, go to correct place in XSD to get all the
-		// parameters
+		List<Element> list = xPathSearchElements(start, query);
+		if (list.isEmpty())
+			return null;
+		return list.get(0);
+	}
+
+	public static List<Element> xPathSearchElements(Element start, String query)
+	{
+		List<Element> list = new ArrayList<>();
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		try
 		{
 			NodeList result = (NodeList) xpath.compile(query).evaluate(start, XPathConstants.NODESET);
-			for (int i = 0; i < result.getLength();)
+			for (int i = 0; i < result.getLength(); i++)
 			{
-				Element e = (Element) result.item(i);
-				// System.out.println("" + e.getNodeName() + " = " +
-				// e.getAttribute("name"));
-				return e;
+				list.add((Element) result.item(i));
 			}
 		} catch (XPathExpressionException e1)
 		{
 			e1.printStackTrace();
 		}
-		return null;
+		return list;
 	}
 
 	private UmlNode2 xPathSearchNode(Element start, String query)
@@ -273,32 +274,6 @@ public class UmlModel2
 				if (n.getNodeType() != Node.ELEMENT_NODE)
 					continue;
 				list.add(new UmlNode2(this, (Element) n));
-			}
-		} catch (XPathExpressionException e1)
-		{
-			e1.printStackTrace();
-		}
-		return list;
-	}
-
-	private List<Element> xPathSearchElements(Element start, String query)
-	{
-		List<Element> list = new ArrayList<>();
-		Document docSchema = parseSchema();
-		if (docSchema == null)
-			return list;
-		// Given the id, go to correct place in XSD to get all the
-		// parameters
-		XPath xpath = XPathFactory.newInstance().newXPath();
-		try
-		{
-			NodeList result = (NodeList) xpath.compile(query).evaluate(start, XPathConstants.NODESET);
-			for (int i = 0; i < result.getLength(); i++)
-			{
-				Node n = result.item(i);
-				if (n.getNodeType() != Node.ELEMENT_NODE)
-					continue;
-				list.add((Element) n);
 			}
 		} catch (XPathExpressionException e1)
 		{
@@ -357,16 +332,21 @@ public class UmlModel2
 		return createElement(model, type, id);
 	}
 
-	public Element createElement(Element parent, String type, String id)
+	public Element createElement(Element parent, String type, String name)
 	{
 		type = replaceSigns(type);
-		UmlNode2 cl = getClass(type);
-		if (cl == null)
-			job.logEventStatus(JobEvent.WARNING, "Missing Class " + type);
+		if (!!!type.startsWith("xs:"))
+		{
+			// test whether type exists
+			UmlNode2 cl = getClass(type);
+			if (cl == null)
+				job.logEventStatus(JobEvent.WARNING, "Missing Class " + type);
+		} else
+			type = type.replace("xs:", "");
 
 		Element ele = doc.createElement(type);
-		if (id != null)
-			ele.setAttribute("name", id);
+		if (name != null)
+			ele.setAttribute("name", name);
 		setUniqueID(ele);
 		if (parent == null)
 			parent = model;
@@ -465,8 +445,11 @@ public class UmlModel2
 
 	public void addAssociation2Node(Element par, String name, Element node)
 	{
-		name = replaceSigns(name);
-		Element ass = doc.createElement(name);
+		String type = getAttributeType(par, name);
+		if (type == null)
+			return;
+		Element ele = createElement(par, type, name);
+
 		// ass.setAttribute("name", name);
 		String id = node.getAttribute("id");
 		if ((id == null) || id.isEmpty())
@@ -474,8 +457,7 @@ public class UmlModel2
 			System.out.println("Element is missing ID " + node.getNodeName() + " " + node.getAttribute("name"));
 			return;
 		}
-		ass.setAttribute("ref", id);
-		par.appendChild(ass);
+		ele.setAttribute("ref", id);
 	}
 
 	public boolean isRef(Element e)
@@ -507,15 +489,16 @@ public class UmlModel2
 		for (int i = 0; i < children.getLength(); i++)
 		{
 			Node ele = children.item(i);
-			if (name.equals(ele.getNodeName()))
-				if (ele.getNodeType() == Node.ELEMENT_NODE)
-				{
-					Element e = (Element) ele;
-					UmlNode2 node2 = new UmlNode2(this, e);
-					node2 = checkRef(node2);
-					if (node2 != null)
-						list.add(node2);
-				}
+			if (ele.getNodeType() == Node.ELEMENT_NODE)
+			{
+				Element e = (Element) ele;
+				if (!!!e.getAttribute("name").equals(name))
+					continue;
+				UmlNode2 node2 = new UmlNode2(this, e);
+				node2 = checkRef(node2);
+				if (node2 != null)
+					list.add(node2);
+			}
 		}
 		return list;
 	}
@@ -537,23 +520,43 @@ public class UmlModel2
 			return;
 		}
 		// remove old attributes
-		removeAttribute(par, name);
+		String id = removeAttribute(par, name);
+		String type = getAttributeType(par, name);
+		if (type == null)
+			return;
 
-		Element ass = doc.createElement(name);
-		// ass.setAttribute("name", name);
+		Element ass = createElement(par, type, id);
+		ass.setAttribute("name", name);
 		ass.setTextContent(v);
-		// ass.setAttribute("value", v);
-		par.appendChild(ass);
 	}
 
-	public void removeAttribute(Element par, String name)
+	// return type of attribute with name of Element ele
+	private String getAttributeType(Element ele, String name)
+	{
+		String type = null;
+		String parType = ele.getNodeName();
+		UmlNode2 val = getClass(parType);
+		if (val != null)
+			type = val.getAttributeType(name);
+		if (type == null || type.isEmpty())
+		{
+			System.out.println("Warning: Unkown type of Attribute " + name + " in " + parType);
+			return null;
+		}
+		return type;
+	}
+
+	public String removeAttribute(Element par, String name)
 	{
 		UmlNode2 n = getNodeByName(name);
+		String id = null;
 		while (n != null)
 		{
 			par.removeChild(n.getElement());
 			n = getNodeByName(name);
+			id = n.getID();
 		}
+		return id;
 	}
 
 	private UmlNode2 getElementByID(String id)
@@ -643,14 +646,22 @@ public class UmlModel2
 		return xPathSearchNode(model, query);
 	}
 
+	public String getAttributeValue2(Element ele, String name)
+	{
+		String val = ele.getAttribute(name);
+		if (val != null)
+			return val;
+		return val;
+	}
+
 	public String getAttributeValue(Element ele, String name)
 	{
-		String query = "" + name;
+		String query = "*[@name='" + name + "']";
 		UmlNode2 n = xPathSearchNode(ele, query);
 		if (n == null)
 			return null;
 		String val = null;
-		if (n.getElement().hasAttribute(name))
+		if (n.getElement().hasAttribute("value"))
 			val = n.getElement().getAttribute("value");
 		if (val == null)
 		{
@@ -663,7 +674,8 @@ public class UmlModel2
 
 	public void setNodeAttribute(Element node, String v)
 	{
-		node.setNodeValue(v);
+		// node.setNodeValue(v);
+		node.setTextContent(v);
 	}
 
 	public UmlNode2 getNodeByID(String ref)

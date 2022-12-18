@@ -377,6 +377,8 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 	private void createPerformance(UmlModel2 model, UmlNode2 ass, UmlNode2 dc, SmtDeclare dec)
 	{
 		String val = dc.getAttributeValue(LegalUml.Performance);
+		if (val == null)
+			return;
 
 		Pattern p = Pattern.compile("(.*?).transfer");
 		Matcher m = p.matcher(val);

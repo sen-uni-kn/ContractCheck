@@ -48,7 +48,7 @@
 				"spa.Purchaser=$purchaser",
 				"spa.Closing=28",
 				"shares.Name=Bakery AG",
-				"spa.Object=$shares",
+				"spa.PurchaseObject=$shares",
 				"spa.Claim=$transfer",
 				"spa.Closing=28",
 				"transfer.Name=TransferClaim",

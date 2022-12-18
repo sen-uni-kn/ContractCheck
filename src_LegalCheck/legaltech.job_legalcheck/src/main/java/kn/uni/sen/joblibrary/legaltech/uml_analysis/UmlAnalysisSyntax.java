@@ -58,7 +58,7 @@ public class UmlAnalysisSyntax extends UmlAnalysisAbstract
 		nodes = model.getClassInstances(LegalUml.Claim);
 		for (UmlNode2 node : nodes)
 		{
-			String name = node.getAttributeValue("Name");
+			String name = node.getAttributeValue(LegalUml.Name);
 			Set<UmlNode2> claims = getTriggerSet(nodes, node);
 			if (claims.isEmpty() && !!!node.inheritatesFrom(LegalUml.Withdrawal)
 					&& !!!node.inheritatesFrom(LegalUml.Supplementary)
