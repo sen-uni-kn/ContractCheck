@@ -2,6 +2,7 @@ package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,14 +58,24 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 
 	String statisticsFile;
 
+	// function owner uses uninterpreted functions
+	// to ensure single owner exists.
+	SmtDeclare ownerFunc = null;
+	// function reg uses uninterpreted functions
+	// to store known registrations
+	SmtDeclare regFunc = null;
+
 	void clearModel()
 	{
+		varList.clear();
 		personMap.clear();
 		thingMap.clear();
 		listDutyClaim.clear();
 		schadenList.clear();
 		smtModel = new SmtModel();
 		SmtConstraint.Count = 0;
+		ownerFunc = null;
+		regFunc = null;
 	}
 
 	SmtDeclare createVariable(UmlModel2 model, UmlNode2 cn, String nameD)
@@ -92,7 +103,11 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 			decl = smtModel.addDeclaration(decl);
 		} else if (LegalUml.IntegerS.equals(type))
 		{
-			decl = new SmtDeclare("const", name, "Int");
+			decl = new SmtDeclare("const", "Int_" + name, "Int");
+			decl = smtModel.addDeclaration(decl);
+		} else if (LegalUml.RealS.equals(type))
+		{
+			decl = new SmtDeclare("const", "Real_" + name, "Real");
 			decl = smtModel.addDeclaration(decl);
 		}
 		if (decl == null)
@@ -120,13 +135,10 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		return smtModel;
 	}
 
-	// function owner use uninterpreted functions
-	// to ensure single owner exists.
-	SmtDeclare ownerFunc = null;
-
 	void createDefault()
 	{
 		ownerFunc = smtModel.addDeclaration(new SmtDeclare("fun", owner, "(Int) Int"));
+		regFunc = smtModel.addDeclaration(new SmtDeclare("fun", registration, "(Int) Bool"));
 	}
 
 	@Override
@@ -155,7 +167,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 	{
 		claim = ele;
 		UmlNode2 claim = new UmlNode2(model, ele);
-		addDutyConstraint(model, claim);
+		addClaimConstraint(model, claim);
 	}
 
 	@Override
@@ -217,16 +229,14 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 			generateClaimDuty(model, node2, c);
 		}
 
-		List<UmlNode2> eigens = model.getClassInstances(LegalUml.PropertyRight);
-		SmtDeclare eigFunc = smtModel.addDeclaration(new SmtDeclare("fun", owner, "(Int) Int"));
-		for (UmlNode2 eigen : eigens)
+		List<UmlNode2> ownerShipList = model.getClassInstances(LegalUml.PropertyRight);
+		for (UmlNode2 own : ownerShipList)
 		{
-			createEigentumConstraint(model, eigen, eigFunc);
+			createEigentumConstraint(model, own, ownerFunc);
 		}
 
-		List<UmlNode2> eintrags = model.getClassInstances(LegalUml.Registration);
-		SmtDeclare einFunc = smtModel.addDeclaration(new SmtDeclare("fun", registration, "(Int) Bool"));
-		createEintragungConstraint(model, eintrags, einFunc);
+		List<UmlNode2> regs = model.getClassInstances(LegalUml.Registration);
+		createEintragungConstraint(model, regs, regFunc);
 
 		// create preis variable
 		List<UmlNode2> preiss = model.getClassInstances(LegalUml.Price);
@@ -235,18 +245,72 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 			createPreisConstraint(model, p);
 		}
 
-		for (Element key : varList.keySet())
+		// ignore already encoded constraints
+		Set<Element> consEncoded = new HashSet<>();
+		// store encoded variables
+		Set<Element> done = new HashSet<>();
+		// while since varList can change during encoding
+		while (varList.size() != done.size())
 		{
-			SmtDeclare val = varList.get(key);
-			createFormula(model, val);
+			Set<Element> list = new HashSet<>(varList.keySet());
+			list.removeAll(done);
+			for (Element var : list)
+			{
+				done.add(var);
+				createConstraints(model, var, consEncoded);
+			}
 		}
 	}
 
-	private void createFormula(UmlModel2 model, SmtDeclare val)
+	private SmtElement createFormula(UmlModel2 model, UmlNode2 form)
 	{
-		if (val == null)
-			return;
-		System.out.println("Error todo: implement");
+		String type = form.getNodeName();
+		if (LegalUml.Formula.equals(type))
+		{
+			UmlNode2 op1 = form.getAssoziationByName(LegalUml.Op1);
+			SmtElement con1 = createFormula(model, op1);
+			UmlNode2 op2 = form.getAssoziationByName(LegalUml.Op2);
+			SmtElement con2 = createFormula(model, op2);
+			String op = form.getAttributeValue(LegalUml.Operator);
+			if ((op == null) || (con1 == null) || (con2 == null))
+			{
+				System.out.println("Error formula could not be parsed");
+				return null;
+			}
+			SmtConstraint con = new SmtConstraint(op);
+			con.addConstraint(con1).addConstraint(con2);
+			return con;
+		} else if (LegalUml.IntegerS.equals(type))
+		{
+			String val = form.getContent();
+			return new SmtConstraint(val);
+		} else if (LegalUml.RealS.equals(type))
+		{
+			String val = form.getContent();
+			return new SmtConstraint(val);
+		} else if (model.inheritatesFrom(type, LegalUml.Type))
+		{
+			SmtDeclare sd = createVariable(model, form, null);
+			return sd;
+		}
+		System.out.println("Error unkown formula element");
+		return null;
+	}
+
+	private void createConstraints(UmlModel2 model, Element ele, Set<Element> cons)
+	{
+		List<UmlNode2> list = model.getAssoziationsByName(ele, LegalUml.Constraint);
+		for (UmlNode2 n : list)
+		{
+			Element ef = n.getElement();
+			if ((ef == null) || cons.contains(ef))
+				continue;
+			cons.add(ef);
+			SmtConstraint ass = smtModel.createAssert(LegalUml.Constraint + "_" + cons.size(), 4);
+			SmtElement con = createFormula(model, n);
+			if (con != null)
+				ass.addConstraint(con);
+		}
 	}
 
 	protected List<UmlNode2> getDuties2Generate(List<UmlNode2> duties)
@@ -254,8 +318,11 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		return duties;
 	}
 
-	private void createEintragungConstraint(UmlModel2 model, List<UmlNode2> eintrags, SmtDeclare einFunc)
+	private void createEintragungConstraint(UmlModel2 model, List<UmlNode2> regList, SmtDeclare einFunc)
 	{
+		if (regList.isEmpty())
+			return;
+
 		SmtConstraint ass = smtModel.createAssert(LegalUml.Registration, 9);
 		SmtConstraint and = new SmtConstraint("and");
 		ass.addConstraint(and);
@@ -264,7 +331,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		and.addConstraint(new SmtConstraint("true"));
 
 		List<UmlNode2> list = model.getClassInstances(LegalUml.LegalPerson);
-		for (UmlNode2 ein : eintrags)
+		for (UmlNode2 ein : regList)
 		{
 			List<UmlNode2> attrs = ein.getAssoziationsByName(LegalUml.Person);
 			if (attrs.isEmpty())
@@ -477,7 +544,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 	private void createPerformance(UmlModel2 model, UmlNode2 ass, UmlNode2 dc, SmtDeclare dec)
 	{
 		String val = dc.getAttributeValue(LegalUml.Performance);
-		if (val == null)
+		if ((val == null) || (val.isEmpty()))
 			return;
 
 		Pattern p = Pattern.compile("(.*?).transfer");
@@ -491,7 +558,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 			// System.out.println(thingVar);
 		} else
 		{
-
+			reportWarning("Performance " + val + " is not encoded ");
 			return;
 		}
 
@@ -629,6 +696,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		smtModel.createAssert(getCorrectedName(eit.getName()), 7).addConstraint(or);
 	}
 
+	@Deprecated
 	private void createEintragungBedingung(UmlModel2 model, UmlNode2 eit, UmlNode2 dc, SmtDeclare dec)
 	{
 		// check Eintragung exists for Person eit
@@ -1014,7 +1082,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		return dutyFunc;
 	}
 
-	private void addDutyConstraint(UmlModel2 model, UmlNode2 duty)
+	private void addClaimConstraint(UmlModel2 model, UmlNode2 duty)
 	{
 		String name = duty.getAttributeValue("Name");
 		if (name == null)

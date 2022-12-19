@@ -370,7 +370,7 @@ public class Contract2Uml2
 			} else if (isValue(assign))
 			{ // is value
 				String name = "" + c.getID() + "_" + (variableCounter++);
-				Element n = createNode(model, null, LegalUml.Integer, name);
+				Element n = createNode(model, null, LegalUml.IntegerS, name);
 				n.setTextContent(assign);
 				return n;
 			} else
