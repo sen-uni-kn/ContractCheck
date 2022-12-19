@@ -1,8 +1,8 @@
 package kn.uni.sen.joblibrary.legaltech.parser.model;
 
 /**
- * legal UML model and its key words in english
- * todo: use only the UML meta-model of a contract in legal.xsd
+ * legal UML model and its key words in english todo: use only the UML
+ * meta-model of a contract in legal.xsd
  * 
  * @author Martin Koelbl
  */
@@ -13,7 +13,7 @@ public class LegalUml
 	public static final String StringS = "String";
 	public static final String TextS = "Text";
 	public static final String IntegerS = "Integer";
-	public static final String FloatS = "Float";
+	public static final String RealS = "Real";
 	public static final String BooleanS = "Bool";
 	public static final String DateS = "Date";
 	public static final String Name = "Name";
@@ -43,7 +43,7 @@ public class LegalUml
 	public static final String Thing = "Thing";
 	public static final String Limitation = "Limitation";
 	public static final String Right = "Right";
-	//public static final String Regelung = "Regelung";
+	// public static final String Regelung = "Regelung";
 	public static final String Share = "Share";
 	public static final String PrimaryClaim = "PrimaryClaim";
 	public static final String Debtor = "Debtor";
@@ -67,7 +67,7 @@ public class LegalUml
 	public static final String Trigger = "Trigger";
 	public static final String Purchaser = "Purchaser";
 	public static final String Reference = "Reference";
-	//public static final String Tatbestand = "Tatbestand";
+	// public static final String Tatbestand = "Tatbestand";
 	public static final String Performance = "Performance";
 	public static final String FactTextG = "TextPerformed";
 	public static final String FactTextB = "TextBreached";
@@ -77,7 +77,6 @@ public class LegalUml
 	public static final String Legal = "Legal";
 	public static final String Consequence = "Trigger";
 	public static final String Depend = "Depend";
-	public static final String Integer = "Integer";
 	public static final String EventDate = "Event";
 
 	public static final String Clause = "Clause";
@@ -86,16 +85,21 @@ public class LegalUml
 	public static final String Clause3 = "Clause3";
 
 	public static final String Constraint = "Constraint";
-
 	public static final String Type = "Type";
+	public static final String Op1 = "Op1";
+	public static final String Op2 = "Op2";
+	public static final String Operator = "Operator";
+
+	public static final String Formula = "Formula";
+	public static final String Value = "Value";
 
 	public static void addClasses(UmlModel model)
 	{
-		//this is outdated since the model in the file legal.xsd is used
+		// this is outdated since the model in the file legal.xsd is used
 		if (model == null)
 			return;
 		int counter = 1;
-		
+
 		UmlNode legalObject = new UmlNode("class" + counter++, Legal);
 
 		// basic types
@@ -125,8 +129,8 @@ public class LegalUml
 
 		UmlNode clause = new UmlNode("class" + counter++, Clause);
 		head.addInheritate(stringN);
-		//clause.addAttribute(new UmlAttribute(Item, Item, stringN));
-		//clause.addAttribute(new UmlAttribute(TextS, TextS, stringN));
+		// clause.addAttribute(new UmlAttribute(Item, Item, stringN));
+		// clause.addAttribute(new UmlAttribute(TextS, TextS, stringN));
 		addAssociation(clause, Clause, clause);
 		addAssociation(clause, Legal, legalObject);
 		model.addNode(clause);
@@ -134,7 +138,7 @@ public class LegalUml
 		UmlNode clause1 = new UmlNode("class" + counter++, Clause1);
 		clause1.addInheritate(clause);
 		model.addNode(clause1);
-		
+
 		UmlNode clause2 = new UmlNode("class" + counter++, Clause2);
 		clause2.addInheritate(clause);
 		model.addNode(clause2);
@@ -154,7 +158,7 @@ public class LegalUml
 		personN.addInheritate(person);
 		personN.addAttribute(new UmlAttribute(Name, Name, stringN));
 		model.addNode(personN);
-		
+
 		UmlNode eintrag = new UmlNode("class" + counter++, Registration);
 		eintrag.addInheritate(legalObject);
 		model.addNode(eintrag);
@@ -228,7 +232,7 @@ public class LegalUml
 		addAssociation(folge, Trigger, regelung);
 		addAssociation(folge, Content, function);
 		model.addNode(folge);
-		
+
 		UmlNode pflicht = new UmlNode("class" + counter++, PrimaryClaim);
 		pflicht.addInheritate(regelung);
 		pflicht.addAttribute(new UmlAttribute(DueDate, DueDate, date));
@@ -244,14 +248,13 @@ public class LegalUml
 		verpflicht.addInheritate(pflicht);
 		model.addNode(verpflicht);
 
-		
 		UmlNode indemnity = new UmlNode("class" + counter++, Indemnity);
 		indemnity.addInheritate(folge);
 		indemnity.addAttribute(new UmlAttribute(Damage, Damage, stringN));
 		indemnity.addAttribute(new UmlAttribute(Min, Min, integerN));
 		indemnity.addAttribute(new UmlAttribute(Max, Max, integerN));
 		model.addNode(indemnity);
-		
+
 		UmlNode garan = new UmlNode("class" + counter++, Warranty);
 		garan.addInheritate(folge);
 		model.addNode(garan);

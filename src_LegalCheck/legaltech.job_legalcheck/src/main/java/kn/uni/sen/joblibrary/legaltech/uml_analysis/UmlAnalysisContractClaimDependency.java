@@ -31,7 +31,6 @@ public class UmlAnalysisContractClaimDependency extends UmlAnalysisContractAbstr
 
 	void checkClaimDependency(UmlModel2 model, UmlNode2 duty, UmlNode2 depClaim)
 	{
-		System.out.println(duty.getName());
 		// get the due dates
 		SmtElement dutDue = getClaimDateMin(model, duty, null);
 		SmtElement depDue = getClaimDateMin(model, depClaim, null);
@@ -67,9 +66,9 @@ public class UmlAnalysisContractClaimDependency extends UmlAnalysisContractAbstr
 		log();
 	}
 
+	// first time model is encoded
 	boolean first = true;
 	List<List<Element>> anas = new ArrayList<>();
-	List<UmlNode2> current_ana = null;
 
 	// create analysis for every claim with a dependent claim
 	void generateDependList(Element ele)
@@ -101,22 +100,24 @@ public class UmlAnalysisContractClaimDependency extends UmlAnalysisContractAbstr
 	void checkClaimDependencies(UmlModel2 model)
 	{
 		// iterate through dependency (!= consequence) analyses
-		while ((anas == null) || !!!anas.isEmpty())
+		while (first || !!!anas.isEmpty())
 		{
-			current_ana = null;
 			// generate smt encoding
 			SmtModel smtModel = createSMTCode(model);
-			if (!!!anas.isEmpty())
-				anas.remove(0);
 			first = false;
-			if ((smtModel == null) || (current_ana == null))
+			if (anas.isEmpty())
 				return;
-			if (current_ana.size() != 2)
+			List<Element> ana = anas.remove(0);
+			if ((smtModel == null) || (ana == null))
+				return;
+			if (ana.size() != 2)
 			{
 				reportWarning("Error: dependency analysis has wrong number of claims");
 				continue;
 			}
-			checkClaimDependency(model, current_ana.get(0), current_ana.get(1));
+			UmlNode2 c1 = new UmlNode2(model, ana.get(0));
+			UmlNode2 c2 = new UmlNode2(model, ana.get(1));
+			checkClaimDependency(model, c1, c2);
 		}
 	}
 

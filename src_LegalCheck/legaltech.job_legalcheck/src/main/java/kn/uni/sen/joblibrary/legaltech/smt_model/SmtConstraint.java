@@ -14,8 +14,8 @@ public class SmtConstraint implements SmtElement
 	List<SmtElement> children = new ArrayList<>();
 	String operator;
 	String name;
-	public static int Count = 0;
 	// todo: ugly hack that have to be solved when it work out
+	public static int Count = 0;
 	SmtModel model = null;
 
 	public SmtConstraint(String op)

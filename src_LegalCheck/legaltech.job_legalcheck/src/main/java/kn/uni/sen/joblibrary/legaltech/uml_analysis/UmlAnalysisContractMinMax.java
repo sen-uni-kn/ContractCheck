@@ -3,6 +3,8 @@ package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.w3c.dom.Element;
+
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlModel2;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlNode2;
 import kn.uni.sen.joblibrary.legaltech.smt_model.SmtDeclare;
@@ -58,17 +60,21 @@ public class UmlAnalysisContractMinMax extends UmlAnalysisContractAbstract
 			reportRun("Contract", "Contract satisfiable", resVals.getDiagram(), UmlResultState.GOOD);
 
 		Map<String, Float> mapVals = new HashMap<>();
-		for (String para : varList.keySet())
+		for (Element para : varList.keySet())
 		{
-			Float val = resVals.getValue(para);
+			SmtDeclare decl = varList.get(para);
+			if (decl == null)
+				continue;
+			String name = decl.getName();
+			Float val = resVals.getValue(name);
 			if (val == null)
 				continue;
-			mapVals.put(para, val);
+			mapVals.put(name, val);
 		}
 
 		// compute the min/max values for every variable in intList
 		String textMinMax = "";
-		for (String para : varList.keySet())
+		for (Element para : varList.keySet())
 		{
 			SmtDeclare decl = varList.get(para);
 			if (decl == null)
@@ -78,7 +84,7 @@ public class UmlAnalysisContractMinMax extends UmlAnalysisContractAbstract
 				continue;
 
 			String text = name + ",";
-			text += mapVals.get(para);
+			text += mapVals.get(name);
 			text += ",";
 
 			ParseSmtResult res = runSmtAnalysis(model, code + "(minimize " + decl.getName() + ")", "_Vertrag",

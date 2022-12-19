@@ -49,6 +49,11 @@ public class UmlNode2
 		return model.getAttributeValue(ele, name);
 	}
 
+	public String getContent()
+	{
+		return ele.getTextContent();
+	}
+
 	public UmlNode2 getAssoziationByName(String name)
 	{
 		return model.getAssoziationByName(ele, name);

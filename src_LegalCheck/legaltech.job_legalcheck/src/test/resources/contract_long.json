@@ -122,7 +122,7 @@
 			"Variable": [
 				"c2:Clause2",
 				"date:Date",
-				"rate:Float",
+				"rate:Real",
 				"claim:CompensationClaim"
 			],
 			"Assignment": [

@@ -33,6 +33,7 @@ public class SmtModel implements SmtElement
 		if (dec == null)
 			return null;
 		if (declList.contains(dec))
+			// ignore when declaration is already contained
 			return dec;
 		declList.add(dec);
 		return dec;
@@ -87,9 +88,25 @@ public class SmtModel implements SmtElement
 		return toText("");
 	}
 
+	private void sortVariableList(List<SmtDeclare> list)
+	{
+		Collections.sort(list, new Comparator<SmtDeclare>()
+		{
+			@Override
+			public int compare(SmtDeclare lhs, SmtDeclare rhs)
+			{
+				// -1 - less than, 1 - greater than, 0 - equal, all inversed for
+				// descending
+				String name = lhs.getName();
+				return name.compareTo(rhs.getName());
+			}
+		});
+	}
+
 	public String toText(String extraCode)
 	{
 		StringBuilder text = new StringBuilder();
+		sortVariableList(declList);
 		for (SmtDeclare dec : declList)
 			text.append(dec.declareText() + "\n");
 		text.append("\n");
