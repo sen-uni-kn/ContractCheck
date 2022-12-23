@@ -31,11 +31,14 @@ public class Contract2Uml2
 	Stack<Element> clauseStack = null;
 	List<Helper.Pair<String, ContractCard>> assList = null;
 	UmlModel2 model = null;
-	ResourceFile xsdFile = null;
+	ResourceFile xsdFile;
 
 	public Contract2Uml2(Job j, ResourceFile xsd)
 	{
 		job = j;
+		xsdFile = new ResourceFile();
+		String val = Helper.loadFilePath("legal.xsd");
+		xsdFile.setData(val);
 	}
 
 	Element createNode(UmlModel2 model, Element parent, String type, String id)
@@ -47,7 +50,7 @@ public class Contract2Uml2
 			job.logEventStatus(JobEvent.WARNING, "Unkown Type " + type);
 		}
 
-		//reuse old id when attribute already existed
+		// reuse old id when attribute already existed
 		Element ele = model.createElement(parent, type, id);
 		nodeMap.put(id, ele);
 		return ele;
@@ -317,7 +320,7 @@ public class Contract2Uml2
 		clauseStack = new Stack<>();
 		assList = new ArrayList<>();
 
-		model = new UmlModel2(job, xsdFile);
+		model = new UmlModel2(job, xsdFile.getData());
 
 		for (ContractCard c : contract.getCardList())
 		{
@@ -338,6 +341,10 @@ public class Contract2Uml2
 		model.writeFile(filePath);
 		model.validateFile(filePath, null);
 
+		String filePath2 = ResourceFolder.appendFolder(job.getFolderText(), "test2.xml");
+		UmlCopy cop = new UmlCopy(job);
+		UmlModel2 model2 = cop.copyModel(model);
+		model2.writeFile(filePath2);
 		return model;
 	}
 }

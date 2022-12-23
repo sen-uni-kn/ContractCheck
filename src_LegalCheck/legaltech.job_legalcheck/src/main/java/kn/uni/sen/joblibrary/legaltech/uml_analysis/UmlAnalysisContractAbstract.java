@@ -67,7 +67,21 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 	public SmtModel createSMTCode(UmlModel2 model)
 	{
 		clearModel();
+		
+		// 1. add analysis
+		// 2. traverse model and add semantic
+		// 3. output model in smt
+		
+		// traverse ideas:
+		// - parse every node and attribute and trigger on names
+		// - make list of all elements
 
+		//deep-clone element
+		// lookup map for elements
+		// 1. copy element
+		// 2. copy references
+		
+		
 		// get first contract of model
 		List<UmlNode2> list = model.getClassInstances(LegalUml.SPA);
 		if (list.size() == 0)
