@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.w3c.dom.Element;
+
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlModel2;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlNode2;
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
@@ -79,31 +81,26 @@ public class UmlAnalysisContractLimitation extends UmlAnalysisContractAbstract
 
 	// hack: needed to specify the duties to generate
 	// counts index of duty to generate
-	int dutyCount = -1;
+	int claimCounter = -1;
+	int claimIdx = 0;
 	// stores duty to generate
 	UmlNode2 duty = null;
 
 	@Override
-	protected List<UmlNode2> getDuties2Generate(List<UmlNode2> duties)
+	public void visitClaim(Element ele)
 	{
-		if (dutyCount < 0)
-			// generate all duties
-			return duties;
-		// generate duty by specified index
-		List<UmlNode2> list = new ArrayList<>();
-		if (dutyCount < duties.size())
+		if ((claimCounter == -1) || (claimIdx == claimCounter))
 		{
-			// add duty of current index
-			duty = duties.get(dutyCount);
-			list.add(duty);
+			super.visitClaim(ele);
+			duty = new UmlNode2(model, ele);
 		}
-		return list;
+		claimIdx++;
 	}
 
 	public void checkDutiesTiming(UmlModel2 model)
 	{
 		List<UmlNode2> claims = model.getClassInstances(LegalUml.Claim);
-		for (dutyCount = 0; dutyCount == 0 || duty != null; dutyCount++)
+		for (claimCounter = 0; claimCounter == 0 || duty != null; claimCounter++)
 		{
 			duty = null;
 			SmtModel smtModel = createSMTCode(model);
@@ -136,7 +133,7 @@ public class UmlAnalysisContractLimitation extends UmlAnalysisContractAbstract
 
 				String name = trig.getName();
 				if ((name == null) || name.isBlank())
-					name = "_" + (dutyCount + 1);
+					name = "_" + (claimCounter + 1);
 				ParseSmtResult res = runSmtAnalysis(model, code, "_" + name, smtModel);
 				if (res != null && res.sat)
 				{

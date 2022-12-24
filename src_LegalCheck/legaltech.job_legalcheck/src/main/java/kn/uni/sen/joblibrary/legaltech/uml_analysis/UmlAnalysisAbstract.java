@@ -6,22 +6,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import kn.uni.sen.joblibrary.legaltech.job_legalcheck.LegalVisitorAbstract;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlNode2;
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
 import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 
-public abstract class UmlAnalysisAbstract implements UmlAnalysis
+public abstract class UmlAnalysisAbstract extends LegalVisitorAbstract implements UmlAnalysis
 {
 	SmtModel smtModel = new SmtModel();
-	Job job;
 	ReportResult report;
 	String anaName;
 
 	public UmlAnalysisAbstract(Job j, String name)
 	{
-		job = j;
+		super(j);
 		this.anaName = name;
 		assertTrue(!!!anaName.isEmpty());
 	}

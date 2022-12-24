@@ -8,5 +8,7 @@ public interface UmlVisitor
 
 	void visitElement(Element ele);
 
+	void leaveElement(Element ele);
+
 	void visitAttribute(Element ele, String name, String val);
 }

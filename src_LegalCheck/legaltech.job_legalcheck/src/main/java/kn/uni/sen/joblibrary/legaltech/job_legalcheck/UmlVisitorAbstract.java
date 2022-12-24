@@ -8,9 +8,10 @@ import org.w3c.dom.NodeList;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 
+// traverses every element and attribute of an UML model
 public abstract class UmlVisitorAbstract implements UmlVisitor
 {
-	Job job;
+	protected Job job;
 
 	public UmlVisitorAbstract(Job job)
 	{
@@ -38,7 +39,7 @@ public abstract class UmlVisitorAbstract implements UmlVisitor
 		}
 	}
 
-	void traverse(UmlModel2 model)
+	protected void traverse(UmlModel2 model)
 	{
 		this.visit(model);
 		Element ele = model.doc.getDocumentElement();
@@ -60,10 +61,13 @@ public abstract class UmlVisitorAbstract implements UmlVisitor
 		NodeList children = ele.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++)
 		{
-			Node e = children.item(i);
-			if (e.getNodeType() == Node.ELEMENT_NODE)
+			Node n = children.item(i);
+			if (n.getNodeType() == Node.ELEMENT_NODE)
 			{
-				this.visitElement((Element) e);
+				Element e = (Element) n;
+				this.visitElement(e);
+				traverseNode(e);
+				this.leaveElement(e);
 			}
 		}
 	}

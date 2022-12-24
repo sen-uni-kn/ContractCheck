@@ -1,9 +1,10 @@
 package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.w3c.dom.Element;
 
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlModel2;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlNode2;
@@ -90,31 +91,26 @@ public class UmlAnalysisContractDoubleJeopardy extends UmlAnalysisContractAbstra
 
 	// hack: needed to specify the duties to generate
 	// counts index of duty to generate
-	int dutyCount = -1;
+	int claimCounter = -1;
+	int claimIdx = 0;
 	// stores duty to generate
 	UmlNode2 duty = null;
 
 	@Override
-	protected List<UmlNode2> getDuties2Generate(List<UmlNode2> duties)
+	public void visitClaim(Element ele)
 	{
-		if (dutyCount < 0)
-			// generate all duties
-			return duties;
-		// generate duty by specified index
-		List<UmlNode2> list = new ArrayList<>();
-		if (dutyCount < duties.size())
+		if ((claimCounter == -1) || (claimIdx == claimCounter))
 		{
-			// add duty of current index
-			duty = duties.get(dutyCount);
-			list.add(duty);
+			super.visitClaim(ele);
+			duty = new UmlNode2(model, ele);
 		}
-		return list;
+		claimIdx++;
 	}
 
 	void checkDutiesDoubleJeopardy(UmlModel2 model)
 	{
 		// for every primary claim and independent claim create code
-		for (dutyCount = 0; dutyCount == 0 || duty != null; dutyCount++)
+		for (claimCounter = 0; claimCounter == 0 || duty != null; claimCounter++)
 		{
 			duty = null;
 			SmtModel smtModel = createSMTCode(model);

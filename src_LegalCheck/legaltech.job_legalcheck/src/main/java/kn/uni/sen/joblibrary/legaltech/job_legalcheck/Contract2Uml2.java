@@ -341,10 +341,10 @@ public class Contract2Uml2
 		model.writeFile(filePath);
 		model.validateFile(filePath, null);
 
-		String filePath2 = ResourceFolder.appendFolder(job.getFolderText(), "test2.xml");
-		UmlCopy cop = new UmlCopy(job);
-		UmlModel2 model2 = cop.copyModel(model);
-		model2.writeFile(filePath2);
+		//String filePath2 = ResourceFolder.appendFolder(job.getFolderText(), "test2.xml");
+		//UmlCopy cop = new UmlCopy(job);
+		//UmlModel2 model2 = cop.copyModel(model);
+		//model2.writeFile(filePath2);
 		return model;
 	}
 }

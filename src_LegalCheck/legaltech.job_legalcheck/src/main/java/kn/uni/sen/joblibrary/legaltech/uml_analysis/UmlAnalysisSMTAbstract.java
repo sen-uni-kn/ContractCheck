@@ -6,6 +6,7 @@ import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 
+// analysis code that run the SMT encoding
 public abstract class UmlAnalysisSMTAbstract extends UmlAnalysisAbstract
 {
 	SmtModel smtModel = new SmtModel();

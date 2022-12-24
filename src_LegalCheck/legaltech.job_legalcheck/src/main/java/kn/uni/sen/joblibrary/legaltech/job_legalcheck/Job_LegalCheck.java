@@ -11,7 +11,7 @@ import kn.uni.sen.joblibrary.legaltech.uml_analysis.ReportResult;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysis;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractClaimDependency;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractDoubleJeopardy;
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractDuties;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractClaims;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractLimitation;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractMinMax;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractPriceChangeTime;
@@ -114,7 +114,7 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 		{
 			resA = new ResourceString(UmlAnalysisSyntax.Name);
 			resA.addNext(new ResourceString(UmlAnalysisSyntax.Name));
-			resA.addNext(new ResourceString(UmlAnalysisContractDuties.Name));
+			resA.addNext(new ResourceString(UmlAnalysisContractClaims.Name));
 			resA.addNext(new ResourceString(UmlAnalysisContractPriceChangeTime.Name));
 			resA.addNext(new ResourceString(UmlAnalysisContractLimitation.Name));
 			resA.addNext(new ResourceString(UmlAnalysisContractDoubleJeopardy.Name));
@@ -127,17 +127,17 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 				continue;
 			if (val.equals(UmlAnalysisSyntax.Name))
 				anas.add(new UmlAnalysisSyntax(this, val));
-			if (val.equals(UmlAnalysisContractDuties.Name))
-				anas.add(new UmlAnalysisContractDuties(this, val));
+			if (val.equals(UmlAnalysisContractClaims.Name))
+				anas.add(new UmlAnalysisContractClaims(this, val));
 			if (val.equals(UmlAnalysisContractPriceChangeTime.Name))
 				anas.add(new UmlAnalysisContractPriceChangeTime(this, val));
 			if (val.equals(UmlAnalysisContractMinMax.Name))
 				anas.add(new UmlAnalysisContractMinMax(this, val, resV));
 			if (val.equals(UmlAnalysisContractLimitation.Name))
 				anas.add(new UmlAnalysisContractLimitation(this, val));
-			if (val.equals(UmlAnalysisContractDoubleJeopardy.Name))				
+			if (val.equals(UmlAnalysisContractDoubleJeopardy.Name))
 				anas.add(new UmlAnalysisContractDoubleJeopardy(this, val));
-			if (val.equals(UmlAnalysisContractClaimDependency.Name))				
+			if (val.equals(UmlAnalysisContractClaimDependency.Name))
 				anas.add(new UmlAnalysisContractClaimDependency(this, val));
 			resA = resA.getNextByType();
 		}

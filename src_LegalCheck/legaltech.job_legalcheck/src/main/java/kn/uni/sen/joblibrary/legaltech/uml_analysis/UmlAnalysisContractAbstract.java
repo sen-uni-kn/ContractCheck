@@ -37,6 +37,12 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		super(j, name);
 	}
 
+	// currenct context
+	List<UmlNode2> registerList = new ArrayList<>();
+	UmlModel2 model;
+	Element contract;
+	Element claim;
+
 	SmtDeclare closingDate;
 	Map<Element, SmtDeclare> personMap = new HashMap<>();
 	Map<Element, SmtDeclare> thingMap = new HashMap<>();
@@ -67,28 +73,33 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 	public SmtModel createSMTCode(UmlModel2 model)
 	{
 		clearModel();
-		
+		this.model = model;
+		// todo:
 		// 1. add analysis
 		// 2. traverse model and add semantic
 		// 3. output model in smt
-		
-		// traverse ideas:
-		// - parse every node and attribute and trigger on names
-		// - make list of all elements
+		createDefault();
+		traverse(model);
+		afterwards();
+		return smtModel;
+	}
 
-		//deep-clone element
-		// lookup map for elements
-		// 1. copy element
-		// 2. copy references
-		
-		
-		// get first contract of model
-		List<UmlNode2> list = model.getClassInstances(LegalUml.SPA);
-		if (list.size() == 0)
-			return smtModel;
-		UmlNode2 contract = list.get(0);
+	// function owner use uninterpreted functions
+	// to ensure single owner exists.
+	SmtDeclare ownerFunc = null;
+
+	void createDefault()
+	{
+		ownerFunc = smtModel.addDeclaration(new SmtDeclare("fun", owner, "(Int) Int"));
+	}
+
+	@Override
+	public void visitContract(Element ele)
+	{
+		this.contract = ele;
 
 		// create closing date
+		UmlNode2 contract = new UmlNode2(model, ele);
 		String closeName = getDateName(LegalUml.Closing);
 		closingDate = smtModel.addDeclaration(new SmtDeclare("const", closeName, "Int"));
 		SmtConstraint as = smtModel.createAssert(closeName, 3);
@@ -105,36 +116,74 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 			clCon = new SmtConstraint("<=").addConstraint(new SmtConstraint("0")).addConstraint(closingDate);
 		}
 		as.addConstraint(clCon);
+	}
 
-		// create every duty and depending claims
-		List<UmlNode2> duties = contract.getAssoziationsByName(LegalUml.Claim);
-		duties = getDuties2Generate(duties);
-		if (duties != null)
-			for (int i = 0; i < duties.size(); i++)
-			{
-				UmlNode2 duty = duties.get(i);
-				addDutyConstraint(model, duty);
-			}
-		// smtModel.addCommand(new SmtCommand("check-sat"));
-		// if (Helper.getOperatingSystem() != OpSys.WINDOWS)
-		// smtModel.addCommand(new SmtCommand("get-model"));
+	@Override
+	public void leaveContract(Element ele)
+	{
+		contract = null;
+	}
 
-		// create person
-		// UmlNode personClass = model.getClass("Person");
-		List<UmlNode2> persons = model.getClassInstances(LegalUml.Person);
-		for (UmlNode2 person : persons)
+	@Override
+	public void visitClaim(Element ele)
+	{
+		claim = ele;
+		UmlNode2 claim = new UmlNode2(model, ele);
+		addDutyConstraint(model, claim);
+	}
+
+	@Override
+	public void leaveClaim(Element ele)
+	{
+		claim = null;
+	}
+
+	@Override
+	public void visitPerson(Element ele)
+	{
+		UmlNode2 node = new UmlNode2(model, ele);
+		String name = node.getName();
+		// todo: use block + name
+		for (Element key : personMap.keySet())
 		{
-			addPersonConstraint(model, person);
+			UmlNode2 n = new UmlNode2(model, key);
+			String name2 = n.getName();
+			if (name.equals(name2))
+				return;
 		}
+		if (personMap.containsKey(ele))
+			return;
+		UmlNode2 person = new UmlNode2(model, ele);
+		addPersonConstraint(model, person);
+	}
 
-		// create things
-		// UmlNode thingClass = model.getClass("Unternehmen"); //Gegenstand
-		List<UmlNode2> things = model.getClassInstances(LegalUml.Object);
-		for (UmlNode2 thing : things)
-		{
-			addThingConstraint(model, thing);
-		}
+	public void visitObject(Element ele)
+	{
+		UmlNode2 object = new UmlNode2(model, ele);
+		addThingConstraint(model, object);
+	}
 
+	public void visitProperty(Element ele)
+	{
+		UmlNode2 property = new UmlNode2(model, ele);
+		createEigentumConstraint(model, property, ownerFunc);
+	}
+
+	public void visitRegister(Element ele)
+	{
+		UmlNode2 register = new UmlNode2(model, ele);
+		registerList.add(register);
+	}
+
+	public void visitPrice(Element ele)
+	{
+		UmlNode2 price = new UmlNode2(model, ele);
+		createPreisConstraint(model, price);
+	}
+
+	// after everthing is parsed
+	private void afterwards()
+	{
 		for (Element dc : listDutyClaim.keySet())
 		{
 			SmtDeclare c = listDutyClaim.get(dc);
@@ -142,30 +191,8 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 			generateClaimDuty(model, node2, c);
 		}
 
-		List<UmlNode2> eigens = model.getClassInstances(LegalUml.PropertyRight);
-		SmtDeclare eigFunc = smtModel.addDeclaration(new SmtDeclare("fun", owner, "(Int) Int"));
-		for (UmlNode2 eigen : eigens)
-		{
-			createEigentumConstraint(model, eigen, eigFunc);
-		}
-
-		List<UmlNode2> eintrags = model.getClassInstances(LegalUml.Registration);
-		SmtDeclare einFunc = smtModel.addDeclaration(new SmtDeclare("fun", registration, "(Int) Bool"));
-		createEintragungConstraint(model, eintrags, einFunc);
-
-		// create preis variable
-		List<UmlNode2> preiss = model.getClassInstances(LegalUml.Price);
-		for (UmlNode2 p : preiss)
-		{
-			createPreisConstraint(model, p);
-		}
-
-		return smtModel;
-	}
-
-	protected List<UmlNode2> getDuties2Generate(List<UmlNode2> duties)
-	{
-		return duties;
+		SmtDeclare regFunc = smtModel.addDeclaration(new SmtDeclare("fun", registration, "(Int) Bool"));
+		createEintragungConstraint(model, registerList, regFunc);
 	}
 
 	private void createEintragungConstraint(UmlModel2 model, List<UmlNode2> eintrags, SmtDeclare einFunc)
@@ -1018,6 +1045,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		statisticsFile = file;
 	}
 
+	// used to output metadata (runtime, memory, ...) of analysis
 	void log()
 	{
 		if (statisticsFile == null)

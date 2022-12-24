@@ -8,6 +8,7 @@ import org.w3c.dom.Node;
 
 import kn.uni.sen.jobscheduler.common.model.Job;
 
+// Deep-copy of UML structure
 public class UmlCopy extends UmlVisitorAbstract
 {
 	public UmlCopy(Job job)
@@ -59,6 +60,11 @@ public class UmlCopy extends UmlVisitorAbstract
 		Element par2 = nodeMap.get(par);
 		if (par2 != null)
 			par2.appendChild(ele2);
+	}
+
+	@Override
+	public void leaveElement(Element ele)
+	{
 	}
 
 	@Override

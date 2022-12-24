@@ -3,6 +3,8 @@ package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Element;
+
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlModel2;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlNode2;
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
@@ -65,44 +67,35 @@ public class UmlAnalysisContractClaimDependency extends UmlAnalysisContractAbstr
 		log();
 	}
 
-	List<List<UmlNode2>> anas = null;
+	boolean first = true;
+	List<List<Element>> anas = new ArrayList<>();
 	List<UmlNode2> current_ana = null;
 
 	// create analysis for every claim with a dependent claim
-	void generateDependList(List<UmlNode2> duties)
+	void generateDependList(Element ele)
 	{
-		anas = new ArrayList<List<UmlNode2>>();
-		for (UmlNode2 duty : duties)
+		UmlNode2 claim = new UmlNode2(model, ele);
+		// create analysis for every claim with a dependent claim
+		for (UmlNode2 dep : claim.getAssoziationsByName(LegalUml.Depend))
 		{
-			// create analysis for every claim with a dependent claim
-			for (UmlNode2 dep : duty.getAssoziationsByName(LegalUml.Depend))
-			{
-				// search for dependent element in duties
-				for (UmlNode2 node : duties)
-				{
-					if (node.getElement() == dep.getElement())
-					{ // dependent element found
-						List<UmlNode2> ana = new ArrayList<>();
-						ana.add(duty);
-						ana.add(node);
-						anas.add(ana);
-						break;
-					}
-				}
-				// todo: dependent claims are not always
-				System.out.println("Missing dependent element: " + dep.getName());
-			}
+			// dependent element found
+			List<Element> ana = new ArrayList<>();
+			ana.add(claim.getElement());
+			ana.add(dep.getElement());
+			anas.add(ana);
 		}
 	}
 
 	@Override
-	protected List<UmlNode2> getDuties2Generate(List<UmlNode2> duties)
+	public void visitClaim(Element ele)
 	{
-		if (anas == null)
-			generateDependList(duties);
-		if (!!!anas.isEmpty())
-			current_ana = anas.remove(0);
-		return current_ana;
+		if (first)
+			generateDependList(ele);
+		if (anas.isEmpty())
+			return;
+		List<Element> ana = anas.get(0);
+		if (ana.contains(ele))
+			super.visitClaim(ele);
 	}
 
 	void checkClaimDependencies(UmlModel2 model)
@@ -113,6 +106,9 @@ public class UmlAnalysisContractClaimDependency extends UmlAnalysisContractAbstr
 			current_ana = null;
 			// generate smt encoding
 			SmtModel smtModel = createSMTCode(model);
+			if (!!!anas.isEmpty())
+				anas.remove(0);
+			first = false;
 			if ((smtModel == null) || (current_ana == null))
 				return;
 			if (current_ana.size() != 2)
