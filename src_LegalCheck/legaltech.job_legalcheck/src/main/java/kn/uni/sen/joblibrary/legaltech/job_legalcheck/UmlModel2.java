@@ -451,7 +451,7 @@ public class UmlModel2
 
 	public void addAssociation2Node(Element par, String name, Element node)
 	{
-		String type = getAttributeType(par, name);
+		String type = getClassAttributeType(par, name);
 		if (type == null)
 			return;
 		Element ele = createElement(par, type, name);
@@ -529,23 +529,24 @@ public class UmlModel2
 		}
 		// remove old attributes
 		String id = removeAttribute(par, name);
-		String type = getAttributeType(par, name);
+		String type = getClassAttributeType(par, name);
 		if (type == null)
 			return;
 
 		Element ass = createElement(par, type, id);
 		ass.setAttribute("name", name);
-		ass.setTextContent(v);
+		if (v != null)
+			ass.setTextContent(v);
 	}
 
 	// return type of attribute with name of Element ele
-	private String getAttributeType(Element ele, String name)
+	String getClassAttributeType(Element ele, String name)
 	{
 		String type = null;
 		String parType = ele.getNodeName();
 		UmlNode2 val = getClass(parType);
 		if (val != null)
-			type = val.getAttributeType(name);;
+			type = val.getAttributeType(name);
 		if (type == null || type.isEmpty())
 		{
 			System.out.println("Warning: Unkown type of Attribute " + name + " in " + parType);
@@ -556,13 +557,13 @@ public class UmlModel2
 
 	public String removeAttribute(Element par, String name)
 	{
-		UmlNode2 n = getNodeByName(name);
+		UmlNode2 n = getChildByName(par, name);
 		String id = null;
 		while (n != null)
 		{
-			par.removeChild(n.getElement());
-			n = getNodeByName(name);
 			id = n.getID();
+			par.removeChild(n.getElement());
+			n = getChildByName(par, name);
 		}
 		return id;
 	}
@@ -648,10 +649,18 @@ public class UmlModel2
 		return list;
 	}
 
+	// return any node with this name
 	public UmlNode2 getNodeByName(String name)
 	{
 		String query = "*[@name='" + name + "']";
 		return xPathSearchNode(model, query);
+	}
+
+	// return children and grandchildren with the given name
+	public UmlNode2 getChildByName(Element ele, String name)
+	{
+		String query = "*[@name='" + name + "']";
+		return xPathSearchNode(ele, query);
 	}
 
 	public String getAttributeValue2(Element ele, String name)

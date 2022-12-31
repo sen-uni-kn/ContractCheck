@@ -209,7 +209,7 @@
 				"newyear<=20_signing+356",
 				"handover.Debtor=$20_seller",
 				"handover.Creditor=$20_purchaser",
-				"handover.DueDate==newyear+180"
+				"handover.DueDate=newyear+180"
 			]
 		},
 		{

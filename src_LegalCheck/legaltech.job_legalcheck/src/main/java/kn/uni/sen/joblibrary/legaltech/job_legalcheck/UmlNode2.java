@@ -54,12 +54,17 @@ public class UmlNode2
 		return model.getAssoziationByName(ele, name);
 	}
 
-	String getAttributeType(String name)
+	public String getAttributeType(String name)
+	{
+		return getAttributeType(this.model, this.ele, name);
+	}
+
+	public static String getAttributeType(UmlModel2 model, Element eleFirst, String name)
 	{
 		// search all inherited classes
 		Stack<Element> stack = new Stack<>();
 		List<Element> list = new ArrayList<>();
-		stack.push(this.ele);
+		stack.push(eleFirst);
 		while (!!!stack.isEmpty())
 		{
 			Element ele = stack.pop();
@@ -156,5 +161,10 @@ public class UmlNode2
 			return this;
 
 		return model.getNodeByID(ref);
+	}
+
+	public String getNodeName()
+	{
+		return ele.getNodeName();
 	}
 }

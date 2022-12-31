@@ -58,7 +58,7 @@ public class UmlAnalysisContractMinMax extends UmlAnalysisContractAbstract
 			reportRun("Contract", "Contract satisfiable", resVals.getDiagram(), UmlResultState.GOOD);
 
 		Map<String, Float> mapVals = new HashMap<>();
-		for (String para : intList.keySet())
+		for (String para : varList.keySet())
 		{
 			Float val = resVals.getValue(para);
 			if (val == null)
@@ -68,9 +68,9 @@ public class UmlAnalysisContractMinMax extends UmlAnalysisContractAbstract
 
 		// compute the min/max values for every variable in intList
 		String textMinMax = "";
-		for (String para : intList.keySet())
+		for (String para : varList.keySet())
 		{
-			SmtDeclare decl = intList.get(para);
+			SmtDeclare decl = varList.get(para);
 			if (decl == null)
 				continue;
 			String name = decl.getName();

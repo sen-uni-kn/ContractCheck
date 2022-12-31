@@ -55,6 +55,11 @@ public class Contract2Uml2
 		// reuse old id when attribute already existed
 		Element ele = model.createElement(parent, type, id);
 		nodeMap.put(id, ele);
+		if (model.inheritatesFrom(type, LegalUml.Claim))
+		{
+			// every claims needs a date by default
+			model.addAttribute(ele, LegalUml.EventDate, null);
+		}
 		return ele;
 	}
 
@@ -257,12 +262,11 @@ public class Contract2Uml2
 		if (isFormula(val) && (idAttr != null))
 		{
 			// parse formula and assign to attribute
-			Element ele = createFormula(model, null, c, val);
+			Element ele = createFormula(model, null, c, val, false);
 			model.addAssociation2Node(node, idAttr, ele);
 			return;
 		} else
 		{
-
 			String v = getIDValue(val);
 			if (idAttr != null)
 				model.addAttribute(node, idAttr, v);
@@ -347,7 +351,7 @@ public class Contract2Uml2
 	int variableCounter = 1;
 
 	// (a + (b * 4)) < 4
-	private Element createFormula(UmlModel2 model, Element func, ContractCard c, String assign)
+	private Element createFormula(UmlModel2 model, Element func, ContractCard c, String assign, boolean isCon)
 	{
 		assign = checkBrackets(assign);
 		assign = assign.replace(" ", "");
@@ -357,6 +361,11 @@ public class Contract2Uml2
 			Element var = getReference(model, assign, c.getID());
 			if (var != null)
 			{ // is reference to another variable
+				if (isCon && func != null)
+				{
+					// is constraint, thus, add to variable
+					model.addAssociation2Node(var, LegalUml.Constraint, func);
+				}
 				return var;
 			} else if (isValue(assign))
 			{ // is value
@@ -369,6 +378,8 @@ public class Contract2Uml2
 		}
 		String id = c.getID() + "_formula" + (formulaCounter++);
 		Element n = createNode(model, null, "Formula", id);
+		if (func == null)
+			func = n;
 		String left = assign.substring(0, idx);
 		String op = "" + assign.charAt(idx);
 		if (assign.charAt(idx + 1) == '=')
@@ -377,8 +388,8 @@ public class Contract2Uml2
 			idx += 1;
 		}
 		String right = assign.substring(idx + 1);
-		Element op1 = createFormula(model, n, c, left);
-		Element op2 = createFormula(model, n, c, right);
+		Element op1 = createFormula(model, func, c, left, isCon);
+		Element op2 = createFormula(model, func, c, right, isCon);
 		if ((op1 == null) || (op2 == null))
 			// an operand is missing
 			return null;
@@ -398,7 +409,7 @@ public class Contract2Uml2
 			if (isFormula(assign) && !isAssignment(assign))
 			{ // assignment is an additional constraint for a variable
 				assign = assign.replace("'", "");
-				createFormula(model, null, c, assign);
+				createFormula(model, null, c, assign, true);
 				continue;
 			}
 

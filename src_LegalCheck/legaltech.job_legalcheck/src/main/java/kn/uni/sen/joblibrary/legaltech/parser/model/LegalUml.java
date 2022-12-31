@@ -13,6 +13,7 @@ public class LegalUml
 	public static final String StringS = "String";
 	public static final String TextS = "Text";
 	public static final String IntegerS = "Integer";
+	public static final String FloatS = "Float";
 	public static final String BooleanS = "Bool";
 	public static final String DateS = "Date";
 	public static final String Name = "Name";
@@ -77,11 +78,16 @@ public class LegalUml
 	public static final String Consequence = "Trigger";
 	public static final String Depend = "Depend";
 	public static final String Integer = "Integer";
+	public static final String EventDate = "Event";
 
 	public static final String Clause = "Clause";
 	public static final String Clause1 = "Clause1";
 	public static final String Clause2 = "Clause2";
 	public static final String Clause3 = "Clause3";
+
+	public static final String Constraint = "Constraint";
+
+	public static final String Type = "Type";
 
 	public static void addClasses(UmlModel model)
 	{
