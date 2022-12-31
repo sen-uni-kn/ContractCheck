@@ -7,6 +7,7 @@ import java.util.List;
 import kn.uni.sen.joblibrary.legaltech.cards.Contract;
 import kn.uni.sen.joblibrary.legaltech.cards.ContractParser;
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.LegalVisitorSemantic;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.ReportResult;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysis;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractClaimDependency;
@@ -94,6 +95,9 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 
 		ResourceString resA = getResourceWithType(ANALYSEN, false);
 		List<UmlAnalysis> anas = getAnalysen(resA, resV);
+
+		// add Legal semantic
+		new LegalVisitorSemantic(this).traverse(model2);
 
 		// create different analyses
 		String file = null;
