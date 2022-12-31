@@ -18,7 +18,7 @@ public class Test_MainLegalCheck extends JobAbstractTest
 	{
 		// nameFile = "brezenvertrag_bad.json";
 		nameFile = "pretzelSPA3_bad.json";
-		//nameFile = "contract_long.json";
+		// nameFile = "contract_long.json";
 	}
 
 	String xsdFile = "legal.xsd";
@@ -55,12 +55,12 @@ public class Test_MainLegalCheck extends JobAbstractTest
 			ResourceFileXml resXml = new ResourceFileXml();
 			resXml.setData(data);
 			return resXml;
-		} else if(Job_LegalCheck.ANALYSEN.compareTo(name) == 0)
+		} else if (Job_LegalCheck.ANALYSEN.compareTo(name) == 0)
 		{
 			// execute only a single analysis
 			ResourceString resAna = new ResourceString();
 			resAna.setData(UmlAnalysisContractClaimDependency.Name);
-			//return resAna;
+			// return resAna;
 		}
 		return null;
 	}

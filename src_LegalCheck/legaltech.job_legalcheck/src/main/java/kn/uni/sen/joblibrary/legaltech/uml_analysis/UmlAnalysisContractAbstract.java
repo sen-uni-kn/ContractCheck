@@ -20,7 +20,6 @@ import kn.uni.sen.joblibrary.legaltech.smt_model.SmtElement;
 import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
-import kn.uni.sen.jobscheduler.common.resource.ResourceDouble;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 
@@ -44,6 +43,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 	Element claim;
 
 	SmtDeclare closingDate;
+	Map<Element, SmtDeclare> varList = new HashMap<>();
 	Map<Element, SmtDeclare> personMap = new HashMap<>();
 	Map<Element, SmtDeclare> thingMap = new HashMap<>();
 	Map<Element, SmtDeclare> listDutyClaim = new HashMap<>();
@@ -59,13 +59,49 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 
 	void clearModel()
 	{
-		closingDate = null;
 		personMap.clear();
 		thingMap.clear();
 		listDutyClaim.clear();
 		schadenList.clear();
 		smtModel = new SmtModel();
 		SmtConstraint.Count = 0;
+	}
+
+	SmtDeclare createVariable(UmlModel2 model, UmlNode2 cn, String nameD)
+	{
+		SmtDeclare decl = varList.get(cn.getElement());
+		if (decl != null)
+			// variable was already created
+			return decl;
+
+		String name;
+		if ((nameD != null) && !!!nameD.isEmpty())
+			name = nameD;
+		else
+			name = cn.getName();
+		if ((name == null) || name.isEmpty())
+		{
+			reportWarning("Missing name in claim " + name);
+			return null;
+		}
+
+		String type = cn.getNodeName();
+		if (LegalUml.DateS.equals(type))
+		{
+			decl = new SmtDeclare("const", "Date_" + name, "Int");
+			decl = smtModel.addDeclaration(decl);
+		} else if (LegalUml.IntegerS.equals(type))
+		{
+			decl = new SmtDeclare("const", name, "Int");
+			decl = smtModel.addDeclaration(decl);
+		}
+		if (decl == null)
+		{
+			System.out.println("Error SMT Encoding: Type " + type + " is unkown");
+			return null;
+		}
+		varList.put(cn.getElement(), decl);
+		return decl;
 	}
 
 	// core function to generate the SMT code of a contract
@@ -98,24 +134,14 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 	{
 		this.contract = ele;
 
-		// create closing date
+		// get closing date
 		UmlNode2 contract = new UmlNode2(model, ele);
-		String closeName = getDateName(LegalUml.Closing);
-		closingDate = smtModel.addDeclaration(new SmtDeclare("const", closeName, "Int"));
-		SmtConstraint as = smtModel.createAssert(closeName, 3);
-		SmtConstraint clCon = null;
-		String closeValue = contract.getAttributeValue(LegalUml.Closing);
-		if (closeValue != null)
+		UmlNode2 cn = contract.getAssoziationByName(LegalUml.Closing);
+		closingDate = createVariable(model, cn, null);
+		if (closingDate == null)
 		{
-			String value = ResourceDouble.checkStringDouble(closeValue);
-			if (value != null)
-				clCon = new SmtConstraint("=").addConstraint(closingDate).addConstraint(new SmtConstraint(value));
+			System.out.println("Error Closing of " + contract.getName() + " not created!");
 		}
-		if (clCon == null)
-		{
-			clCon = new SmtConstraint("<=").addConstraint(new SmtConstraint("0")).addConstraint(closingDate);
-		}
-		as.addConstraint(clCon);
 	}
 
 	@Override
@@ -191,8 +217,41 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 			generateClaimDuty(model, node2, c);
 		}
 
-		SmtDeclare regFunc = smtModel.addDeclaration(new SmtDeclare("fun", registration, "(Int) Bool"));
-		createEintragungConstraint(model, registerList, regFunc);
+		List<UmlNode2> eigens = model.getClassInstances(LegalUml.PropertyRight);
+		SmtDeclare eigFunc = smtModel.addDeclaration(new SmtDeclare("fun", owner, "(Int) Int"));
+		for (UmlNode2 eigen : eigens)
+		{
+			createEigentumConstraint(model, eigen, eigFunc);
+		}
+
+		List<UmlNode2> eintrags = model.getClassInstances(LegalUml.Registration);
+		SmtDeclare einFunc = smtModel.addDeclaration(new SmtDeclare("fun", registration, "(Int) Bool"));
+		createEintragungConstraint(model, eintrags, einFunc);
+
+		// create preis variable
+		List<UmlNode2> preiss = model.getClassInstances(LegalUml.Price);
+		for (UmlNode2 p : preiss)
+		{
+			createPreisConstraint(model, p);
+		}
+
+		for (Element key : varList.keySet())
+		{
+			SmtDeclare val = varList.get(key);
+			createFormula(model, val);
+		}
+	}
+
+	private void createFormula(UmlModel2 model, SmtDeclare val)
+	{
+		if (val == null)
+			return;
+		System.out.println("Error todo: implement");
+	}
+
+	protected List<UmlNode2> getDuties2Generate(List<UmlNode2> duties)
+	{
+		return duties;
 	}
 
 	private void createEintragungConstraint(UmlModel2 model, List<UmlNode2> eintrags, SmtDeclare einFunc)
@@ -920,38 +979,12 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		return null;
 	}
 
-	Map<String, SmtDeclare> intList = new HashMap<>();
-
-	SmtDeclare createInteger(String name)
-	{
-		SmtDeclare dutyFunc = intList.get(name);
-		if (dutyFunc != null)
-		{
-			smtModel.addDeclaration(dutyFunc);
-			return dutyFunc;
-		}
-
-		dutyFunc = new SmtDeclare("const", name, "Int");
-		smtModel.addDeclaration(dutyFunc);
-		intList.put(name, dutyFunc);
-		return dutyFunc;
-	}
-
 	private SmtDeclare createDutyClaim(UmlModel2 model, UmlNode2 dc, UmlNode2 duty)
 	{
-		String name1 = getDateName(dc.getName());
-		if ((name1 == null) || (name1.isEmpty()))
-		{
-			reportWarning("Missing name in claim " + name1);
+		UmlNode2 ed = dc.getAssoziationByName(LegalUml.EventDate);
+		SmtDeclare dutyFunc = createVariable(model, ed, dc.getName());
+		if (dutyFunc == null)
 			return null;
-		}
-
-		SmtDeclare dutyFunc = createInteger(name1);
-		// if ("Schadensersatz1_ersatz".equals(dc.getID()))
-		// {
-		// System.out.println("here");
-		// }
-
 		SmtConstraint and = new SmtConstraint("and");
 		SmtElement min = getClaimDateMin(model, dc, duty);
 		if (min != null)
@@ -972,6 +1005,7 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 		// and.addConstraint(new
 		// SmtConstraint("<=").addConstraint(dutyFunc).addConstraint(min));
 
+		String name1 = dutyFunc.getName();
 		SmtConstraint as2 = smtModel.createAssert(name1, 3);
 		SmtConstraint or = new SmtConstraint("or");
 		as2.addConstraint(or);
@@ -1000,7 +1034,8 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 
 		SmtDeclare dutyFunc = createDutyClaim(model, duty, null);
 		listDutyClaim.put(duty.getElement(), dutyFunc);
-		SmtConstraint as = smtModel.createAssert(getDateName(duty.getName()), 4);
+		String eventName = dutyFunc.getName();
+		SmtConstraint as = smtModel.createAssert(eventName, 4);
 		SmtConstraint or = new SmtConstraint("or");
 		as.addConstraint(or);
 		or.addConstraint(getDutyConstraint(model, duty, dutyFunc));

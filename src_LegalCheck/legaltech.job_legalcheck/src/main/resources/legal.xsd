@@ -87,6 +87,7 @@
 					<xs:element name="Limitation" type="Date"></xs:element>
 					<xs:element name="Depend" type="Claim"></xs:element>
 					<xs:element name="Non" type="xs:boolean"></xs:element>
+					<xs:element name="Event" type="Date"></xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -149,14 +150,14 @@
 		<xs:complexContent>
 			<xs:extension base="Legal">
 				<xs:sequence>
-					<xs:element ref="Formula" />
+					<xs:element ref="Constraint" />
 					<xs:element name="Default" type="xs:string" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:element name="Formula" type="Formula">
+	<xs:element name="Constraint" type="Formula">
 	</xs:element>
 
 	<xs:element name="Type">

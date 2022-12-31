@@ -45,11 +45,6 @@ public abstract class UmlAnalysisAbstract extends LegalVisitorAbstract implement
 		return n.replaceAll("[^a-zA-Z0-9_]", "");
 	}
 
-	String getDateName(String n)
-	{
-		return "Date_" + getCorrectedName(n);
-	}
-
 	public void reportError(String text)
 	{
 		report(UmlResultState.ERROR, text);
