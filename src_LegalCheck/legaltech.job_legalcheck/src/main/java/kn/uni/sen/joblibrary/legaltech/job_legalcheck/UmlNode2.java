@@ -146,7 +146,7 @@ public class UmlNode2
 
 	public String getID()
 	{
-		return ele.getAttribute("id2");
+		return ele.getAttribute("id");
 	}
 
 	public UmlNode2 checkReference()

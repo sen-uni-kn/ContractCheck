@@ -58,12 +58,12 @@ public class UmlModel2
 	int IDCounter = 0;
 
 	Job job;
+	String xsdFile = null;
 
-	public UmlModel2(Job j, ResourceFile xsd)
+	public UmlModel2(Job j, String xsd)
 	{
-		// parseContractSchema(xsd);
 		job = j;
-		createDocument();
+		doc = createDocument();
 		root = doc.createElement("root");
 		root.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 		root.setAttribute("xmlns", "http://legaltech.sen.uni-konstanz.de");
@@ -76,20 +76,26 @@ public class UmlModel2
 
 		model = doc.createElement("model");
 		root.appendChild(model);
+		xsdFile = xsd;
 	}
 
-	private void createDocument()
+	public UmlModel2(UmlModel2 model)
 	{
-		doc = null;
+		this(model.job, model.xsdFile);
+	}
+
+	public static Document createDocument()
+	{
 		try
 		{
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			doc = builder.newDocument();
+			return builder.newDocument();
 		} catch (ParserConfigurationException e)
 		{
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public InputStream getXSDFile()
@@ -470,6 +476,7 @@ public class UmlModel2
 		return false;
 	}
 
+	// todo: should be in UmlNode2
 	public UmlNode2 checkRef(UmlNode2 n)
 	{
 		if (n == null)
@@ -482,6 +489,7 @@ public class UmlModel2
 		return getElementByID(ref);
 	}
 
+	// todo: should be in UmlNode2
 	public List<UmlNode2> getAssoziationsByName(Element node, String name)
 	{
 		List<UmlNode2> list = new ArrayList<>();
