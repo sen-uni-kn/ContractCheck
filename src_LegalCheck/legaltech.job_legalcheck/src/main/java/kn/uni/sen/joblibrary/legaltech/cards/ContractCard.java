@@ -94,6 +94,9 @@ public class ContractCard
 	{
 		if (text == null)
 			return;
+		if (text.startsWith("%"))
+			// ignore commented variables
+			return;
 		variableList.add(text);
 	}
 

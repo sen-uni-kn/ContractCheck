@@ -46,10 +46,13 @@ public class UmlAnalysisContractClaims extends UmlAnalysisContractAbstract
 			if (res.isUnsatisfiable())
 			{
 				reportUnsat("Contract", "Contract not satisfiable", res.getUnsatCore(), UmlResultState.ERROR);
+				log(false);
 			} else
+			{
 				reportRun("Contract", "Contract satisfiable", res.getDiagram(), UmlResultState.GOOD);
+				log(true);
+			}
 		}
-		log();
 	}
 
 	public void checkTriggers(UmlModel2 model, String name, SmtModel smtModel)
@@ -84,19 +87,20 @@ public class UmlAnalysisContractClaims extends UmlAnalysisContractAbstract
 			if ((name2 == null) || name2.isEmpty())
 				name2 = "" + trigCount;
 			ParseSmtResult res = runSmtAnalysis(model, code, "_" + name + "_" + name2, smtModel);
-			log();
 			if (res != null)
 			{
 				if (res.isSatisfiable())
 				{
 					String core = res.getDiagram();
 					reportRun(name2, "satisfiable", core, UmlResultState.GOOD);
+					log(true);
 				}
 
 				if (res.isUnsatisfiable())
 				{
 					String core = res.getUnsatCore();
 					reportUnsat(name2, "unsatisfiable", core, UmlResultState.ERROR);
+					log(false);
 				}
 			}
 		}
@@ -122,7 +126,7 @@ public class UmlAnalysisContractClaims extends UmlAnalysisContractAbstract
 
 	public void checkClaimsSatisfiable(UmlModel2 model)
 	{
-		// for every primary claim and independent claim create code
+		// for every independent claim create code
 		for (claimCounter = 0; claimCounter == 0 || duty != null; claimCounter++)
 		{
 			claimIdx = 0;
@@ -150,15 +154,17 @@ public class UmlAnalysisContractClaims extends UmlAnalysisContractAbstract
 				{
 					String core = res.getDiagram();
 					reportRun(name, "satisfiable", core, UmlResultState.GOOD);
+					log(true);
 				}
 
 				if (res.isUnsatisfiable())
 				{
 					String core = res.getUnsatCore();
 					reportUnsat(name, "unsatisfiable", core, UmlResultState.ERROR);
+					log(false);
 				}
 			}
-			log();
+			// check dependent claims
 			checkTriggers(model, name, smtModel);
 		}
 	}

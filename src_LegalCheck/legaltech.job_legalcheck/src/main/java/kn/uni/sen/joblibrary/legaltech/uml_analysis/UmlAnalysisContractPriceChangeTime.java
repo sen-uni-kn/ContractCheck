@@ -116,9 +116,12 @@ public class UmlAnalysisContractPriceChangeTime extends UmlAnalysisContractAbstr
 					list.add(datePay);
 					String diagram = res.getDiagram(list);
 					if (res.sat)
+					{
 						reportRun(name, "" + name + " occurs after " + name2 + "!", diagram, UmlResultState.WARNING);
+						log(false);
+					} else
+						log(true);
 				}
-				log();
 			}
 		}
 	}

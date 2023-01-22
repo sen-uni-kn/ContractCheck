@@ -96,7 +96,7 @@ public class UmlAnalysisContractMinMax extends UmlAnalysisContractAbstract
 			text += ",";
 
 			res = runSmtAnalysis(model, code + "(maximize " + decl.getName() + ")", "_Vertrag", smtModel);
-			log();
+			log(true);
 			if (res == null)
 				continue;
 			else

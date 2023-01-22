@@ -148,10 +148,10 @@ public class UmlAnalysisContractLimitation extends UmlAnalysisContractAbstract
 					list.add(dateLimit);
 					list.add(dateDue);
 					String diagram = res.getDiagram(list);
+					log(false);
 					reportRun(name, "" + name + " can occur after limitation of " + name + "!", diagram,
 							UmlResultState.WARNING);
 				}
-				log();
 			}
 		}
 	}

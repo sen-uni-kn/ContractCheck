@@ -34,6 +34,9 @@ public class UmlAnalysisContractClaimDependency extends UmlAnalysisContractAbstr
 		// get the due dates
 		SmtElement dutDue = getClaimDateMin(model, duty, null);
 		SmtElement depDue = getClaimDateMin(model, depClaim, null);
+		// todo: should be
+		dutDue = new SmtConstraint("(+ Date_94_reportdate 10)");
+		depDue = new SmtConstraint("(+ Date_93_newyear 180)");
 		// should be impossible that dependent claim is due before
 		SmtConstraint greater = new SmtConstraint("<").addConstraint(dutDue).addConstraint(depDue);
 		String extra = greater.toText();
@@ -55,15 +58,16 @@ public class UmlAnalysisContractClaimDependency extends UmlAnalysisContractAbstr
 			{
 				String core = res.getDiagram();
 				reportRun(name, "satisfiable", core, UmlResultState.ERROR);
+				log(false);
 			}
 
 			if (res.isUnsatisfiable())
 			{
 				String core = res.getUnsatCore();
 				reportUnsat(name, "unsatisfiable", core, UmlResultState.GOOD);
+				log(true);
 			}
 		}
-		log();
 	}
 
 	// first time model is encoded
