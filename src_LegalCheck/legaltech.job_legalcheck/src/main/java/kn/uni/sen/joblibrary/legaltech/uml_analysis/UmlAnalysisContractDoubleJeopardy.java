@@ -73,18 +73,19 @@ public class UmlAnalysisContractDoubleJeopardy extends UmlAnalysisContractAbstra
 		// get trigger name
 		String name2 = name + "_triggers";
 		ParseSmtResult res = runSmtAnalysis(model, code, "_" + name2, smtModel);
-		log();
 		if (res != null)
 		{
 			if (res.isSatisfiable())
 			{
 				String core = res.getDiagram();
 				reportRun(name2, "double jeopardy satisfiable", core, UmlResultState.ERROR);
+				log(false);
 			}
 
 			if (res.isUnsatisfiable())
 			{
 				reportUnsat(name2, "unsatisfiable", null, UmlResultState.GOOD);
+				log(true);
 			}
 		}
 	}

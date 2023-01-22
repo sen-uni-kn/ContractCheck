@@ -359,19 +359,32 @@ public class ParseSmtResult
 		return text;
 	}
 
+	String getName(UmlNode2 claim, String ass)
+	{
+		List<UmlNode2> list = claim.getAssoziationsByName(LegalUml.Creditor);
+
+		for (UmlNode2 n : list)
+		{
+			String from = n.getAttributeValue(LegalUml.Name);
+			if (!!!from.isBlank())
+				return from;
+		}
+		return null;
+	}
+
 	private String createUmlArrow(Date d)
 	{
-		String from = "P1";
-		String to = "P2";
+		// search for underlying claim
 		UmlNode2 node = getUmlNode(d.Name);
+		if ((node == null) || node.inheritatesFrom(LegalUml.DateS))
+			// ignore dates
+			return "";
+
 		String extra = "";
 		if ((d.Name != null) && d.Name.contains("."))
 		{
 			extra = d.Name.substring(d.Name.indexOf(".") + 1) + " ";
 		}
-
-		if (node == null)
-			return null;
 
 		UmlNode2 claim = node;
 		boolean bClaim = false;
@@ -386,20 +399,21 @@ public class ParseSmtResult
 		}
 		boolean bGaran = node.inheritatesFrom(LegalUml.Warranty);
 
-		List<UmlNode2> sL = node.getAssoziationsByName(LegalUml.Debtor);
-		List<UmlNode2> gL = node.getAssoziationsByName(LegalUml.Creditor);
+		// search name of creditor
+		// use creditor name in node
+		String from = getName(node, LegalUml.Creditor);
+		if ((from == null) && (claim != node))
+			// if not found, use creditor name in claim
+			from = getName(claim, LegalUml.Creditor);
+		if (from == null)
+			// otherwise default name "P1"
+			from = "P1";
 
-		for (UmlNode2 n : sL)
-		{
-			from = n.getAttributeValue(LegalUml.Name);
-			break;
-		}
-
-		for (UmlNode2 n : gL)
-		{
-			to = n.getAttributeValue(LegalUml.Name);
-			break;
-		}
+		String to = getName(node, LegalUml.Debtor);
+		if ((to == null) && (claim != node))
+			to = getName(claim, LegalUml.Debtor);
+		if (to == null)
+			to = "P2";
 
 		boolean bIndem = isIndemnity(node);
 		// if (bIndem)
@@ -449,6 +463,7 @@ public class ParseSmtResult
 		List<UmlNode2> list = node.getAssoziationsByName(LegalUml.Trigger);
 		if (!!!list.isEmpty())
 		{
+			// select first trigger even several might be there
 			for (UmlNode2 n : list)
 				return n;
 		}

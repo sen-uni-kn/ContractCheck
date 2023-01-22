@@ -1149,19 +1149,24 @@ public abstract class UmlAnalysisContractAbstract extends UmlAnalysisSMTAbstract
 	}
 
 	// used to output metadata (runtime, memory, ...) of analysis
-	void log()
+	void log(boolean fine)
 	{
 		if (statisticsFile == null)
 		{
 			statisticsFile = ResourceFolder.appendFolder(job.getFolderText(), "statistics.txt");
 			ResourceFile.removeFile(statisticsFile);
-			String head = "name & time & mem & constraints & variables\\\\\n";
+			String head = "name & analysis & good & time & mem & constraints & variables\\\\\n";
 			ResourceFile.appendText2File(statisticsFile, head);
 		}
 
-		String fullName = anaName + name;
-		String text = fullName + " & " + timeZ3 + "s & " + memZ3 + "MB & " + constraintCount + " & " + varCount
-				+ "\\\\\n";
-		ResourceFile.appendText2File(statisticsFile, text);
+		List<String> list = new ArrayList<>();
+		list.add(anaName);
+		list.add(name);
+		list.add("" + fine);
+		list.add(timeZ3 + "s");
+		list.add(memZ3 + "MB");
+		list.add("" + constraintCount);
+		list.add("" + varCount);
+		ResourceFile.appendText2File(statisticsFile, String.join(" & ", list) + "\\\\\n");
 	}
 }

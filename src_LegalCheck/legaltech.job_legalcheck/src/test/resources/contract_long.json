@@ -616,6 +616,7 @@
 			],
 			"Assignment": [
 				"c2.Item=6.2",
+				"20_spa.Claim=$war",
 				"war.Name=PurchaserEBITDA",
 				"war.Trigger=91_ebitda<min",
 				"war.Debtor=$20_seller",
@@ -929,7 +930,7 @@
 				"c2:Clause2",
 				"per:PerformanceClaim",
 				"comp:CompensationClaim",
-				"claim:Claim"
+				"%claim:Claim"
 			],
 			"Assignment": [
 				"c2.Item=10.1",
@@ -948,7 +949,9 @@
 				"per.Trigger=$280_war",
 				"per.Trigger=$290_war",
 				"comp.Name=SellerCompensation",
-				"comp.Trigger=$per"
+				"comp.Trigger=$per",
+				"comp.Debtor=$20_seller",
+				"comp.Creditor=$20_purchaser"
 			]
 		},
 		{

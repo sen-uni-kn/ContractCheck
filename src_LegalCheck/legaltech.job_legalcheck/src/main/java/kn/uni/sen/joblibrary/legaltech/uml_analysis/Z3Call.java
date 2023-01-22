@@ -20,7 +20,7 @@ import kn.uni.sen.jobscheduler.common.resource.ResourceString;
 
 /**
  * interface to run the Z3 SMT solver
- *  
+ * 
  * @author Martin Koelbl
  */
 public class Z3Call
@@ -33,7 +33,8 @@ public class Z3Call
 	int varCount = 0;
 	int assertCount = 0;
 	double timeDif = 0;
-	public static int timeout = 0;
+	public static int timeout = 1200;
+	long startTime = -1;
 	Model model = null;
 	Expr<?>[] objs = null;
 	boolean sat = false;
@@ -216,15 +217,17 @@ public class Z3Call
 		com.microsoft.z3.Statistics.Entry mem = statistics.get("memory");
 		com.microsoft.z3.Statistics.Entry time2 = statistics.get("time");
 		if (start)
+		{
 			memoryS = mem.getDoubleValue();
-		else
+			startTime = System.currentTimeMillis();
+		} else
 		{
 			if (mem != null)
 				memory = mem.getDoubleValue();
 			if (time2 != null)
 				timeDif = time2.getDoubleValue();
 			else
-				timeDif = 0;
+				timeDif = (System.currentTimeMillis() - startTime) / 1000.0;
 		}
 	}
 
