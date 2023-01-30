@@ -37,6 +37,12 @@ label {
 	float: left;
 }
 
+input[type='number']:focus {
+	border: 3px solid #555;
+  	color: pink;
+	background-color: blue;
+}
+
 .column {
 	flex: 50%;
 }
