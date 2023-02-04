@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractClaimDependency;
 import kn.uni.sen.jobscheduler.common.JobAbstractTest;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
@@ -57,8 +56,8 @@ public class Run_MainLegalCheck extends JobAbstractTest
 		} else if (Job_LegalCheck.ANALYSEN.compareTo(name) == 0)
 		{
 			// execute only a single analysis
-			ResourceString resAna = new ResourceString();
-			resAna.setData(UmlAnalysisContractClaimDependency.Name);
+			//ResourceString resAna = new ResourceString();
+			//resAna.setData(UmlAnalysisContractClaimDependency.Name);
 			// return resAna;
 		}
 		return null;

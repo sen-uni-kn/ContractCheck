@@ -17,7 +17,7 @@ import kn.uni.sen.joblibrary.legaltech.cards.ContractParser;
 import kn.uni.sen.joblibrary.legaltech.cards.ContractSaver;
 import kn.uni.sen.joblibrary.legaltech.html.HtmlCreator_ContractInput;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.Job_LegalCheck;
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractMinMax;
+//import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractMinMax;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlResultState;
 import kn.uni.sen.jobscheduler.common.impl.JobDataInput;
 import kn.uni.sen.jobscheduler.common.impl.JobEventStatus;
@@ -415,7 +415,7 @@ public class JobRun_Contract extends JobRunAbstract implements Runnable
 			saveContract(analyzeFile);
 		}
 
-		ResourceString ana = new ResourceString(UmlAnalysisContractMinMax.Name);
+		ResourceString ana = null; //todo: new ResourceString(UmlAnalysisContractMinMax.Name);
 
 		JobDataInput inData = new JobDataInput();
 		inData.add(Job_LegalCheck.CONTRACT_FILE, analyzeFile);

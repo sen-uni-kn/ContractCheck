@@ -8,12 +8,17 @@ import org.w3c.dom.NodeList;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 
-// traverses every element and attribute of an UML model
-public abstract class UmlVisitorAbstract implements UmlVisitor
+/**
+ * Traverses every element and attribute of an UML model.
+ * 
+ * @author Martin Koelbl (C) 2023
+ */
+public class UmlTraverseVisitor
 {
 	protected Job job;
+	UmlModel2 model;
 
-	public UmlVisitorAbstract(Job job)
+	public UmlTraverseVisitor(Job job)
 	{
 		this.job = job;
 	}
@@ -39,14 +44,19 @@ public abstract class UmlVisitorAbstract implements UmlVisitor
 		}
 	}
 
-	protected void traverse(UmlModel2 model)
+	public void visitModel(UmlModel2 model)
 	{
-		this.visit(model);
 		Element ele = model.doc.getDocumentElement();
-		traverseNode(ele);
+		this.visitModel(model);
+		visitElement(ele);
 	}
 
-	private void traverseNode(Element ele)
+	public void visitAttribute(Element ele, String name, String val)
+	{
+
+	}
+
+	public void visitElement(Element ele)
 	{
 		// visit every attribute
 		NamedNodeMap atts = ele.getAttributes();
@@ -65,9 +75,7 @@ public abstract class UmlVisitorAbstract implements UmlVisitor
 			if (n.getNodeType() == Node.ELEMENT_NODE)
 			{
 				Element e = (Element) n;
-				this.visitElement(e);
-				traverseNode(e);
-				this.leaveElement(e);
+				visitElement(e);
 			}
 		}
 	}
