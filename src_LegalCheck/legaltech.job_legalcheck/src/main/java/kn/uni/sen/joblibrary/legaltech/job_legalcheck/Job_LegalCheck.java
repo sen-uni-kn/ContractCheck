@@ -10,13 +10,10 @@ import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.LegalVisitorSemantic;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.ReportResult;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysis;
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractClaimDependency;
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractDoubleJeopardy;
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractClaims;
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractLimitation;
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractMinMax;
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractPriceChangeTime;
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSyntax;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisExecutor;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisFactory;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisFactorySPA;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisFactorySyntax;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlResult;
 import kn.uni.sen.jobscheduler.common.impl.JobAbstract;
 import kn.uni.sen.jobscheduler.common.model.JobResult;
@@ -94,55 +91,38 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 		ResourceDouble resV = getResourceWithType(VALUES, false);
 
 		ResourceString resA = getResourceWithType(ANALYSEN, false);
-		List<UmlAnalysis> anas = getAnalysen(resA, resV);
+		List<UmlAnalysisFactory> anas = getAnalysen(resA, resV);
 
 		// add Legal semantic
 		new LegalVisitorSemantic(this).traverse(model2);
 
-		// create different analyses
-		String file = null;
-		for (UmlAnalysis ana : anas)
+		// run different analyses
+		UmlAnalysisExecutor executor = new UmlAnalysisExecutor(this);
+		for (UmlAnalysisFactory ana : anas)
 		{
-			ana.setStatisticFile(file);
-			ana.runAnalysis(model2, this);
-			file = ana.getStatisticFile();
+			// search elements to analyze	
+			executor.runAnalysis(ana, model2, this);
 		}
-
 		return end(JobResult.OK);
 	}
 
-	private List<UmlAnalysis> getAnalysen(ResourceString resA, ResourceDouble resV)
+	private List<UmlAnalysisFactory> getAnalysen(ResourceString resA, ResourceDouble resV)
 	{
-		List<UmlAnalysis> anas = new ArrayList<>();
+		List<UmlAnalysisFactory> anas = new ArrayList<>();
 		if (resA == null)
 		{
-			resA = new ResourceString(UmlAnalysisSyntax.Name);
-			resA.addNext(new ResourceString(UmlAnalysisSyntax.Name));
-			resA.addNext(new ResourceString(UmlAnalysisContractClaims.Name));
-			resA.addNext(new ResourceString(UmlAnalysisContractPriceChangeTime.Name));
-			resA.addNext(new ResourceString(UmlAnalysisContractLimitation.Name));
-			resA.addNext(new ResourceString(UmlAnalysisContractDoubleJeopardy.Name));
-			resA.addNext(new ResourceString(UmlAnalysisContractClaimDependency.Name));
+			resA = new ResourceString(UmlAnalysisFactorySyntax.Name);
+			resA.addNext(new ResourceString(UmlAnalysisFactorySPA.Name));
 		}
 		while (resA != null)
 		{
 			String val = resA.getData();
 			if (val == null)
 				continue;
-			if (val.equals(UmlAnalysisSyntax.Name))
-				anas.add(new UmlAnalysisSyntax(this, val));
-			if (val.equals(UmlAnalysisContractClaims.Name))
-				anas.add(new UmlAnalysisContractClaims(this, val));
-			if (val.equals(UmlAnalysisContractPriceChangeTime.Name))
-				anas.add(new UmlAnalysisContractPriceChangeTime(this, val));
-			if (val.equals(UmlAnalysisContractMinMax.Name))
-				anas.add(new UmlAnalysisContractMinMax(this, val, resV));
-			if (val.equals(UmlAnalysisContractLimitation.Name))
-				anas.add(new UmlAnalysisContractLimitation(this, val));
-			if (val.equals(UmlAnalysisContractDoubleJeopardy.Name))
-				anas.add(new UmlAnalysisContractDoubleJeopardy(this, val));
-			if (val.equals(UmlAnalysisContractClaimDependency.Name))
-				anas.add(new UmlAnalysisContractClaimDependency(this, val));
+			if (val.equals(UmlAnalysisFactorySyntax.Name))
+				anas.add(new UmlAnalysisFactorySyntax(this, val));
+			if (val.equals(UmlAnalysisFactorySPA.Name))
+				anas.add(new UmlAnalysisFactorySPA(this, val));
 			resA = resA.getNextByType();
 		}
 		return anas;
