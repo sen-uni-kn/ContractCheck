@@ -11,8 +11,8 @@ import kn.uni.sen.joblibrary.legaltech.uml_analysis.ReportResult;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysis;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisExecutor;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisFactory;
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisFactorySPA;
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisFactorySyntax;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSPA;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSyntax;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlResult;
 import kn.uni.sen.jobscheduler.common.impl.JobAbstract;
 import kn.uni.sen.jobscheduler.common.model.JobResult;
@@ -98,38 +98,42 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 		ResourceDouble resV = getResourceWithType(VALUES, false);
 
 		ResourceString resA = getResourceWithType(ANALYSEN, false);
-		List<UmlAnalysisFactory> anas = getAnalysen(resA, resV);
+		List<UmlAnalysisFactory> anaFac = getAnalysisFactories(resA, resV);
 
 		// run different analyses
 		UmlAnalysisExecutor executor = new UmlAnalysisExecutor(this);
-		for (UmlAnalysisFactory ana : anas)
+		for (UmlAnalysisFactory fac : anaFac)
 		{
-			// search elements to analyze	
-			executor.runAnalysis(ana, model2, this);
+			// generate analyses instances
+			for (UmlAnalysis ana : fac.createAnalyses(model2))
+			{
+				// run analysis
+				executor.runAnalysis(ana, this);
+			}
 		}
 		return end(JobResult.OK);
 	}
 
-	private List<UmlAnalysisFactory> getAnalysen(ResourceString resA, ResourceDouble resV)
+	private List<UmlAnalysisFactory> getAnalysisFactories(ResourceString resA, ResourceDouble resV)
 	{
-		List<UmlAnalysisFactory> anas = new ArrayList<>();
+		List<UmlAnalysisFactory> anaFacs = new ArrayList<>();
 		if (resA == null)
 		{
-			resA = new ResourceString(UmlAnalysisFactorySyntax.Name);
-			resA.addNext(new ResourceString(UmlAnalysisFactorySPA.Name));
+			resA = new ResourceString(UmlAnalysisSyntax.Name);
+			resA.addNext(new ResourceString(UmlAnalysisSPA.Name));
 		}
 		while (resA != null)
 		{
 			String val = resA.getData();
 			if (val == null)
 				continue;
-			if (val.equals(UmlAnalysisFactorySyntax.Name))
-				anas.add(new UmlAnalysisFactorySyntax(this, val));
-			if (val.equals(UmlAnalysisFactorySPA.Name))
-				anas.add(new UmlAnalysisFactorySPA(this, val));
+			if (val.equals(UmlAnalysisSyntax.Name))
+				anaFacs.add(new UmlAnalysisSyntax(this, val));
+			if (val.equals(UmlAnalysisSPA.Name))
+				anaFacs.add(new UmlAnalysisSPA(this, val));
 			resA = resA.getNextByType();
 		}
-		return anas;
+		return anaFacs;
 	}
 
 	private ResourceString addResult(UmlAnalysis ana, UmlResult result)

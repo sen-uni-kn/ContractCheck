@@ -1,19 +1,19 @@
 package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
-import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
+import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlModel2;
 import kn.uni.sen.jobscheduler.common.model.Job;
 
-public class UmlAnalysisSmt implements UmlAnalysis
+public abstract class UmlAnalysisSmtAbstract implements UmlAnalysis, UmlAnalysisFactory
 {
 	Job job;
 	String name;
-	SmtModel smt;
+	UmlModel2 model;
 
-	public UmlAnalysisSmt(Job job, String name, SmtModel smt)
+	public UmlAnalysisSmtAbstract(Job job, String name, UmlModel2 model)
 	{
 		this.job = job;
 		this.name = name;
-		this.smt = smt;
+		this.model = model;
 	}
 
 	@Override

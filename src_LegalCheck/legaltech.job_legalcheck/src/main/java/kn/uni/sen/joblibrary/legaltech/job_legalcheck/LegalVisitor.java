@@ -19,7 +19,7 @@ public abstract class LegalVisitor extends UmlTraverseVisitor
 
 	protected void visitContract(Element ele)
 	{
-		visitElement(ele);
+		super.visitElement(ele);
 	}
 
 	protected void visitPrimaryClaim(Element ele)
@@ -29,32 +29,32 @@ public abstract class LegalVisitor extends UmlTraverseVisitor
 
 	protected void visitClaim(Element ele)
 	{
-		visitElement(ele);
+		super.visitElement(ele);
 	}
 
 	protected void visitObject(Element ele)
 	{
-		visitElement(ele);
+		super.visitElement(ele);
 	}
 
 	protected void visitPerson(Element ele)
 	{
-		visitElement(ele);
+		super.visitElement(ele);
 	}
 
 	private void visitProperty(Element ele)
 	{
-		visitElement(ele);
+		super.visitElement(ele);
 	}
 
 	private void visitRegistration(Element ele)
 	{
-		visitElement(ele);
+		super.visitElement(ele);
 	}
 
 	private void visitPrice(Element ele)
 	{
-		visitElement(ele);
+		super.visitElement(ele);
 	}
 
 	@Override

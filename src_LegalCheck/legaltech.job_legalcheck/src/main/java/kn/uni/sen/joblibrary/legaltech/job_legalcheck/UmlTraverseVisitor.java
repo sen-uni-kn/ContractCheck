@@ -47,7 +47,7 @@ public class UmlTraverseVisitor
 	public void visitModel(UmlModel2 model)
 	{
 		Element ele = model.doc.getDocumentElement();
-		this.visitModel(model);
+		this.model = model;
 		visitElement(ele);
 	}
 
