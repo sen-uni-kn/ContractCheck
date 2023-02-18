@@ -2,7 +2,6 @@ package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.w3c.dom.Element;
 
@@ -39,16 +38,40 @@ public class UmlAnalysisSPA extends UmlAnalysisSmtAbstract
 		List<Element> contracts = (new UmlAnalysisSearchContracts(job)).searchContracts(model2);
 		for (Element ele : contracts)
 		{
-			list.add(new UmlAnalysisSPA(job, name, model2, ele));
+			list.add(new UmlAnalysisSPA(job, anaName, model2, ele));
 		}
 		return list;
 	}
 
 	@Override
-	public void runAnalysis(ReportResult report)
+	SmtModel createSMTCode(UmlModel2 model)
 	{
-		Map<Element, UmlAnnotation> map = (new UmlAnnotateConstraints(job)).generate(model);
-		SmtModel smt = (new UmlCombineConstraints(job)).combine(model, map);
-		// todo: run smt analysis
+		SmtModel smt = (new Legal2Constraints(this, job)).generate(model);
+		return smt;
+	}
+
+	@Override
+	public void runAnalysis(ReportResult report, String statisticsFile)
+	{
+		SmtModel smtModel = createSMTCode(model);
+		if (smtModel == null)
+			return;
+
+		String code = smtModel.toText();
+		if (code == null)
+			return;
+		// code = "(set-option :produce-unsat-cores true)\n" + code;
+		// code += "(get-unsat-core)";
+
+		ParseSmtResult res = runSmtAnalysis(model, code, "_SPA", smtModel);
+		if (res != null)
+		{
+			if (res.isUnsatisfiable())
+			{
+				reportUnsat("Contract", "Contract not satisfiable", res.getUnsatCore(), UmlResultState.ERROR);
+			} else
+				reportRun("Contract", "Contract satisfiable", res.getDiagram(), UmlResultState.GOOD);
+		}
+		log(statisticsFile);
 	}
 }

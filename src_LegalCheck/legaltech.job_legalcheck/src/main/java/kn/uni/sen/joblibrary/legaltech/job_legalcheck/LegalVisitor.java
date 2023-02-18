@@ -3,7 +3,7 @@ package kn.uni.sen.joblibrary.legaltech.job_legalcheck;
 import org.w3c.dom.Element;
 
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
-import kn.uni.sen.jobscheduler.common.model.Job;
+import kn.uni.sen.jobscheduler.common.model.RunContext;
 
 /**
  * Traverses the UML node and calls legal visitors.
@@ -12,7 +12,7 @@ import kn.uni.sen.jobscheduler.common.model.Job;
  */
 public abstract class LegalVisitor extends UmlTraverseVisitor
 {
-	public LegalVisitor(Job job)
+	public LegalVisitor(RunContext job)
 	{
 		super(job);
 	}

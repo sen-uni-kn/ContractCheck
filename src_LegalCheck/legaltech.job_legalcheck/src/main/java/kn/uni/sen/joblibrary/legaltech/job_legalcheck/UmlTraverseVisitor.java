@@ -5,8 +5,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
+import kn.uni.sen.jobscheduler.common.model.RunContext;
 
 /**
  * Traverses every element and attribute of an UML model.
@@ -15,10 +15,10 @@ import kn.uni.sen.jobscheduler.common.model.JobEvent;
  */
 public class UmlTraverseVisitor
 {
-	protected Job job;
-	UmlModel2 model;
+	protected RunContext job;
+	protected UmlModel2 model;
 
-	public UmlTraverseVisitor(Job job)
+	public UmlTraverseVisitor(RunContext job)
 	{
 		this.job = job;
 	}

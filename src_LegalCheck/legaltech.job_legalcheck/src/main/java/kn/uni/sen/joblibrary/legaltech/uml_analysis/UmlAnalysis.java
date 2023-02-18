@@ -9,5 +9,5 @@ public interface UmlAnalysis
 {
 	String getName();
 
-	void runAnalysis(ReportResult report);
+	void runAnalysis(ReportResult report, String statisticsFile);
 }

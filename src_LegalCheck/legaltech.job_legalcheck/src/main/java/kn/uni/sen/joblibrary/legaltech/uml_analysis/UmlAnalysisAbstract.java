@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import kn.uni.sen.joblibrary.legaltech.job_legalcheck.LegalVisitor;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlNode2;
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
 import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
@@ -15,38 +14,24 @@ import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 
-public abstract class UmlAnalysisAbstract extends LegalVisitor implements UmlAnalysis
+public abstract class UmlAnalysisAbstract implements UmlAnalysis, UmlAnalysisListener
 {
 	SmtModel smtModel = new SmtModel();
 	ReportResult report;
 	String anaName;
-	UmlAnalysisFactory anaFac;
+	Job job;
 
-	public UmlAnalysisAbstract(Job j, String name, UmlAnalysisFactory anaFac)
+	public UmlAnalysisAbstract(Job job, String name)
 	{
-		super(j);
+		this.job = job;
 		this.anaName = name;
 		assertTrue(!!!anaName.isEmpty());
-		this.anaFac = anaFac;
 	}
-
+	
 	@Override
 	public String getName()
 	{
 		return anaName;
-	}
-
-	String getCorrectedName(String n)
-	{
-		if (n == null)
-			return null;
-		n = n.replace("ö", "oe");
-		n = n.replace("ä", "ae");
-		n = n.replace("ü", "ue");
-		n = n.replace("Ö", "Oe");
-		n = n.replace("Ä", "Ae");
-		n = n.replace("Ü", "Ue");
-		return n.replaceAll("[^a-zA-Z0-9_]", "");
 	}
 
 	public void reportError(String text)
@@ -111,7 +96,7 @@ public abstract class UmlAnalysisAbstract extends LegalVisitor implements UmlAna
 		}
 		report.reportResult(this, res);
 	}
-
+	
 	public void report(UmlResultState state, String text)
 	{
 		UmlResult res = new UmlResult();

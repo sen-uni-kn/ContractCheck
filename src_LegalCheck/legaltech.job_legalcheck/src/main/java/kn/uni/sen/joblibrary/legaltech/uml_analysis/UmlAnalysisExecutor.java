@@ -30,6 +30,6 @@ public class UmlAnalysisExecutor
 
 	public void runAnalysis(UmlAnalysis ana, ReportResult report)
 	{
-		ana.runAnalysis(report);
+		ana.runAnalysis(report, statisticsFile);
 	}
 }
