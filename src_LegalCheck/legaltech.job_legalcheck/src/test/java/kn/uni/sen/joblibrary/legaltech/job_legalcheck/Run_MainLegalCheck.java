@@ -12,22 +12,17 @@ import kn.uni.sen.jobscheduler.common.model.ResourceInterface;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFileXml;
 import kn.uni.sen.jobscheduler.common.resource.ResourceString;
 
-public class Test_MainLegalCheck extends JobAbstractTest
+public class Run_MainLegalCheck extends JobAbstractTest
 {
-	String nameFile = "ContractBad.xml";
-	{
-		// nameFile = "brezenvertrag_bad.json";
-		nameFile = "pretzelSPA3_bad.json";
-		// nameFile = "contract_long.json";
-	}
-
+	String projectName = "pretzelSPA3_bad";
+	String nameFile = projectName + ".json";
+	String xmlFile = projectName + ".xml";
 	String xsdFile = "legal.xsd";
 
 	@Override
 	protected Job createJob()
 	{
 		// ignoreTest = true;
-		// logger.getFilterList().clear();
 		return new Job_LegalCheck(this);
 	}
 
@@ -54,6 +49,12 @@ public class Test_MainLegalCheck extends JobAbstractTest
 			String data = JobAbstractTest.getPath(res);
 			ResourceFileXml resXml = new ResourceFileXml();
 			resXml.setData(data);
+			return resXml;
+		} else if (Job_LegalCheck.MODEL_XML_FILE.compareTo(name) == 0)
+		{
+			// xml model output file
+			ResourceFileXml resXml = new ResourceFileXml();
+			resXml.setData(xmlFile);
 			return resXml;
 		} else if (Job_LegalCheck.ANALYSEN.compareTo(name) == 0)
 		{
@@ -89,7 +90,7 @@ public class Test_MainLegalCheck extends JobAbstractTest
 	@Override
 	public void endTest()
 	{
-		ResourceInterface res = this.jobTest.getResource(Job_LegalCheck.RESULT, true);
+		ResourceInterface res = this.jobTest.getResource(Job_LegalCheck.ANA_RESULT, true);
 		while (res != null)
 		{
 			outputResult(res);
@@ -99,6 +100,6 @@ public class Test_MainLegalCheck extends JobAbstractTest
 
 	public static void main(String args[])
 	{
-		(new Test_MainLegalCheck()).testAll();
+		(new Run_MainLegalCheck()).testAll();
 	}
 }

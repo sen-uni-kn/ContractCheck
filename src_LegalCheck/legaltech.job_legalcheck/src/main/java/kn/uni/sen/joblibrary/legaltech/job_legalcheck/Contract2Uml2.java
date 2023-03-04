@@ -33,11 +33,13 @@ public class Contract2Uml2
 	Stack<Element> clauseStack = null;
 	List<Helper.Pair<String, ContractCard>> assList = null;
 	UmlModel2 model = null;
+	ResourceFile xmlFile;
 	ResourceFile xsdFile;
 
-	public Contract2Uml2(Job j, ResourceFile xsd)
+	public Contract2Uml2(Job j, ResourceFile xmlFile, ResourceFile xsd)
 	{
 		job = j;
+		this.xmlFile = xmlFile;
 		xsdFile = new ResourceFile();
 		String val = Helper.loadFilePath("legal.xsd");
 		xsdFile.setData(val);
@@ -514,14 +516,22 @@ public class Contract2Uml2
 		for (Pair<String, ContractCard> p : assList)
 			convertAssignmentCard2(model, p.name, p.value);
 
-		String filePath = ResourceFolder.appendFolder(job.getFolderText(), "test.xml");
-		model.writeFile(filePath);
-		model.validateFile(filePath, null);
+		String xml = null;
+		if (xmlFile != null)
+		{
+			xml = xmlFile.getData();
+		}
+		if ((xml != null) && !!!xml.isBlank())
+		{
+			model.writeFile(xml);
+			model.validateFile(xml, null);
+		}
 
-		//String filePath2 = ResourceFolder.appendFolder(job.getFolderText(), "test2.xml");
-		//UmlCopy cop = new UmlCopy(job);
-		//UmlModel2 model2 = cop.copyModel(model);
-		//model2.writeFile(filePath2);
+		// String filePath2 = ResourceFolder.appendFolder(job.getFolderText(),
+		// "test2.xml");
+		// UmlCopy cop = new UmlCopy(job);
+		// UmlModel2 model2 = cop.copyModel(model);
+		// model2.writeFile(filePath2);
 		return model;
 	}
 }

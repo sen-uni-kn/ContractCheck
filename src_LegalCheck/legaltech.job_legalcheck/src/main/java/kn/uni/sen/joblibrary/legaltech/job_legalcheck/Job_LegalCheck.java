@@ -38,30 +38,33 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 {
 	public static final String CONTRACT_FILE = "Contract";
 	public static final String XSD_FILE = "XSDFile";
+	public static final String MODEL_XML_FILE = "XmlFile";
 	public static final String VALUES = "VariableWerte";
 	public static final String ANALYSEN = "Analyse";
 
-	public static final String RESULT = "Result";
+	public static final String ANA_RESULT = "Result";
 	public static final String SEQUENCE = "Sequence";
 	public static final String MINMAX = "MinMax";
 	public static final String RESULT_KIND = "Kind";
 	public static final String UNSAT_CORE = "UnsatCore";
-	// List<UmlResult> ErrList = new LinkedList<>();
 
 	ResourceString ResultNext = null;
+	ResourceFile xmlFile = null;
 
 	public Job_LegalCheck(RunContext parent)
 	{
 		super(parent);
 		createInputDescr(CONTRACT_FILE, ResourceType.FILE).addTag(ResourceTag.NECESSARY);
 		createInputDescr(XSD_FILE, ResourceType.FILE);
+		createInputDescr(MODEL_XML_FILE, ResourceType.FILE);
 		createInputDescr(ANALYSEN, ResourceType.STRING);
 		createInputDescr(VALUES, ResourceType.DOUBLE);
 
-		createResultDescr(RESULT, ResourceType.STRING);
+		createResultDescr(ANA_RESULT, ResourceType.STRING);
+		createResultDescr(MODEL_XML_FILE, ResourceType.FILE);
 	}
 
-	public UmlModel2 parseUmlModel(ResourceFile resFile, ResourceFile xsd)
+	public UmlModel2 parseUmlModel(ResourceFile resFile, ResourceFile xmlFile, ResourceFile xsd)
 	{
 		if (resFile == null)
 			return null;
@@ -75,7 +78,7 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 			return null; // (new UmlParser(this)).parseFile(xmiStream);
 		} // if ("json".equals(resFile.getExtension()))
 		Contract contract = (new ContractParser(this)).parseFile(resFile.getData());
-		return (new Contract2Uml2(this, xsd)).convert(contract);
+		return (new Contract2Uml2(this, xmlFile, xsd)).convert(contract);
 	}
 
 	public JobState task()
@@ -84,7 +87,12 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 		if (res == null)
 			return endError("Missing input file");
 		ResourceFile xsd = getResourceWithType(XSD_FILE, false);
-		UmlModel2 model2 = parseUmlModel(res, xsd);
+
+		xmlFile = getResourceWithType(MODEL_XML_FILE, false);
+		if ((xmlFile != null) && !!!xmlFile.isAbsolutePath())
+			xmlFile.setFolder(getFolderText());
+
+		UmlModel2 model2 = parseUmlModel(res, xmlFile, xsd);
 		if (model2 == null)
 			return endError("Error with parsing of contract file!");
 		if (model2.getClassInstances(LegalUml.SPA).isEmpty())
@@ -146,7 +154,7 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 
 	private ResourceString addResult(UmlAnalysis ana, UmlResult result)
 	{
-		String name = RESULT + "_" + result.anaName;
+		String name = ANA_RESULT + "_" + result.anaName;
 		if (result.name != null)
 			name += "_" + result.name;
 		ResourceString res = new ResourceString(name);
@@ -201,8 +209,10 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 	{
 		if (name == null)
 			return null;
-		if (RESULT.equals(name))
+		if (ANA_RESULT.equals(name))
 			return ResultNext;
+		if (MODEL_XML_FILE.equals(name))
+			return xmlFile;
 		return null;
 	}
 
