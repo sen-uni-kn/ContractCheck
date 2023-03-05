@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractClaimDependency;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSPA;
 import kn.uni.sen.jobscheduler.common.JobAbstractTest;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.ResourceInterface;
@@ -66,7 +66,7 @@ public class TestStable_BakeryXml extends JobAbstractTest
 		{
 			// execute only a single analysis
 			ResourceString resAna = new ResourceString();
-			resAna.setData(UmlAnalysisContractClaimDependency.Name);
+			resAna.setData(UmlAnalysisSPA.Name);
 			return resAna;
 		}
 		return null;
