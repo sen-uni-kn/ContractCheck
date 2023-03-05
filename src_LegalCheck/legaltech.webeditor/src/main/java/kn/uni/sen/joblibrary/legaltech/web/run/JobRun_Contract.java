@@ -270,7 +270,7 @@ public class JobRun_Contract extends JobRunAbstract implements Runnable
 		if (Result == null)
 		{
 			// get first Result intance
-			Result = job.getResourceWithType(Job_LegalCheck.RESULT, true);
+			Result = job.getResourceWithType(Job_LegalCheck.ANA_RESULT, true);
 			res = Result;
 		} else
 			res = Result.getNextByType();

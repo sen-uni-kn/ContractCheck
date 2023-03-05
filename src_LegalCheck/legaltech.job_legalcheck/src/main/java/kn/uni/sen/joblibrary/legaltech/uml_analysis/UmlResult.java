@@ -1,7 +1,7 @@
 package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
 /**
- * 	stores the analysis results and hand them over to the job
+ * stores the analysis results and hand them over to the job
  * 
  * @author Martin Koelbl
  */

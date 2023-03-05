@@ -9,6 +9,7 @@ import kn.uni.sen.jobscheduler.common.JobAbstractTest;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.model.ResourceInterface;
+import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFileXml;
 import kn.uni.sen.jobscheduler.common.resource.ResourceString;
 
@@ -26,30 +27,27 @@ public class Run_MainLegalCheck extends JobAbstractTest
 		return new Job_LegalCheck(this);
 	}
 
+	ResourceFile getFile(String file)
+	{
+		ClassLoader classLoader = getClass().getClassLoader();
+		URL urlCmp = classLoader.getResource(file);
+		assertTrue(urlCmp != null);
+		String filePath = JobAbstractTest.getPath(urlCmp);
+		ResourceFileXml resFile = new ResourceFileXml();
+		resFile.setData(filePath);
+		return resFile;
+	}
+
 	@Override
 	protected ResourceInterface getResourceByName(String name, boolean out)
 	{
 		// add inputs
 		if (Job_LegalCheck.CONTRACT_FILE.compareTo(name) == 0)
 		{
-			ClassLoader classLoader = getClass().getClassLoader();
-			URL res = classLoader.getResource(nameFile);
-			assertTrue(res != null);
-			// add inputs
-			String data = JobAbstractTest.getPath(res);
-			ResourceFileXml resXml = new ResourceFileXml();
-			resXml.setData(data);
-			return resXml;
+			return getFile(nameFile);
 		} else if (Job_LegalCheck.XSD_FILE.compareTo(name) == 0)
 		{
-			ClassLoader classLoader = getClass().getClassLoader();
-			URL res = classLoader.getResource(xsdFile);
-			assertTrue(res != null);
-			// add inputs
-			String data = JobAbstractTest.getPath(res);
-			ResourceFileXml resXml = new ResourceFileXml();
-			resXml.setData(data);
-			return resXml;
+			return getFile(xsdFile);
 		} else if (Job_LegalCheck.MODEL_XML_FILE.compareTo(name) == 0)
 		{
 			// xml model output file

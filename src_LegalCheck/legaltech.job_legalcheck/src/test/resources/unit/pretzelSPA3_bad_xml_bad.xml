@@ -7,7 +7,7 @@
       <Clause2 id="61" name="Block1_c2">
         <Legal id="63" name="Reference" ref="62"/>
         <Legal id="65" name="Reference" ref="64"/>
-        <Legal id="67" name="Reference" ref="66"/>
+        <Legal id="67" name="Reference2" ref="66"/>
         <Legal id="69" name="Reference" ref="68"/>
         <Legal id="72" name="Reference" ref="70"/>
         <string id="116" name="Item">1.1</string>

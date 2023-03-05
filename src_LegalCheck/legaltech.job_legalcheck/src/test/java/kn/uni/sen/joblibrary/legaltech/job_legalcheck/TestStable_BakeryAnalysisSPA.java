@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
-import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractClaimDependency;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractClaims;
 import kn.uni.sen.jobscheduler.common.JobAbstractTest;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.ResourceInterface;
@@ -14,32 +14,45 @@ import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 import kn.uni.sen.jobscheduler.common.resource.ResourceString;
 
 /**
- * Check whether xml model of a model is still the expected one.
+ * Check whether SPA analysis of a model is still the expected one.
  * 
  * @author Martin Koelbl
  */
-public class TestStable_BakeryXml extends JobAbstractTest
+public class TestStable_BakeryAnalysisSPA extends JobAbstractTest
 {
 	String projectName = "pretzelSPA3_bad";
 	String nameFile = projectName + ".json";
 	String xmlFile = projectName + ".xml";
 	String xsdFile = "legal.xsd";
 
-	String xmlCompareFile = ResourceFolder.appendFolder("unit", projectName + "_xml.xml");
-	String xmlCompareFileBad = ResourceFolder.appendFolder("unit", projectName + "_xml_bad.xml");
+	String resultSpaFile = "AnalysisSat_SPA.z3";
+	String xmlCompareFile = ResourceFolder.appendFolder("unit", "AnalysisSpa_petzelSPA3.z3");
+	String xmlCompareBadFile = ResourceFolder.appendFolder("unit", "AnalysisSpa_petzelSPA3_bad.z3");
+
+	ResourceFile spaFile = new ResourceFileXml();
+	{
+		spaFile.setFolder("result");
+		spaFile.setFileName(resultSpaFile);
+	}
 
 	@Override
 	protected Job createJob()
 	{
 		// ignoreTest = true;
-		return new Job_LegalCheck(this);
+		Job job = new Job_LegalCheck(this);
+
+		// delete SPA analysis if existing
+		if (spaFile.exists())
+			spaFile.removeFile();
+		assertTrue("SPA analysis file exists!", !!!spaFile.exists());
+		return job;
 	}
 
 	ResourceFile getFile(String file)
 	{
 		ClassLoader classLoader = getClass().getClassLoader();
 		URL urlCmp = classLoader.getResource(file);
-		assertTrue(urlCmp != null);
+		assert (urlCmp != null) : "Resource file is missing.";
 		String filePath = JobAbstractTest.getPath(urlCmp);
 		ResourceFileXml resFile = new ResourceFileXml();
 		resFile.setData(filePath);
@@ -64,39 +77,42 @@ public class TestStable_BakeryXml extends JobAbstractTest
 			return resXml;
 		} else if (Job_LegalCheck.ANALYSEN.compareTo(name) == 0)
 		{
-			// execute only a single analysis
+			// execute only the claim analysis (SPA and single claims)
 			ResourceString resAna = new ResourceString();
-			resAna.setData(UmlAnalysisContractClaimDependency.Name);
+			resAna.setData(UmlAnalysisContractClaims.Name);
 			return resAna;
 		}
 		return null;
 	}
 
-	@Override
-	public void endTest()
+	void checkExpectedSPA()
 	{
-		ResourceInterface res = this.jobTest.getResource(Job_LegalCheck.MODEL_XML_FILE, true);
-		assert (res != null);
-		ResourceFile xmlFile = (ResourceFile) res;
+		assertTrue("Expected SPA Analysis file is missing.", spaFile.exists());
 
 		// get comparison file
 		ResourceFile cmpFile = getFile(xmlCompareFile);
-		ResourceFile cmpFileBad = getFile(xmlCompareFileBad);
+		ResourceFile cmpFileBad = getFile(xmlCompareBadFile);
 
-		String dataXml = xmlFile.getContent();
+		String dataSpa = spaFile.getContent();
 		String dataCmp = cmpFile.getContent();
 		String dataCmpBad = cmpFileBad.getContent();
 
 		// test whether test is working
-		assertTrue("Test-test should fail but passes.", Helper.compareText(dataXml, dataCmpBad) != null);
+		assertTrue("Test-test should fail but passes.", Helper.compareLines(dataSpa, dataCmpBad) != null);
 
-		// do the actual test
-		String dif = Helper.compareText(dataXml, dataCmp);
+		// do the actual test, compare line-wise since the sequence can change
+		String dif = Helper.compareLines(dataSpa, dataCmp);
 		assertTrue("Xml file of " + nameFile + " changed.\n" + dif, dif == null);
+	}
+
+	@Override
+	public void endTest()
+	{
+		checkExpectedSPA();
 	}
 
 	public static void main(String args[])
 	{
-		(new TestStable_BakeryXml()).testAll();
+		(new TestStable_BakeryAnalysisSPA()).testAll();
 	}
 }

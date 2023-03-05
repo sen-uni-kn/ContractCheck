@@ -24,7 +24,6 @@
 (assert (! (= Thing_Block2_price 2) :named a5_Block2_price) )
 (assert (! (= Thing_Block11_prop 3) :named a6_Block11_prop) )
 
-(assert (! (or (= -1 Date_Block1_transfer) (and (<= 28 Date_Block1_transfer))) :named a7_Date_Block1_transfer) )
 (assert (! (or (= -1 Date_Block3_withdraw) (and (< 28 Date_Block3_withdraw))) :named a8_Date_Block3_withdraw) )
 (assert (! (or (= -1 Date_Block2_payment) (and (<= 28 Date_Block2_payment))) :named a9_Date_Block2_payment) )
 (assert (! (or (= -1 Date_Block4_withdraw) (and (< 28 Date_Block4_withdraw))) :named a10_Date_Block4_withdraw) )

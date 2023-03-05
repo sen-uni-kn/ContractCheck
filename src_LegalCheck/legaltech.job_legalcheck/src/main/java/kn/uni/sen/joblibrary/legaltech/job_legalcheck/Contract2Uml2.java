@@ -19,7 +19,6 @@ import kn.uni.sen.jobscheduler.common.helper.Helper.Pair;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
-import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 
 /**
  * Converts a @see Contract in a UML class diagram
