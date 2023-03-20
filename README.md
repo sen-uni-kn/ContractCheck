@@ -17,18 +17,24 @@ The contracts are in the folder `src_LegalCheck/legaltech.job_legalcheck/src/tes
 ### Download Jobscheduler
 
 ```
-git clone https://github.com/sen-uni-kn/JobScheduler
+git clone https://github.com/sen-uni-kn/JobScheduler JobScheduler-main
 ```
 
 ### Download ContractCheck
 
 ```
-git clone https://github.com/sen-uni-kn/ContractCheck
+git clone https://github.com/sen-uni-kn/ContractCheck ContractCheck-main
 ```
 
 ### Import JobScheduler
 
-- Select Existing Maven Projects and select the `JobScheduler-main` folder
+- Open Eclipse
+
+- Go to File/Import...
+
+- Go to Maven and select Existing Maven Projects
+
+- Select the `JobScheduler-main` folder
 
 - Deselect the root `.pom` (the tick at the very top) and leave every other box ticked. 
 
@@ -38,7 +44,13 @@ Maven should now build the project. Wait until it's finished and proceed to the 
 
 ### Import ContractCheck
 
-- Select Existing Maven Projects and select the `ContractCheck-main` folder.
+- Open Eclipse
+
+- Go to File/Import...
+
+- Go to Maven and select Existing Maven Projects
+
+- Select the `ContractCheck-main` folder
 
 - Press Finish
 
@@ -46,7 +58,7 @@ Maven should again build the project. After it's finished you may run the progra
 
 ### Add a private key
 
-- Navigate to `legaltech.webeditor` and open `application.properties`.
+- Navigate to `legaltech.webeditor` in subfolder `legaltech.webeditor/src/main/resources` and open `application.properties`.
 
 - Generate a new keystore.p12 private key:
 
