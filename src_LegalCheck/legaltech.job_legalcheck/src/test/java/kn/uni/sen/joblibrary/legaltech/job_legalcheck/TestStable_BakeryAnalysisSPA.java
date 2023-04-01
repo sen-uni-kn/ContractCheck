@@ -6,6 +6,7 @@ import java.net.URL;
 
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSPA;
 import kn.uni.sen.jobscheduler.common.JobAbstractTest;
+import kn.uni.sen.jobscheduler.common.JobDataTest;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.ResourceInterface;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
@@ -39,13 +40,22 @@ public class TestStable_BakeryAnalysisSPA extends JobAbstractTest
 	protected Job createJob()
 	{
 		// ignoreTest = true;
-		Job job = new Job_LegalCheck(this);
+		return new Job_LegalCheck(this);
+	}
 
-		// delete SPA analysis if existing
-		if (spaFile.exists())
-			spaFile.removeFile();
-		assertTrue("SPA analysis file exists!", !!!spaFile.exists());
-		return job;
+	@Override
+	protected JobDataTest createTest(Job jobTest2, int index)
+	{
+		JobDataTest data = super.createTest(jobTest2, index);
+		if (data != null)
+		// another test is executed
+		{
+			// delete old SPA analysis output if existing
+			if (spaFile.exists())
+				spaFile.removeFile();
+			assertTrue("SPA analysis file exists!", !!!spaFile.exists());
+		}
+		return data;
 	}
 
 	ResourceFile getFile(String file)
@@ -102,7 +112,7 @@ public class TestStable_BakeryAnalysisSPA extends JobAbstractTest
 
 		// do the actual test, compare line-wise since the sequence can change
 		String dif = Helper.compareLines(dataSpa, dataCmp);
-		//assertTrue("Xml file of " + nameFile + " changed.\n" + dif, dif == null);
+		assertTrue("Xml file of " + nameFile + " changed.\n" + dif, dif == null);
 	}
 
 	@Override

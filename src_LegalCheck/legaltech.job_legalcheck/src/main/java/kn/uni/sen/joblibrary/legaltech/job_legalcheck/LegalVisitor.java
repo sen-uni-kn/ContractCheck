@@ -42,12 +42,12 @@ public abstract class LegalVisitor extends UmlTraverseVisitor
 		super.visitElement(ele);
 	}
 
-	private void visitProperty(Element ele)
+	protected void visitProperty(Element ele)
 	{
 		super.visitElement(ele);
 	}
 
-	private void visitRegistration(Element ele)
+	protected void visitRegistration(Element ele)
 	{
 		super.visitElement(ele);
 	}
@@ -83,12 +83,12 @@ public abstract class LegalVisitor extends UmlTraverseVisitor
 		} else if (model.inheritatesFrom(ele, LegalUml.Person))
 		{
 			visitPerson(ele);
-		} else if (model.inheritatesFrom(ele, LegalUml.Object))
-		{
-			visitObject(ele);
 		} else if (model.inheritatesFrom(ele, LegalUml.PropertyRight))
 		{
 			visitProperty(ele);
+		} else if (model.inheritatesFrom(ele, LegalUml.Object))
+		{
+			visitObject(ele);
 		} else if (model.inheritatesFrom(ele, LegalUml.Registration))
 		{
 			visitRegistration(ele);
