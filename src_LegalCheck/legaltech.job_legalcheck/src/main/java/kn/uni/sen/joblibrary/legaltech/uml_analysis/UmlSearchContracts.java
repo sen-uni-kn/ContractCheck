@@ -2,7 +2,6 @@ package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.w3c.dom.Element;
 
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.LegalVisitor;
@@ -10,31 +9,31 @@ import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlModel2;
 import kn.uni.sen.jobscheduler.common.model.Job;
 
 /**
- * Search all claims in a contract model.
+ * Search all contracts in a contract model.
  * 
  * @author Martin Koelbl (C) 2023
  */
-public class UmlAnalysisSearchClaims extends LegalVisitor
+public class UmlSearchContracts extends LegalVisitor
 {
-	List<Element> claims;
+	List<Element> contracts;
 
-	public UmlAnalysisSearchClaims(Job job)
+	public UmlSearchContracts(Job job)
 	{
 		super(job);
 	}
 
 	@Override
-	protected void visitClaim(Element ele)
+	protected void visitContract(Element ele)
 	{
 		if (ele == null)
 			return;
-		claims.add(ele);
+		contracts.add(ele);
 	}
 
-	List<Element> searchClaims(UmlModel2 model)
+	List<Element> searchContracts(UmlModel2 model)
 	{
-		claims = new ArrayList<>();
+		contracts = new ArrayList<>();
 		visitModel(model);
-		return claims;
+		return contracts;
 	}
 }

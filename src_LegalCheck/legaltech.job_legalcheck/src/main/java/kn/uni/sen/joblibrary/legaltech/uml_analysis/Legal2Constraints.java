@@ -448,7 +448,7 @@ public class Legal2Constraints extends LegalVisitor
 	 * @param claim
 	 * @return
 	 */
-	private SmtDeclare constraintClaimDate(UmlNode2 claim)
+	protected SmtDeclare constraintClaimDate(UmlNode2 claim)
 	{
 		SmtDeclare claimDate = getDateOfMap(claim, claimDateMap);
 		if (claimDate != null)
@@ -556,18 +556,28 @@ public class Legal2Constraints extends LegalVisitor
 		UmlNode2 per = dc.getAssoziationByName(LegalUml.Debtor);
 		if (per == null)
 		{
-			System.out.println("Claim " + dc.getName() + " misses Debtor");
+			job.logEventStatus(JobEvent.ERROR, "Claim " + dc.getName() + " misses Debtor");
 			return;
 		}
 
 		UmlNode2 thing = model.getNodeByName(thingVar);
 		if (thing == null)
 		{
-			System.out.println("Missing " + thingVar);
+			job.logEventStatus(JobEvent.ERROR, "Missing uml thing " + thingVar);
 			return;
 		}
 		SmtDeclare thingDec = thingMap.get(thing.getElement());
+		if (thingDec == null)
+		{
+			job.logEventStatus(JobEvent.ERROR, "Missing thing " + thingVar);
+			return;
+		}
 		SmtDeclare perDec = personMap.get(per.getElement());
+		if (perDec == null)
+		{
+			job.logEventStatus(JobEvent.ERROR, "Missing Person " + perDec);
+			return;
+		}
 
 		SmtConstraint as = smtModel.createAssert(getCorrectedName(per.getName()), 8);
 		SmtConstraint con2 = new SmtConstraint("(" + ownerFunc.getName() + " " + thingDec.getName() + ")");

@@ -6,6 +6,7 @@ import java.util.List;
 import org.w3c.dom.Element;
 
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlModel2;
+import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlNode2;
 import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
 import kn.uni.sen.jobscheduler.common.model.Job;
 
@@ -20,14 +21,14 @@ public class UmlAnalysisSPA extends UmlAnalysisSmtAbstract
 	public static final String Name = "SPA";
 	Element contract = null;
 
-	public UmlAnalysisSPA(Job j, String name)
+	public UmlAnalysisSPA(Job j, String anaName)
 	{
-		super(j, name, null);
+		super(j, null, anaName, null);
 	}
 
-	public UmlAnalysisSPA(Job j, String name, UmlModel2 model, Element ele)
+	public UmlAnalysisSPA(Job j, String name, String anaName, UmlModel2 model, Element ele)
 	{
-		super(j, name, model);
+		super(j, name, anaName, model);
 		contract = ele;
 	}
 
@@ -35,10 +36,11 @@ public class UmlAnalysisSPA extends UmlAnalysisSmtAbstract
 	public List<UmlAnalysis> createAnalyses(UmlModel2 model2)
 	{
 		List<UmlAnalysis> list = new ArrayList<>();
-		List<Element> contracts = (new UmlAnalysisSearchContracts(job)).searchContracts(model2);
-		for (Element ele : contracts)
+		List<Element> contracts = (new UmlSearchContracts(job)).searchContracts(model2);
+		for (Element conEle : contracts)
 		{
-			list.add(new UmlAnalysisSPA(job, anaName, model2, ele));
+			String conName = (new UmlNode2(model2, conEle)).getName();
+			list.add(new UmlAnalysisSPA(job, conName, anaName, model2, conEle));
 		}
 		return list;
 	}
@@ -65,14 +67,14 @@ public class UmlAnalysisSPA extends UmlAnalysisSmtAbstract
 		// code = "(set-option :produce-unsat-cores true)\n" + code;
 		// code += "(get-unsat-core)";
 
-		ParseSmtResult res = runSmtAnalysis(model, code, "_SPA", smtModel);
+		ParseSmtResult res = runSmtAnalysis(model, code, null, smtModel);
 		if (res != null)
 		{
 			if (res.isUnsatisfiable())
 			{
-				reportUnsat("Contract", "Contract not satisfiable", res.getUnsatCore(), UmlResultState.ERROR);
+				reportUnsat(name, "Contract not satisfiable", res.getUnsatCore(), UmlResultState.ERROR);
 			} else
-				reportRun("Contract", "Contract satisfiable", res.getDiagram(), UmlResultState.GOOD);
+				reportRun(name, "Contract satisfiable", res.getDiagram(), UmlResultState.GOOD);
 		}
 		log(statisticsFile);
 	}

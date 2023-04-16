@@ -26,7 +26,7 @@ public class TestStable_BakeryAnalysisSPA extends JobAbstractTest
 	String xmlFile = projectName + ".xml";
 	String xsdFile = "legal.xsd";
 
-	String resultSpaFile = "AnalysisSPA_SPA.z3";
+	String resultSpaFile = "AnalysisSPA.z3";
 	String xmlCompareFile = ResourceFolder.appendFolder("unit", "AnalysisSpa_petzelSPA3.z3");
 	String xmlCompareBadFile = ResourceFolder.appendFolder("unit", "AnalysisSpa_petzelSPA3_bad.z3");
 

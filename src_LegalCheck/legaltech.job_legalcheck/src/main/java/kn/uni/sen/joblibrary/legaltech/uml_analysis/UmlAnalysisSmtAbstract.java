@@ -16,10 +16,11 @@ public abstract class UmlAnalysisSmtAbstract extends UmlAnalysisAbstract impleme
 	int constraintCount = -1;
 	int varCount = -1;
 
-	public UmlAnalysisSmtAbstract(Job job, String name, UmlModel2 model)
+	public UmlAnalysisSmtAbstract(Job job, String name, String anaName, UmlModel2 model)
 	{
-		super(job, name);
+		super(job, anaName);
 		this.model = model;
+		this.name = name;
 	}
 
 	abstract SmtModel createSMTCode(UmlModel2 model);
@@ -77,7 +78,8 @@ public abstract class UmlAnalysisSmtAbstract extends UmlAnalysisAbstract impleme
 
 	public ParseSmtResult runSmtAnalysis(UmlModel2 model, String code, String app, SmtModel smtModel)
 	{
-		name = app;
+		if (app != null)
+			name = app;
 		memZ3 = -1;
 		timeZ3 = -1;
 		constraintCount = -1;
