@@ -11,8 +11,6 @@ import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
 import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
-import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
-import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 
 public abstract class UmlAnalysisAbstract implements UmlAnalysis, UmlAnalysisListener
 {
@@ -27,7 +25,7 @@ public abstract class UmlAnalysisAbstract implements UmlAnalysis, UmlAnalysisLis
 		this.anaName = name;
 		assertTrue(!!!anaName.isEmpty());
 	}
-	
+
 	@Override
 	public String getName()
 	{
@@ -96,7 +94,7 @@ public abstract class UmlAnalysisAbstract implements UmlAnalysis, UmlAnalysisLis
 		}
 		report.reportResult(this, res);
 	}
-	
+
 	public void report(UmlResultState state, String text)
 	{
 		UmlResult res = new UmlResult();
@@ -148,24 +146,7 @@ public abstract class UmlAnalysisAbstract implements UmlAnalysis, UmlAnalysisLis
 		return set;
 	}
 
-	// used to output metadata (runtime, memory, ...) of analysis
 	void log(String statisticsFile)
 	{
-		if (statisticsFile == null)
-		{
-			statisticsFile = ResourceFolder.appendFolder(job.getFolderText(), "statistics.txt");
-			ResourceFile.removeFile(statisticsFile);
-			String head = "name & time & mem & constraints & variables\\\\\n";
-			ResourceFile.appendText2File(statisticsFile, head);
-		}
-
-		if (statisticsFile == null)
-			return;
-		// String fullName = anaName + name;
-		// String text = fullName + " & " + timeZ3 + "s & " + memZ3 + "MB & " +
-		// constraintCount + " & " + varCount
-		// + "\\\\\n";
-		//ResourceFile.appendText2File(statisticsFile, text);
 	}
-
 }

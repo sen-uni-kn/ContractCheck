@@ -105,4 +105,18 @@ public abstract class UmlAnalysisSmtAbstract extends UmlAnalysisAbstract impleme
 		timeZ3 = call.getTime();
 		return res;
 	}
+
+	// used to output metadata (runtime, memory, ...) of analysis
+	@Override
+	void log(String statisticsFile)
+	{
+		if (statisticsFile == null)
+			// file still not open
+			return;
+
+		String fullName = anaName + "_" + name;
+		String text = fullName + " & " + timeZ3 + "s & " + memZ3 + "MB & " + constraintCount + " & " + varCount
+				+ "\\\\\n";
+		ResourceFile.appendText2File(statisticsFile, text);
+	}
 }

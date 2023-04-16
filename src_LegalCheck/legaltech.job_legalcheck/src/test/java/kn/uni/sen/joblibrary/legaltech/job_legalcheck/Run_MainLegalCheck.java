@@ -15,6 +15,10 @@ import kn.uni.sen.jobscheduler.common.resource.ResourceString;
 public class Run_MainLegalCheck extends JobAbstractTest
 {
 	String projectName = "pretzelSPA3_bad";
+	{
+		// projectName = "contract_long";
+	}
+
 	String nameFile = projectName + ".json";
 	String xmlFile = projectName + ".xml";
 	String xsdFile = "legal.xsd";
@@ -56,8 +60,8 @@ public class Run_MainLegalCheck extends JobAbstractTest
 		} else if (Job_LegalCheck.ANALYSEN.compareTo(name) == 0)
 		{
 			// execute only a single analysis
-			//ResourceString resAna = new ResourceString();
-			//resAna.setData(UmlAnalysisContractClaimDependency.Name);
+			// ResourceString resAna = new ResourceString();
+			// resAna.setData(UmlAnalysisSPAClaim.Name);
 			// return resAna;
 		}
 		return null;

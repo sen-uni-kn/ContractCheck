@@ -1,6 +1,8 @@
 package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
 import kn.uni.sen.jobscheduler.common.model.Job;
+import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
+import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 
 /**
  * Generate analyses and execute them.
@@ -30,6 +32,15 @@ public class UmlAnalysisExecutor
 
 	public void runAnalysis(UmlAnalysis ana, ReportResult report)
 	{
+		if (statisticsFile == null)
+		{
+			//file not open create
+			statisticsFile = ResourceFolder.appendFolder(job.getFolderText(), "statistics.txt");
+			ResourceFile.removeFile(statisticsFile);
+			String head = "name & time & mem & constraints & variables\\\\\n";
+			ResourceFile.appendText2File(statisticsFile, head);
+		}
+		
 		ana.runAnalysis(report, statisticsFile);
 	}
 }
