@@ -318,7 +318,7 @@ public class ParseSmtResult
 		return s;
 	}
 
-	private boolean isPflichtErfuellt(UmlNode2 node, float val)
+	private boolean isClaimSatisfied(UmlNode2 node, float val)
 	{
 		if (node == null)
 			return false;
@@ -341,7 +341,7 @@ public class ParseSmtResult
 		if (n != null)
 			text += n;
 
-		if (!!!isPflichtErfuellt(node, val))
+		if (!!!isClaimSatisfied(node, val))
 		{
 			if (isWarranty(node))
 				text += " asserted(" + val + ")";
@@ -375,7 +375,10 @@ public class ParseSmtResult
 	private String createUmlArrow(Date d)
 	{
 		// search for underlying claim
-		UmlNode2 node = getUmlNode(d.Name);
+		String name = d.Name;
+		if(name.endsWith("_event"))
+			name = name.substring(0, name.length()-6);
+		UmlNode2 node = getUmlNode(name);
 		if ((node == null) || node.inheritatesFrom(LegalUml.DateS))
 			// ignore dates
 			return "";
@@ -391,13 +394,13 @@ public class ParseSmtResult
 		if (node.inheritatesFrom(LegalUml.SecondaryClaim))
 		{
 			bClaim = true;
-			if (!!!isWarranty(node) && !!!isPflichtErfuellt(node, d.Value))
+			if (!!!isWarranty(node) && !!!isClaimSatisfied(node, d.Value))
 				return null;
-			UmlNode2 node2 = getPflicht(node);
+			UmlNode2 node2 = getClaim(node);
 			if (node2 != null)
 				node = node2;
 		}
-		boolean bGaran = node.inheritatesFrom(LegalUml.Warranty);
+		boolean bWaran = node.inheritatesFrom(LegalUml.Warranty);
 
 		// search name of creditor
 		// use creditor name in node
@@ -432,7 +435,7 @@ public class ParseSmtResult
 
 		boolean b = text.contains("asserted");
 
-		if ((bClaim ^ bGaran) || b)
+		if ((bClaim ^ bWaran) || b)
 		{
 			String f = from;
 			from = to;
@@ -458,7 +461,7 @@ public class ParseSmtResult
 		return claim.isOfClass(LegalUml.Indemnity);
 	}
 
-	private UmlNode2 getPflicht(UmlNode2 node)
+	private UmlNode2 getClaim(UmlNode2 node)
 	{
 		List<UmlNode2> list = node.getAssoziationsByName(LegalUml.Trigger);
 		if (!!!list.isEmpty())

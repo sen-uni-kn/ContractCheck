@@ -53,6 +53,8 @@ public class UmlAnalysisSPA extends UmlAnalysisSmtAbstract
 	@Override
 	public void runAnalysis(ReportResult report, String statisticsFile)
 	{
+		this.report = report;
+
 		SmtModel smtModel = createSMTCode(model);
 		if (smtModel == null)
 			return;
