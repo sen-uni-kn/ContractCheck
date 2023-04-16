@@ -85,7 +85,7 @@
 					<xs:element name="DueDate" type="Date"></xs:element>
 					<xs:element name="Arise" type="Date"></xs:element>
 					<xs:element name="Limitation" type="Date"></xs:element>
-					<xs:element name="Depend" type="Claim"></xs:element>
+					<xs:element ref="Depend"></xs:element>
 					<xs:element name="Non" type="xs:boolean"></xs:element>
 					<xs:element name="Event" type="Date"></xs:element>
 				</xs:sequence>

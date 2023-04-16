@@ -13,6 +13,7 @@ import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisExecutor;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisFactory;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSPA;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSPAClaim;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSPADependent;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSyntax;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlResult;
 import kn.uni.sen.jobscheduler.common.impl.JobAbstract;
@@ -123,6 +124,7 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 			resA = new ResourceString(UmlAnalysisSyntax.Name);
 			resA.addNext(new ResourceString(UmlAnalysisSPA.Name));
 			resA.addNext(new ResourceString(UmlAnalysisSPAClaim.Name));
+			resA.addNext(new ResourceString(UmlAnalysisSPADependent.Name));
 		}
 		while (resA != null)
 		{
@@ -135,6 +137,8 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 				anaFacs.add(new UmlAnalysisSPA(this, val));
 			if (val.equals(UmlAnalysisSPAClaim.Name))
 				anaFacs.add(new UmlAnalysisSPAClaim(this, val));
+			if (val.equals(UmlAnalysisSPADependent.Name))
+				anaFacs.add(new UmlAnalysisSPADependent(this, val));
 			resA = resA.getNextByType();
 		}
 		return anaFacs;
