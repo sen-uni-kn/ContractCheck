@@ -16,7 +16,7 @@ public class JobServer_Web extends JobServerAbstract
 	protected JobRun createJobRun(Integer id)
 	{
 		ResourceFolder fol = createSessionFolder("result");
-		return new JobRun_Contract(id, getEventHandler(), fol);
+		return new JobRun_Web(id, getEventHandler(), fol);
 	}
 
 	@Override

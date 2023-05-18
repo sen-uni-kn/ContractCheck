@@ -17,12 +17,11 @@ import kn.uni.sen.joblibrary.legaltech.cards.ContractParser;
 import kn.uni.sen.joblibrary.legaltech.cards.ContractSaver;
 import kn.uni.sen.joblibrary.legaltech.html.HtmlCreator_ContractInput;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.Job_LegalCheck;
-//import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisContractMinMax;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlResultState;
 import kn.uni.sen.jobscheduler.common.impl.JobDataInput;
 import kn.uni.sen.jobscheduler.common.impl.JobEventStatus;
-import kn.uni.sen.jobscheduler.common.model.EventHandler;
 import kn.uni.sen.jobscheduler.common.model.Job;
+import kn.uni.sen.jobscheduler.common.model.EventHandler;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.model.JobState;
 import kn.uni.sen.jobscheduler.common.model.ResourceInterface;
@@ -30,42 +29,25 @@ import kn.uni.sen.jobscheduler.common.resource.ResourceDescription;
 import kn.uni.sen.jobscheduler.common.resource.ResourceDouble;
 import kn.uni.sen.jobscheduler.common.resource.ResourceEnum;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
-import kn.uni.sen.jobscheduler.common.resource.ResourceFileXml;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 import kn.uni.sen.jobscheduler.common.resource.ResourceString;
-import kn.uni.sen.jobscheduler.core.impl.JobRunAbstract;
-import kn.uni.sen.jobscheduler.core.model.JobScheduler;
 
-public class JobRun_Contract extends JobRunAbstract implements Runnable
+public class JobRun_Web extends JobRun_Abstract
 {
 	Contract contract = new Contract();
 	Contract bricks = null;
-	Job job = null;
 	ResourceString Result = null;
 	ResourceInterface Result2 = null;
 	boolean isResult = false;
 	boolean running = false;
 	ResourceFile analyzeFile = null;
+	JobRun_Abstract subJobRun = null;
 	LegalLogger logger = new LegalLogger(1000);
-	LegalLogger logger2 = new LegalLogger(1000);
 
-	public JobRun_Contract(Integer runID, EventHandler handler, ResourceFolder folder)
+	public JobRun_Web(Integer runID, EventHandler handler, ResourceFolder folder)
 	{
-		super(runID, handler, folder);
+		super(runID, handler, folder, null, null);
 		eventHandler.subscribe(logger);
-	}
-
-	@Override
-	public void run()
-	{
-		logEventStatus(JobEvent.INFO, "--------------------");
-		runAnalyzeModel();
-	}
-
-	@Override
-	protected JobScheduler createScheduler(ResourceFileXml jobFile, ResourceFolder folder, String schedulerType)
-	{
-		return null;
 	}
 
 	public boolean hasBrick()
@@ -176,14 +158,6 @@ public class JobRun_Contract extends JobRunAbstract implements Runnable
 		contract = parser.parseFile(file.getData());
 	}
 
-	public void saveContract(ResourceFile file)
-	{
-		ContractSaver saver = new ContractSaver();
-		String val = saver.saveFile(contract, file.getData());
-		if (val != null)
-			logEventStatus(JobEventStatus.ERROR, val);
-	}
-
 	public void saveContractText(ResourceFile fileR)
 	{
 		if ((fileR == null) || (contract == null))
@@ -210,40 +184,41 @@ public class JobRun_Contract extends JobRunAbstract implements Runnable
 	}
 
 	@Async("threadPoolTaskExecutor")
-	public void analyzeContract(ResourceFile fileR)
+	synchronized public void analyzeContract(ResourceFile fileR)
 	{
 		if (running)
 			return;
 
 		running = true;
 		analyzeFile = fileR;
-		Thread thread = new Thread(this);
+
+		JobRun_Check jobRun = new JobRun_Check(getRunID(), getEventHandler(), getFolder(), this, analyzeFile);
+		Thread thread = new Thread(jobRun);
+		subJobRun = jobRun;
 		thread.start();
 	}
 
-	void runAnalyzeModel()
+	@Async("threadPoolTaskExecutor")
+	synchronized public void analyzeActions(ResourceFile fileR)
 	{
-		job = new Job_LegalCheck(this);
-		if (analyzeFile == null)
-		{
-			String path = ResourceFolder.appendFolder(job.getFolderText(), "contractAna.json");
-			ResourceFolder.createFolder(job.getFolderText());
-			analyzeFile = new ResourceFile(path);
-			saveContract(analyzeFile);
-		}
+		if (running)
+			return;
 
-		JobDataInput inData = new JobDataInput();
-		inData.add(Job_LegalCheck.CONTRACT_FILE, analyzeFile);
-		// job.setEventHandler(eventHandler);
-		job.addLogger(logger);
+		running = true;
+		analyzeFile = fileR;
 
-		ResourceDescription.setOwner(job.getInputDescription(), inData);
-		if (job != null)
-			job.start();
-		isResult = true;
-		analyzeFile = null;
-		running = false;
-		logEventStatus(JobEvent.INFO, "end");
+		JobRun_Simulator jobRun = new JobRun_Simulator(getRunID(), getEventHandler(), getFolder(), this, analyzeFile);
+		Thread thread = new Thread(jobRun);
+		subJobRun = jobRun;
+		thread.start();
+	}
+
+	public void saveContract(ResourceFile file)
+	{
+		ContractSaver saver = new ContractSaver();
+		String val = saver.saveFile(getContract(), file.getData());
+		if (val != null)
+			logEventStatus(JobEventStatus.ERROR, val);
 	}
 
 	public JobEvent getNextEvent()
@@ -265,6 +240,12 @@ public class JobRun_Contract extends JobRunAbstract implements Runnable
 			Result2 = Result2.getNext();
 			return getResultValue(res);
 		}
+		
+		Job job = this.job;
+		if(subJobRun!=null)
+			job = subJobRun.getJob();
+		if(job == null)
+			return null;
 
 		ResourceString res = null;
 		if (Result == null)
@@ -404,7 +385,24 @@ public class JobRun_Contract extends JobRunAbstract implements Runnable
 		return text;
 	}
 
-	synchronized void runAnalyzeModelMinMax(ResourceDouble vars)
+	public void wait4List()
+	{
+		// wait for results but at most 5 seconds
+		for (int i = 0; i < 50; i++)
+		{
+			try
+			{
+				TimeUnit.MILLISECONDS.sleep(100);
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+			if (varList != null)
+				return;
+		}
+	}
+
+	void runAnalyzeModelMinMax(ResourceDouble vars)
 	{
 		job = new Job_LegalCheck(this);
 		if (analyzeFile == null)
@@ -415,7 +413,8 @@ public class JobRun_Contract extends JobRunAbstract implements Runnable
 			saveContract(analyzeFile);
 		}
 
-		ResourceString ana = null; //todo: new ResourceString(UmlAnalysisContractMinMax.Name);
+		ResourceString ana = null; // todo: new
+									// ResourceString(UmlAnalysisContractMinMax.Name);
 
 		JobDataInput inData = new JobDataInput();
 		inData.add(Job_LegalCheck.CONTRACT_FILE, analyzeFile);
@@ -433,23 +432,6 @@ public class JobRun_Contract extends JobRunAbstract implements Runnable
 		analyzeFile = null;
 		running = false;
 		logEventStatus(JobEvent.INFO, "end");
-	}
-
-	public void wait4List()
-	{
-		// wait for results but at most 5 seconds
-		for (int i = 0; i < 50; i++)
-		{
-			try
-			{
-				TimeUnit.MILLISECONDS.sleep(100);
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-			if (varList != null)
-				return;
-		}
 	}
 
 	public String getParasHtml(List<String> vars)
@@ -540,5 +522,22 @@ public class JobRun_Contract extends JobRunAbstract implements Runnable
 	public String getContractHtml()
 	{
 		return (new HtmlCreator_ContractInput(true, true)).getContractHtml(contract, bricks);
+	}
+
+	public Contract getContract()
+	{
+		return contract;
+	}
+
+	public void checkRun()
+	{
+		if(running && (subJobRun != null))
+		{
+			if(!subJobRun.isRunning())
+			{
+				running = false;
+				isResult = true;
+			}
+		}
 	}
 }

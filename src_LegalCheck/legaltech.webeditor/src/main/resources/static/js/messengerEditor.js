@@ -3,7 +3,7 @@ var myVar = setInterval(fire_ajax_logger, 1000);
 //window.onload = fire_ajax_submitContract();
 
 function removeAllChildNodes(parent) {
-	if(parent == null)
+	if (parent == null)
 		return;
 	while (parent.firstChild) {
 		parent.removeChild(parent.firstChild);
@@ -72,7 +72,7 @@ function fire_ajax_getParas() {
 		nodeOn = document.getElementById("var" + count + "_on");
 	}
 	data2["vars"] = vars;
-	
+
 	//delete old results
 	var eleR = document.getElementById("result");
 	removeAllChildNodes(eleR);
@@ -206,17 +206,95 @@ function analyzeContract() {
 
 	var data2 = {};
 	data2["sessionID"] = sessionID;
-	
+
 	//delete old results
 	var eleR = document.getElementById("result");
 	removeAllChildNodes(eleR);
 	eleR = document.getElementById("feedback");
 	removeAllChildNodes(eleR);
-	
+
 	$.ajax({
 		type: "POST",
 		contentType: "application/json",
 		url: "/log/analyzeContract",
+		data: JSON.stringify(data2),
+		dataType: 'json',
+		cache: false,
+		timeout: 600000,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfHeader, csrfToken);
+		},
+		success: function(data) {
+			fire_ajax_submitContract();
+		},
+		error: function(e) {
+			var json = "<h4>Ajax Error Analyze</h4><pre>" + e.responseText
+				+ "</pre>";
+			$('#feedback').html(json);
+			console.log("ERROR : ", e);
+		}
+	});
+}
+
+function analyzeActions() {
+	var sessionID = $("meta[name='runID']").attr("value");
+	var csrfToken = $("meta[name='_csrf']").attr("content");
+	var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+	//console.log(ele.name);
+	//console.log(ele.value);
+
+	var data2 = {};
+	data2["sessionID"] = sessionID;
+
+	//delete old results
+	var eleR = document.getElementById("result");
+	removeAllChildNodes(eleR);
+	eleR = document.getElementById("feedback");
+	removeAllChildNodes(eleR);
+
+	$.ajax({
+		type: "POST",
+		contentType: "application/json",
+		url: "/log/analyzeActions",
+		data: JSON.stringify(data2),
+		dataType: 'json',
+		cache: false,
+		timeout: 600000,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfHeader, csrfToken);
+		},
+		success: function(data) {
+			fire_ajax_submitContract();
+		},
+		error: function(e) {
+			var json = "<h4>Ajax Error Analyze</h4><pre>" + e.responseText
+				+ "</pre>";
+			$('#feedback').html(json);
+			console.log("ERROR : ", e);
+		}
+	});
+}
+
+function getActions() {
+	var sessionID = $("meta[name='runID']").attr("value");
+	var csrfToken = $("meta[name='_csrf']").attr("content");
+	var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+	//console.log(ele.name);
+	//console.log(ele.value);
+
+	var data2 = {};
+	data2["sessionID"] = sessionID;
+
+	//delete old results
+	var eleR = document.getElementById("diagram");
+	removeAllChildNodes(eleR);
+	eleR = document.getElementById("actions");
+	removeAllChildNodes(eleR);
+
+	$.ajax({
+		type: "POST",
+		contentType: "application/json",
+		url: "/log/getActions",
 		data: JSON.stringify(data2),
 		dataType: 'json',
 		cache: false,

@@ -27,6 +27,7 @@
 	</scm>
 	<modules>
 		<module>legaltech.job_legalcheck</module>
+		<module>legaltech.job_legalsimulator</module>
 		<module>legaltech.joblibrary</module>
 		<module>legaltech.webeditor</module>
 	</modules>

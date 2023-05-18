@@ -30,7 +30,7 @@ public class UmlSearchContracts extends LegalVisitor
 		contracts.add(ele);
 	}
 
-	List<Element> searchContracts(UmlModel2 model)
+	public List<Element> searchContracts(UmlModel2 model)
 	{
 		contracts = new ArrayList<>();
 		visitModel(model);

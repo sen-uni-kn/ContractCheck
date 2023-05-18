@@ -40,7 +40,7 @@ public class UmlSearchClaims extends LegalVisitor
 		super.visitContract(ele);
 	}
 
-	List<Element> searchContractClaims(UmlModel2 model, Element contract)
+	public List<Element> searchContractClaims(UmlModel2 model, Element contract)
 	{
 		claims = new ArrayList<>();
 		this.contract = contract;

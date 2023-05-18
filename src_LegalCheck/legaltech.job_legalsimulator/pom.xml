@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>kn.uni.sen.joblibrary.legaltech</groupId>
+		<artifactId>trunk_legaltech</artifactId>
+		<version>1.3.0</version>
+	</parent>
+	<artifactId>legaltech.job_legalsimulator</artifactId>
+	<name>JobLibrary_LegalCheck - Job_LegalSimulator</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>kn.uni.sen.jobscheduler</groupId>
+			<artifactId>jobscheduler.common</artifactId>
+			<version>${jobscheduler.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>kn.uni.sen.jobscheduler</groupId>
+			<artifactId>jobscheduler.common</artifactId>
+			<version>${jobscheduler.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>kn.uni.sen.joblibrary.legaltech</groupId>
+			<artifactId>legaltech.job_legalcheck</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>${json.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.21</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.11.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream -->
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.19</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>in.jlibs</groupId> <artifactId>jlibs-xsd</artifactId> 
+			<version>3.0.1</version> </dependency> -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.35</version>
+		</dependency>
+	</dependencies>
+</project>

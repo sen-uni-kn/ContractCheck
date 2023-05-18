@@ -32,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kn.uni.sen.joblibrary.legaltech.common.LegalCheckVersion;
 import kn.uni.sen.joblibrary.legaltech.web.run.JobData;
 import kn.uni.sen.joblibrary.legaltech.web.run.JobServer_Web;
-import kn.uni.sen.joblibrary.legaltech.web.run.JobRun_Contract;
+import kn.uni.sen.joblibrary.legaltech.web.run.JobRun_Web;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
@@ -49,22 +49,22 @@ public class LegalTechMainController
 	private String errorMessage;
 
 	JobServer_Web server = new JobServer_Web();
-	JobRun_Contract lastRun = null;
+	JobRun_Web lastRun = null;
 
-	JobRun_Contract getCreateRun(Integer runID, Model model)
+	JobRun_Web getCreateRun(Integer runID, Model model)
 	{
 		JobRun run = server.createRun(runID);
 		model.addAttribute("runID", run.getRunID());
-		if (run instanceof JobRun_Contract)
-			return (JobRun_Contract) run;
+		if (run instanceof JobRun_Web)
+			return (JobRun_Web) run;
 		return null;
 	}
 
-	JobRun_Contract getRun(Integer runID)
+	JobRun_Web getRun(Integer runID)
 	{
 		JobRun run = server.getRun(runID);
-		if (run instanceof JobRun_Contract)
-			return (JobRun_Contract) run;
+		if (run instanceof JobRun_Web)
+			return (JobRun_Web) run;
 		return null;
 	}
 
@@ -87,7 +87,7 @@ public class LegalTechMainController
 	@RequestMapping(value = "/contractEditor", method = RequestMethod.GET)
 	public String editorHandler(@RequestParam(name = "runID", required = false) Integer runID, Model model)
 	{
-		JobRun_Contract run = null;
+		JobRun_Web run = null;
 		if (lastRun != null)
 			run = lastRun;
 		else
@@ -112,7 +112,7 @@ public class LegalTechMainController
 	@RequestMapping(value = "/execution", method = RequestMethod.GET)
 	public String executionHandler(@RequestParam(name = "runID", required = false) Integer runID, Model model)
 	{
-		JobRun_Contract run = lastRun;
+		JobRun_Web run = lastRun;
 		// run = getCreateRun(runID, model);
 		if (run == null)
 			return "index";
@@ -125,6 +125,41 @@ public class LegalTechMainController
 		model.addAttribute("runID", run.getRunID());
 		return "diagram";
 	}
+	
+	@RequestMapping(value = "/simulator", method = RequestMethod.GET)
+	public String newSimulator(@RequestParam(name = "runID", required = false) Integer runID, Model model)
+	{
+		JobRun_Web run = null;
+		if (lastRun != null)
+			run = lastRun;
+		else
+			run = getCreateRun(runID, model);
+
+		if (run == null)
+			return "index";
+		lastRun = run;
+		runID = run.getRunID();
+
+		FormFile form = new FormFile();
+		model.addAttribute("FormFile", form);
+
+		model.addAttribute("title", "Vertrag 1");
+		model.addAttribute("runID", run.getRunID());
+		return "simulator";
+	}
+	
+	@RequestMapping(path = "/log/analyzeActions", method = RequestMethod.POST)
+	public ResponseEntity<?> analyzeActions(@Valid @RequestBody AjaxSetValue data, Model model)
+	{
+		int runID = data.getsessionID();
+		AjaxGetContract result = new AjaxGetContract();
+		JobRun_Web run = getRun(runID);
+		if ((run == null))
+			return null;
+
+		run.analyzeActions(null);
+		return ResponseEntity.ok(result);
+	}
 
 	@RequestMapping(value = "/contractEditor", method = RequestMethod.POST)
 	public String uploadXMIFilePOST(HttpServletRequest request,
@@ -134,7 +169,7 @@ public class LegalTechMainController
 		// System.out.println("uploadXMIFile POST: runID " + runID);
 		// System.out.println("uploadXMIFile POST: jobMapID " +
 		// runMap.get(runID).getId());
-		JobRun_Contract run = getRun(runID);
+		JobRun_Web run = getRun(runID);
 		if ((run == null) || (request == null))
 			return "error1";
 
@@ -158,7 +193,7 @@ public class LegalTechMainController
 		return "redirect:/contractEditor?runID=" + runID;
 	}
 
-	String loadFile(HttpServletRequest request, FormFile formFile, JobRun_Contract run)
+	String loadFile(HttpServletRequest request, FormFile formFile, JobRun_Web run)
 	{
 		String uploadRootPath = request.getServletContext().getRealPath("upload");
 		// System.out.println("uploadRootPath=" + uploadRootPath);
@@ -197,7 +232,7 @@ public class LegalTechMainController
 	public ResponseEntity<Resource> download(@RequestParam(name = "runID", required = true) Integer runID,
 			@RequestParam(name = "download", required = false) String download, String param)
 	{
-		JobRun_Contract run = getRun(runID);
+		JobRun_Web run = getRun(runID);
 		if ((run == null))
 			return null;
 
@@ -237,7 +272,7 @@ public class LegalTechMainController
 	{
 		int runID = data.getsessionID();
 		AjaxGetContract result = new AjaxGetContract();
-		JobRun_Contract run = getRun(runID);
+		JobRun_Web run = getRun(runID);
 		if ((run == null))
 			return null;
 
@@ -256,7 +291,7 @@ public class LegalTechMainController
 					errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
 			return ResponseEntity.badRequest().body(result);
 		}
-		JobRun_Contract run = getRun(runID);
+		JobRun_Web run = getRun(runID);
 		if (run == null)
 		{
 			result.setMsg("Session not found!");
@@ -285,7 +320,7 @@ public class LegalTechMainController
 					errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
 			return ResponseEntity.badRequest().body(result);
 		}
-		JobRun_Contract run = getRun(runID);
+		JobRun_Web run = getRun(runID);
 		if (run == null)
 		{
 			result.setMsg("Session not found!");
@@ -308,7 +343,7 @@ public class LegalTechMainController
 	{
 		// Object val = model.getAttribute("cardvalue");
 		int runID = data.getsessionID();
-		JobRun_Contract run = getRun(runID);
+		JobRun_Web run = getRun(runID);
 		if (run == null)
 			return ResponseEntity.ok(null);
 
@@ -323,7 +358,7 @@ public class LegalTechMainController
 	{
 		// Object val = model.getAttribute("cardvalue");
 		int runID = data.getsessionID();
-		JobRun_Contract run = getRun(runID);
+		JobRun_Web run = getRun(runID);
 		if (run == null)
 			return ResponseEntity.ok(null);
 
@@ -355,7 +390,7 @@ public class LegalTechMainController
 					errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
 			return ResponseEntity.badRequest().body(result);
 		}
-		JobRun_Contract run = getRun(runID);
+		JobRun_Web run = getRun(runID);
 		if (run == null)
 		{
 			result.addLog("Session not found!");
