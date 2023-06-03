@@ -110,7 +110,8 @@
 				"price:PurchasePrice"
 			],
 			"Assignment": [
-				"c2.Item=2.1"
+				"c2.Item=2.1",
+				"price=1800000"
 			]
 		},
 		{
@@ -476,18 +477,20 @@
 		{
 			"ID": "240",
 			"Index": "24",
-			"Text-DE": "d) Die Gesellschaft verfügt (als Eigentümerin) über keinen Grundbesitz. Anlage 3 enthält eine vollständige Liste ihrer Betriebsstandorte und der hierüber geschlossenen Miet- oder Pachtverträge.",
-			"Text": "d) The Company owns no real property. Exhibit 3 contains a list of all real properties used by it for its business operations and the lease agreements applicable thereto.",
+			"Text-DE": "d) Die Gesellschaft verfügt (als Eigentümerin) über keinen Grundbesitz. Anlage 3 enthält eine vollständige Liste ihrer Betriebsstandorte und der hierüber geschlossenen Miet- oder Pachtverträge. Die Grundstücke im Eigentum der Gesellschaft sind frei von Rechtsmängeln, insbesondere frei von Belastungen in Abt. II und III des Grundbuchs.",
+			"Text": "d) The Company owns no real property. Exhibit 3 contains a list of all real properties used by it for its business operations and the lease agreements applicable thereto. The land owned by the Company is free from defects of title, in particular free from encumbrances in sections II and III of the land register.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:WarrantyClaim"
+				"war:WarrantyClaim",
+				"estate:Integer"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
 				"war.Name=NoProperties",
 				"war.Debtor=$20_seller",
 				"war.Creditor=$20_purchaser",
-				"war.DueDate=0"
+				"war.DueDate=0",
+				"estate=0"
 			]
 		},
 		{
@@ -930,7 +933,11 @@
 				"c2:Clause2",
 				"per:PerformanceClaim",
 				"comp:CompensationClaim",
-				"%claim:Claim"
+				"%claim:Claim",
+				"seller_max_overall:Integer",
+				"seller_max_single:Integer",
+				"seller_max_overall2:Integer",
+				"seller_max2:Integer"
 			],
 			"Assignment": [
 				"c2.Item=10.1",
@@ -951,7 +958,11 @@
 				"comp.Name=SellerCompensation",
 				"comp.Trigger=$per",
 				"comp.Debtor=$20_seller",
-				"comp.Creditor=$20_purchaser"
+				"comp.Creditor=$20_purchaser",
+				"seller_min_single=50000",
+				"seller_max_overall=20000",
+				"seller_max_overall2=0.1 * $70_price",
+				"seller_max2=0.1 * $70_price"
 			]
 		},
 		{
