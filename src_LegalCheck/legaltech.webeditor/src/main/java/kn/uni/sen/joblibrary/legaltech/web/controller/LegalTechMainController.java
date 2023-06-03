@@ -152,12 +152,13 @@ public class LegalTechMainController
 	public ResponseEntity<?> analyzeActions(@Valid @RequestBody AjaxSetValue data, Model model)
 	{
 		int runID = data.getsessionID();
+		String act = data.getAction();
 		AjaxGetContract result = new AjaxGetContract();
 		JobRun_Web run = getRun(runID);
 		if ((run == null))
 			return null;
 
-		run.analyzeActions(null);
+		run.analyzeActions(null, act);
 		return ResponseEntity.ok(result);
 	}
 

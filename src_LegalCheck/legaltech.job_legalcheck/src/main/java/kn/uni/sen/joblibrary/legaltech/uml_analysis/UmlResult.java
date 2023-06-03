@@ -1,5 +1,7 @@
 package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
+import java.util.List;
+
 /**
  * stores the analysis results and hand them over to the job
  * 
@@ -12,6 +14,7 @@ public class UmlResult
 	public UmlResultState rest;
 	public String diagram;
 	public String text;
+	public List<String> actions;
 	public String minMax;
 	public String core;
 }

@@ -195,7 +195,16 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 			ResultNext.addNext(res);
 		return res;
 	}
+	
+	@Override
+	public void reportResult(UmlAnalysis ana, UmlResult res)
+	{
+		if ((res == null) || (res.text == null))
+			return;
 
+		addResult(ana, res);
+	}
+	
 	@Override
 	public ResourceInterface getResultResource(String name)
 	{
@@ -206,14 +215,5 @@ public class Job_LegalCheck extends JobAbstract implements ReportResult
 		if (MODEL_XML_FILE.equals(name))
 			return xmlFile;
 		return null;
-	}
-
-	@Override
-	public void reportResult(UmlAnalysis ana, UmlResult err)
-	{
-		if ((err == null) || (err.text == null))
-			return;
-
-		addResult(ana, err);
 	}
 }

@@ -99,7 +99,7 @@ function fire_ajax_getParas() {
 			}
 		},
 		error: function(e) {
-			var json = "<h4>Ajax Error Submit</h4><pre>" + e.responseText
+			var json = "<h4>Ajax Error MinMax Submit</h4><pre>" + e.responseText
 				+ "</pre>";
 			$('#feedback').html(json);
 			console.log("ERROR : ", e);
@@ -236,7 +236,7 @@ function analyzeContract() {
 	});
 }
 
-function analyzeActions() {
+function analyzeActions(str) {
 	var sessionID = $("meta[name='runID']").attr("value");
 	var csrfToken = $("meta[name='_csrf']").attr("content");
 	var csrfHeader = $("meta[name='_csrf_header']").attr("content");
@@ -245,6 +245,7 @@ function analyzeActions() {
 
 	var data2 = {};
 	data2["sessionID"] = sessionID;
+	data2["action"] = str;
 
 	//delete old results
 	var eleR = document.getElementById("result");

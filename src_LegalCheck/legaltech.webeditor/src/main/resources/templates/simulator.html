@@ -25,21 +25,18 @@
 	<div id='back'>
 		<div th:include="navigation :: navigation"></div>
 		<div id='content'>
+			<div id="diagram"></div>
 			<div>
 				<form th:object="${FormFile}" method="POST"
 					enctype="multipart/form-data">
-					<input type="button" onclick="analyzeActions()" value="GetActions" />
-					<!-- 
-			<input type="submit" name="action" value="Save Contract" /> -->
+					<input type="button" onclick="analyzeActions(null)" value="GetActions" />
+					<div id="actions"></div>
 				</form>
 			</div>
 			<br />
 			<div class="msg" id="result">Execution:</div>
-			<div id="diagram">
-			</div>
 			<div class="msg" id="feedback">Select next action:</div>
-			<div id="actions">
-			</div>
+			<div id="actions"></div>
 		</div>
 	</div>
 </body>

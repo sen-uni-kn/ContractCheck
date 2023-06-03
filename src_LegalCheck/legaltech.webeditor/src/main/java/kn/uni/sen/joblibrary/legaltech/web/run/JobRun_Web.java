@@ -17,6 +17,7 @@ import kn.uni.sen.joblibrary.legaltech.cards.ContractParser;
 import kn.uni.sen.joblibrary.legaltech.cards.ContractSaver;
 import kn.uni.sen.joblibrary.legaltech.html.HtmlCreator_ContractInput;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.Job_LegalCheck;
+import kn.uni.sen.joblibrary.legaltech.job_legalsimulator.Job_LegalSimulator;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlResultState;
 import kn.uni.sen.jobscheduler.common.impl.JobDataInput;
 import kn.uni.sen.jobscheduler.common.impl.JobEventStatus;
@@ -43,6 +44,8 @@ public class JobRun_Web extends JobRun_Abstract
 	ResourceFile analyzeFile = null;
 	JobRun_Abstract subJobRun = null;
 	LegalLogger logger = new LegalLogger(1000);
+
+	List<String> selected_actions = new ArrayList<>();
 
 	public JobRun_Web(Integer runID, EventHandler handler, ResourceFolder folder)
 	{
@@ -199,15 +202,24 @@ public class JobRun_Web extends JobRun_Abstract
 	}
 
 	@Async("threadPoolTaskExecutor")
-	synchronized public void analyzeActions(ResourceFile fileR)
+	synchronized public void analyzeActions(ResourceFile fileR, String act)
 	{
 		if (running)
 			return;
+		if (act == null)
+		{
+			// fresh run -> delete all actions
+			selected_actions = new ArrayList<>();
+		} else
+		{
+			selected_actions.add(act);
+		}
 
 		running = true;
 		analyzeFile = fileR;
 
-		JobRun_Simulator jobRun = new JobRun_Simulator(getRunID(), getEventHandler(), getFolder(), this, analyzeFile);
+		JobRun_Simulator jobRun = new JobRun_Simulator(getRunID(), getEventHandler(), getFolder(), this, analyzeFile,
+				selected_actions);
 		Thread thread = new Thread(jobRun);
 		subJobRun = jobRun;
 		thread.start();
@@ -240,24 +252,25 @@ public class JobRun_Web extends JobRun_Abstract
 			Result2 = Result2.getNext();
 			return getResultValue(res);
 		}
-		
+
 		Job job = this.job;
-		if(subJobRun!=null)
+		if (subJobRun != null)
 			job = subJobRun.getJob();
-		if(job == null)
+		if (job == null)
 			return null;
 
 		ResourceString res = null;
-		if (Result == null)
+		if (Result != null)
+			res = Result.getNextByType();
+		else if (job != null)
 		{
 			// get first Result instance
 			Result = job.getResourceWithType(Job_LegalCheck.ANA_RESULT, true);
 			res = Result;
-		} else
-			res = Result.getNextByType();
+		}
 		if (res == null)
 		{
-			if (job.getJobState() == JobState.FINISHED)
+			if ((job != null) && (job.getJobState() == JobState.FINISHED))
 			{
 				// stop checking for results
 				isResult = false;
@@ -298,6 +311,9 @@ public class JobRun_Web extends JobRun_Abstract
 			} else if (Job_LegalCheck.UNSAT_CORE.equals(s.getName()))
 			{
 				return getUnsatCore(s.getData());
+			} else if (Job_LegalSimulator.NEXT_ACTIONS.equals(s.getName()))
+			{
+				return JobRun_Simulator.showNextActions(s);
 			} else if (Job_LegalCheck.MINMAX.equals(s.getName()))
 			{
 				return parseMinMax(s.getData());
@@ -531,9 +547,9 @@ public class JobRun_Web extends JobRun_Abstract
 
 	public void checkRun()
 	{
-		if(running && (subJobRun != null))
+		if (running && (subJobRun != null))
 		{
-			if(!subJobRun.isRunning())
+			if (!subJobRun.isRunning())
 			{
 				running = false;
 				isResult = true;

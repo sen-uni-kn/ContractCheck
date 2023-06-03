@@ -8,6 +8,7 @@ public class AjaxSetValue
 	String variable = "";
 	String value = "";
 	Integer sessionID = 0;
+	String action = null;
 	List<String> logList = new ArrayList<>();
 
 	public void setValue(String title)
@@ -38,6 +39,16 @@ public class AjaxSetValue
 	public Integer getsessionID()
 	{
 		return sessionID;
+	}
+	
+	public void setAction(String  s)
+	{
+		action = s;
+	}
+
+	public String getAction()
+	{
+		return action;
 	}
 
 	public void addLog(String log)
