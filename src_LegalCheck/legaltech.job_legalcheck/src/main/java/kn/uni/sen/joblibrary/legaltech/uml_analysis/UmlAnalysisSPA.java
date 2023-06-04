@@ -26,7 +26,7 @@ public class UmlAnalysisSPA extends UmlAnalysisSmtAbstract
 		super(j, null, anaName, null);
 	}
 
-	public UmlAnalysisSPA(Job j, String name, String anaName, UmlModel2 model, Element ele)
+	private UmlAnalysisSPA(Job j, String name, String anaName, UmlModel2 model, Element ele)
 	{
 		super(j, name, anaName, model);
 		contract = ele;
@@ -46,7 +46,7 @@ public class UmlAnalysisSPA extends UmlAnalysisSmtAbstract
 	}
 
 	@Override
-	SmtModel createSMTCode(UmlModel2 model)
+	protected SmtModel createSMTCode(UmlModel2 model)
 	{
 		SmtModel smt = (new Legal2Constraints(this, job)).generate(model);
 		return smt;

@@ -29,7 +29,7 @@ public class UmlAnalysisSPAClaim extends UmlAnalysisSmtAbstract
 		super(j, null, anaName, null);
 	}
 
-	public UmlAnalysisSPAClaim(Job j, String name, String anaName, UmlModel2 model, Element con, Element claim)
+	private UmlAnalysisSPAClaim(Job j, String name, String anaName, UmlModel2 model, Element con, Element claim)
 	{
 		super(j, name, anaName, model);
 		contractEle = con;
@@ -56,7 +56,7 @@ public class UmlAnalysisSPAClaim extends UmlAnalysisSmtAbstract
 	}
 
 	@Override
-	SmtModel createSMTCode(UmlModel2 model)
+	protected SmtModel createSMTCode(UmlModel2 model)
 	{
 		Legal2Constraints translator = new Legal2Constraints(this, job)
 		{

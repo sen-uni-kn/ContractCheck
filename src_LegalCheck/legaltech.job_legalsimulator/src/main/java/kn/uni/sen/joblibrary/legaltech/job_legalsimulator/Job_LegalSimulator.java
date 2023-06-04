@@ -3,6 +3,8 @@ package kn.uni.sen.joblibrary.legaltech.job_legalsimulator;
 import java.io.InputStream;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 import kn.uni.sen.joblibrary.legaltech.cards.Contract;
 import kn.uni.sen.joblibrary.legaltech.cards.ContractParser;
@@ -12,6 +14,7 @@ import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlModel2;
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.ReportResult;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysis;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisExecutor;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlResult;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlResultState;
 import kn.uni.sen.jobscheduler.common.impl.JobAbstract;
@@ -44,8 +47,11 @@ public class Job_LegalSimulator extends JobAbstract implements ReportResult
 	public static final String SEQUENCE = Job_LegalCheck.SEQUENCE;
 	public static final String NEXT_ACTIONS = "NextActions";
 
+	public static final String NEXT_DAY = "NextDay";
 	ResourceString ResultNext = null;
 	ResourceFile xmlFile = null;
+	// combine the result of each analysis run
+	UmlResult anasResult = null;
 
 	public Job_LegalSimulator(RunContext parent)
 	{
@@ -85,13 +91,17 @@ public class Job_LegalSimulator extends JobAbstract implements ReportResult
 		ResourceFile xsd = getResourceWithType(XSD_FILE, false);
 
 		ResourceString res_actions = getResourceWithType(ACTIONS, false);
-		List<String> actions = new ArrayList<>();
+		Map<String, Integer> actions = new HashMap<>();
 		while (res_actions != null)
 		{
-			actions.add(res_actions.getData());
+			ResourceInteger val = (ResourceInteger) res.getChild();
+			int day = -2;
+			if (val != null)
+				day = val.getDataValue();
+			actions.put(res_actions.getData(), day);
 			res_actions = (ResourceString) res_actions.getNext();
 		}
-		
+
 		ResourceInteger res_day = getResourceWithType(ACTION_DAY, false);
 		int action_day = res_day.getDataValue();
 
@@ -105,8 +115,15 @@ public class Job_LegalSimulator extends JobAbstract implements ReportResult
 		if (model2.getClassInstances(LegalUml.SPA).isEmpty())
 			return endError("Error Contract instance is missing!");
 
-		ActionAnalysis ana = new ActionAnalysis(this, model2, actions, action_day);
-		ana.runAnalysis(this, null);
+		UmlAnalysis_Actions anaFactory = new UmlAnalysis_Actions(this, actions, action_day);
+		List<UmlAnalysis> anas = anaFactory.createAnalyses(model2);
+		UmlAnalysisExecutor executor = new UmlAnalysisExecutor(this);
+		for (UmlAnalysis ana : anas)
+		{
+			executor.runAnalysis(ana, this);
+		}
+		if (anasResult != null)
+			addResult(anaFactory, anasResult);
 
 		return end(JobResult.OK);
 	}
@@ -161,8 +178,18 @@ public class Job_LegalSimulator extends JobAbstract implements ReportResult
 	{
 		if ((res == null) || (res.text == null))
 			return;
-
-		addResult(ana, res);
+		List<String> actions = new ArrayList<>();
+		if (anasResult != null)
+			actions = anasResult.actions;
+		else
+			actions.add(NEXT_DAY);
+		if (!!!res.name.isBlank() && res.rest == UmlResultState.GOOD)
+		{
+			// add an action (claim) when it can be executed
+			actions.add(res.name);
+		}
+		res.actions = actions;
+		anasResult = res;
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package kn.uni.sen.joblibrary.legaltech.web.run;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import kn.uni.sen.joblibrary.legaltech.job_legalsimulator.Job_LegalSimulator;
 import kn.uni.sen.jobscheduler.common.impl.JobDataInput;
@@ -20,11 +21,11 @@ import kn.uni.sen.jobscheduler.common.resource.ResourceString;
  */
 public class JobRun_Simulator extends JobRun_Abstract implements Runnable
 {
-	List<String> selected_actions;
+	Map<String, Integer> selected_actions;
 	int action_day;
 
 	public JobRun_Simulator(Integer runID, EventHandler evHandler, ResourceFolder folder, JobRun_Web run,
-			ResourceFile analyzeFile, List<String> selected_actions, int action_day)
+			ResourceFile analyzeFile, Map<String, Integer> selected_actions, int action_day)
 	{
 		super(runID, evHandler, folder, run, analyzeFile);
 		this.selected_actions = selected_actions;
@@ -53,9 +54,12 @@ public class JobRun_Simulator extends JobRun_Abstract implements Runnable
 		}
 
 		ResourceString actions = null;
-		for (String act : selected_actions)
+		for (String act : selected_actions.keySet())
 		{
 			ResourceString res_act = new ResourceString(act);
+			Integer act_day = selected_actions.get(act);
+			ResourceInteger res_day = new ResourceInteger(act_day);
+			res_act.addChild(res_day);
 			if (actions == null)
 				actions = res_act;
 			else
@@ -82,16 +86,16 @@ public class JobRun_Simulator extends JobRun_Abstract implements Runnable
 
 	static String showNextActions(ResourceString s)
 	{
-		List<String> actions = new LinkedList<>();
+		List<String> htmls = new LinkedList<>();
 		while (s != null)
 		{
-			String call = "analyzeActions('" + s.getData() + "')";
-			String ele_text = "<input type='button' value='" + s.getData() + "' onclick=\"" + call + "\")'></input>";
+			String act = s.getData();
+			String call = "analyzeActions('" + act + "')";
+			String ele_text = "<input type='button' value='" + act + "' onclick=\"" + call + "\")'></input>";
 			ele_text = "<tr><td>" + ele_text + "</tr>/<td>";
-			actions.add(ele_text);
+			htmls.add(ele_text);
 			s = (ResourceString) s.getChild();
 		}
-		String text = String.join("\n", actions);
-		return "<form><table>" + text + "</table></form>";
+		return "<form><table>" + String.join("\n", htmls) + "</table></form>";
 	}
 }

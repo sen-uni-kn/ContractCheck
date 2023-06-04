@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +19,6 @@ import kn.uni.sen.joblibrary.legaltech.cards.ContractParser;
 import kn.uni.sen.joblibrary.legaltech.cards.ContractSaver;
 import kn.uni.sen.joblibrary.legaltech.html.HtmlCreator_ContractInput;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.Job_LegalCheck;
-import kn.uni.sen.joblibrary.legaltech.job_legalsimulator.ActionAnalysis;
 import kn.uni.sen.joblibrary.legaltech.job_legalsimulator.Job_LegalSimulator;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlResultState;
 import kn.uni.sen.jobscheduler.common.impl.JobDataInput;
@@ -46,7 +47,7 @@ public class JobRun_Web extends JobRun_Abstract
 	JobRun_Abstract subJobRun = null;
 	LegalLogger logger = new LegalLogger(1000);
 
-	List<String> actions_selected = new ArrayList<>();
+	Map<String, Integer> actions_selected = new HashMap<>();
 	int actions_day = 0;
 
 	public JobRun_Web(Integer runID, EventHandler handler, ResourceFolder folder)
@@ -211,14 +212,14 @@ public class JobRun_Web extends JobRun_Abstract
 		if (act == null)
 		{
 			// fresh run -> delete all actions
-			actions_selected = new ArrayList<>();
+			actions_selected = new HashMap<>();
 			actions_day = 0;
 		} else
 		{
-			if (ActionAnalysis.NEXT_DAY.equals(act))
-				actions_day++;
+			if (Job_LegalSimulator.NEXT_DAY.equals(act))
+				actions_day += 1;
 			else
-				actions_selected.add(act);
+				actions_selected.put(act, actions_day);
 		}
 
 		running = true;
@@ -319,7 +320,8 @@ public class JobRun_Web extends JobRun_Abstract
 				return getUnsatCore(s.getData());
 			} else if (Job_LegalSimulator.NEXT_ACTIONS.equals(s.getName()))
 			{
-				return JobRun_Simulator.showNextActions(s);
+				String actions = JobRun_Simulator.showNextActions(s);
+				return "Day:" + actions_day + actions;
 			} else if (Job_LegalCheck.MINMAX.equals(s.getName()))
 			{
 				return parseMinMax(s.getData());

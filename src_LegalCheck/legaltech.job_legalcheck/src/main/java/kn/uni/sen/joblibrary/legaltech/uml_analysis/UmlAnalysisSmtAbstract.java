@@ -8,9 +8,9 @@ import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
 
 public abstract class UmlAnalysisSmtAbstract extends UmlAnalysisAbstract implements UmlAnalysis, UmlAnalysisFactory
 {
-	UmlModel2 model;
+	protected UmlModel2 model;
 
-	String name = "";
+	protected String name = "";
 	double timeZ3 = -1;
 	double memZ3 = -1;
 	int constraintCount = -1;
@@ -23,7 +23,7 @@ public abstract class UmlAnalysisSmtAbstract extends UmlAnalysisAbstract impleme
 		this.name = name;
 	}
 
-	abstract SmtModel createSMTCode(UmlModel2 model);
+	protected abstract SmtModel createSMTCode(UmlModel2 model);
 
 	ResourceFile createFile(String name, String app)
 	{
@@ -108,7 +108,7 @@ public abstract class UmlAnalysisSmtAbstract extends UmlAnalysisAbstract impleme
 
 	// used to output metadata (runtime, memory, ...) of analysis
 	@Override
-	void log(String statisticsFile)
+	protected void log(String statisticsFile)
 	{
 		if (statisticsFile == null)
 			// file still not open

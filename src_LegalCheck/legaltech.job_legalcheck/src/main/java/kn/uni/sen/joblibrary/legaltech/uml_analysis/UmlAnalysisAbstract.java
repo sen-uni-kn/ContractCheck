@@ -12,17 +12,18 @@ import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 
-public abstract class UmlAnalysisAbstract implements UmlAnalysis, UmlAnalysisListener
+public abstract class UmlAnalysisAbstract implements UmlAnalysis, UmlAnalysisListener, UmlAnalysisFactory
 {
 	SmtModel smtModel = new SmtModel();
-	ReportResult report;
+	protected ReportResult report;
 	String anaName;
-	Job job;
+	protected Job job;
 
 	public UmlAnalysisAbstract(Job job, String name)
 	{
 		this.job = job;
 		this.anaName = name;
+		assertTrue(job != null);
 		assertTrue(!!!anaName.isEmpty());
 	}
 

@@ -15,7 +15,7 @@ import kn.uni.sen.jobscheduler.common.model.Job;
  * @author Martin Koelbl (C) 2023
  * 
  */
-public class UmlAnalysisSyntax extends UmlAnalysisAbstract implements UmlAnalysis, UmlAnalysisFactory
+public class UmlAnalysisSyntax extends UmlAnalysisAbstract implements UmlAnalysis
 {
 	public static final String Name = "Syntax";
 	UmlModel2 model;

@@ -43,7 +43,7 @@ public class Legal2Constraints extends LegalVisitor
 	public static final String registration = "registration";
 
 	Map<Element, UmlAnnotation> map = new HashMap<>();
-	SmtModel smtModel = new SmtModel();
+	protected SmtModel smtModel = new SmtModel();
 	// SmtElement closingDate;
 
 	// function owner uses uninterpreted functions
@@ -65,7 +65,7 @@ public class Legal2Constraints extends LegalVisitor
 	Map<Element, SmtDeclare> thingMap = new HashMap<>();
 
 	// stores claims that are need but not traversed
-	List<Element> tmpClaimList = new LinkedList<>();
+	protected List<Element> tmpClaimList = new LinkedList<>();
 
 	static String getCorrectedName(String n)
 	{
