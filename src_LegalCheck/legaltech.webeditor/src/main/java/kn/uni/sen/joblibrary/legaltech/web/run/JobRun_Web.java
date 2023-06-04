@@ -17,6 +17,7 @@ import kn.uni.sen.joblibrary.legaltech.cards.ContractParser;
 import kn.uni.sen.joblibrary.legaltech.cards.ContractSaver;
 import kn.uni.sen.joblibrary.legaltech.html.HtmlCreator_ContractInput;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.Job_LegalCheck;
+import kn.uni.sen.joblibrary.legaltech.job_legalsimulator.ActionAnalysis;
 import kn.uni.sen.joblibrary.legaltech.job_legalsimulator.Job_LegalSimulator;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlResultState;
 import kn.uni.sen.jobscheduler.common.impl.JobDataInput;
@@ -45,7 +46,8 @@ public class JobRun_Web extends JobRun_Abstract
 	JobRun_Abstract subJobRun = null;
 	LegalLogger logger = new LegalLogger(1000);
 
-	List<String> selected_actions = new ArrayList<>();
+	List<String> actions_selected = new ArrayList<>();
+	int actions_day = 0;
 
 	public JobRun_Web(Integer runID, EventHandler handler, ResourceFolder folder)
 	{
@@ -209,17 +211,21 @@ public class JobRun_Web extends JobRun_Abstract
 		if (act == null)
 		{
 			// fresh run -> delete all actions
-			selected_actions = new ArrayList<>();
+			actions_selected = new ArrayList<>();
+			actions_day = 0;
 		} else
 		{
-			selected_actions.add(act);
+			if (ActionAnalysis.NEXT_DAY.equals(act))
+				actions_day++;
+			else
+				actions_selected.add(act);
 		}
 
 		running = true;
 		analyzeFile = fileR;
 
 		JobRun_Simulator jobRun = new JobRun_Simulator(getRunID(), getEventHandler(), getFolder(), this, analyzeFile,
-				selected_actions);
+				actions_selected, actions_day);
 		Thread thread = new Thread(jobRun);
 		subJobRun = jobRun;
 		thread.start();

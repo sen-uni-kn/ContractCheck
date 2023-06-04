@@ -21,6 +21,7 @@ import kn.uni.sen.jobscheduler.common.model.ResourceInterface;
 import kn.uni.sen.jobscheduler.common.model.RunContext;
 import kn.uni.sen.jobscheduler.common.resource.ResourceEnum;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
+import kn.uni.sen.jobscheduler.common.resource.ResourceInteger;
 import kn.uni.sen.jobscheduler.common.resource.ResourceString;
 import kn.uni.sen.jobscheduler.common.resource.ResourceTag;
 import kn.uni.sen.jobscheduler.common.resource.ResourceType;
@@ -36,6 +37,7 @@ public class Job_LegalSimulator extends JobAbstract implements ReportResult
 	public static final String XSD_FILE = "XSDFile";
 	public static final String MODEL_XML_FILE = "XmlFile";
 	public static final String ACTIONS = "Actions";
+	public static final String ACTION_DAY = "day";
 
 	public static final String ANA_RESULT = "Result";
 	public static final String RESULT_KIND = Job_LegalCheck.RESULT_KIND;
@@ -52,6 +54,7 @@ public class Job_LegalSimulator extends JobAbstract implements ReportResult
 		createInputDescr(XSD_FILE, ResourceType.FILE);
 		createInputDescr(MODEL_XML_FILE, ResourceType.FILE);
 		createInputDescr(ACTIONS, ResourceType.STRING);
+		createInputDescr(ACTION_DAY, ResourceType.INTEGER);
 
 		createResultDescr(ANA_RESULT, ResourceType.STRING);
 		createResultDescr(MODEL_XML_FILE, ResourceType.FILE);
@@ -88,6 +91,9 @@ public class Job_LegalSimulator extends JobAbstract implements ReportResult
 			actions.add(res_actions.getData());
 			res_actions = (ResourceString) res_actions.getNext();
 		}
+		
+		ResourceInteger res_day = getResourceWithType(ACTION_DAY, false);
+		int action_day = res_day.getDataValue();
 
 		xmlFile = getResourceWithType(MODEL_XML_FILE, false);
 		if ((xmlFile != null) && !!!xmlFile.isAbsolutePath())
@@ -99,7 +105,7 @@ public class Job_LegalSimulator extends JobAbstract implements ReportResult
 		if (model2.getClassInstances(LegalUml.SPA).isEmpty())
 			return endError("Error Contract instance is missing!");
 
-		ActionAnalysis ana = new ActionAnalysis(this, model2, actions);
+		ActionAnalysis ana = new ActionAnalysis(this, model2, actions, action_day);
 		ana.runAnalysis(this, null);
 
 		return end(JobResult.OK);

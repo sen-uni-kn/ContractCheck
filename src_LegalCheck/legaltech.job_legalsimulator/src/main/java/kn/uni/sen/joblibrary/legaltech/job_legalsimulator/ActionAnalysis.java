@@ -18,15 +18,19 @@ import kn.uni.sen.jobscheduler.common.model.Job;
 public class ActionAnalysis implements UmlAnalysis
 {
 	public static final String Name = "Actions";
+	public static final String NEXT_DAY = "NextDay";
+
 	UmlModel2 model;
 	Job job;
 	List<String> actions;
+	int action_day;
 
-	public ActionAnalysis(Job j, UmlModel2 model, List<String> actions)
+	public ActionAnalysis(Job j, UmlModel2 model, List<String> actions, int action_day)
 	{
 		job = j;
 		this.model = model;
 		this.actions = actions;
+		this.action_day = action_day;
 	}
 
 	@Override
@@ -38,7 +42,7 @@ public class ActionAnalysis implements UmlAnalysis
 	@Override
 	public void runAnalysis(ReportResult report, String statisticsFile)
 	{
-		List<String> actions = computePossibleActions(0, model);
+		List<String> actions = computePossibleActions(action_day, model);
 
 		UmlResult res = new UmlResult();
 		res.rest = UmlResultState.NONE;
@@ -77,6 +81,8 @@ public class ActionAnalysis implements UmlAnalysis
 					list.add(name);
 			}
 		}
+		list.add("day: " + day);
+		list.add(NEXT_DAY);
 		return list;
 	}
 }

@@ -10,6 +10,7 @@ import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.resource.ResourceDescription;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;
+import kn.uni.sen.jobscheduler.common.resource.ResourceInteger;
 import kn.uni.sen.jobscheduler.common.resource.ResourceString;
 
 /**
@@ -20,12 +21,14 @@ import kn.uni.sen.jobscheduler.common.resource.ResourceString;
 public class JobRun_Simulator extends JobRun_Abstract implements Runnable
 {
 	List<String> selected_actions;
+	int action_day;
 
 	public JobRun_Simulator(Integer runID, EventHandler evHandler, ResourceFolder folder, JobRun_Web run,
-			ResourceFile analyzeFile, List<String> selected_actions)
+			ResourceFile analyzeFile, List<String> selected_actions, int action_day)
 	{
 		super(runID, evHandler, folder, run, analyzeFile);
 		this.selected_actions = selected_actions;
+		this.action_day = action_day;
 	}
 
 	@Override
@@ -59,9 +62,13 @@ public class JobRun_Simulator extends JobRun_Abstract implements Runnable
 				actions.addNext(res_act);
 		}
 
+		ResourceInteger res_action_day = new ResourceInteger();
+		res_action_day.setData("" + this.action_day);
+
 		JobDataInput inData = new JobDataInput();
 		inData.add(Job_LegalSimulator.CONTRACT_FILE, analyzeFile);
 		inData.add(Job_LegalSimulator.ACTIONS, actions);
+		inData.add(Job_LegalSimulator.ACTION_DAY, res_action_day);
 		job.addLogger(webRun.logger);
 
 		ResourceDescription.setOwner(job.getInputDescription(), inData);
