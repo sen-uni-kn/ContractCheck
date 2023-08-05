@@ -56,6 +56,9 @@ public class Legal2Constraints extends LegalVisitor
 	// create soft constraints if true
 	boolean withSoft = true;
 
+	// limit check for the current claim
+	boolean limit_check;
+
 	Map<Element, SmtDeclare> varMap = new HashMap<>();
 	Map<Element, SmtDeclare> triggerMap = new HashMap<>();
 	Map<Element, SmtDeclare> dueMap = new HashMap<>();
@@ -399,7 +402,7 @@ public class Legal2Constraints extends LegalVisitor
 		return null;
 	}
 
-	private SmtElement getClaimLimitation(UmlNode2 claim, SmtElement triggerDate, SmtElement dueDate)
+	protected SmtElement getClaimLimitation(UmlNode2 claim, SmtElement triggerDate, SmtElement dueDate)
 	{
 		if (claim.inheritatesFrom(LegalUml.PrimaryClaim))
 		{
@@ -478,7 +481,7 @@ public class Legal2Constraints extends LegalVisitor
 		}
 		// encode limitation
 		SmtElement limit = getClaimLimitation(claim, triggerDate, dueDate);
-		if (limit != null)
+		if (limit != null && !limit_check)
 			and.addConstraint(new SmtConstraint("<").addConstraint(claimDate).addConstraint(limit));
 
 		// combine due date, claim date and limitation
@@ -689,7 +692,7 @@ public class Legal2Constraints extends LegalVisitor
 		super.visitPerson(ele);
 	}
 
-	private UmlNode2 createNode(Element ele)
+	protected UmlNode2 createNode(Element ele)
 	{
 		return new UmlNode2(model, ele);
 	}

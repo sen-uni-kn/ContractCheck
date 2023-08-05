@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.net.URL;
 
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSPAClaim;
+import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSPAClaimLimit;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSPAClaimUnsat;
 import kn.uni.sen.joblibrary.legaltech.uml_analysis.UmlAnalysisSPADependent;
 import kn.uni.sen.jobscheduler.common.JobAbstractTest;
@@ -32,7 +33,8 @@ public class Test_Analyses extends JobAbstractTest
 
 	TestCase[] tests = { new TestCase("TestClaimSat", UmlAnalysisSPAClaim.Name),
 			new TestCase("TestClaimUnsat", UmlAnalysisSPAClaimUnsat.Name),
-			new TestCase("TestDepend", UmlAnalysisSPADependent.Name)};
+			new TestCase("TestDepend", UmlAnalysisSPADependent.Name),
+			new TestCase("TestClaimLimit", UmlAnalysisSPAClaimLimit.Name) };
 
 	String nameFile = null;
 	String xmlFile = null;
