@@ -1,0 +1,57 @@
+{
+	"_comment": "Find error that a claim is not satisfiable.",
+	"contract": [
+		{
+			"ID": "Block1",
+			"Index": "1",
+			"Text": "$c1 $c2 The seller $seller.Name hereby sells shares of $shares.Name , with all rights and obligations pertaining thereto (including the dividend right for the current financial year), to the Purchaser $purchaser.Name, who accepts such sale.",
+			"Multiplicity": "1",
+			"Object": [
+				"c1:Clause1",
+				"c2:Clause2",
+				"spa:SPA",
+				"seller:Person",
+				"purchaser:Person",
+				"shares:Share",
+				"transfer:PrimaryClaim"
+			],
+			"Assignment": [
+				"c1.Item=1",
+				"c2.Item=1.1",
+				"purchaser.Name=Chris",
+				"seller.Name=Eva",
+				"spa.Seller=$seller",
+				"spa.Purchaser=$purchaser",
+				"spa.Closing=28",
+				"shares.Name=Company AG",
+				"spa.PurchaseObject=$shares",
+				"spa.Claim=$transfer",
+				"spa.Signing=0",
+				"spa.Signing<=spa.Closing",
+				"transfer.Name=TransferClaim",
+				"transfer.Debtor=$seller",
+				"transfer.Creditor=$purchaser",
+				"transfer.DueDate=28",
+				"transfer.Performance='$Block1_shares.transfer($purchaser)'"
+			]
+		},
+		{
+			"ID": "Block2",
+			"Index": "2",
+			"Text": "§$c1 The $object is transferred by way of security to $owner.Name .",
+			"Object": [
+				"c1:Clause1",
+				"owner:Person",
+				"object:$Object",
+				"prop:PropertyRight"
+			],
+			"Assignment": [
+				"c1.Item=5",
+				"owner.Name=Bank",
+				"object=$Block1_shares",
+				"prop.Owner=$owner",
+				"prop.Property=$object"
+			]
+		}
+	]
+}
