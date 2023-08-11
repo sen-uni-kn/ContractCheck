@@ -16,7 +16,7 @@
 		<carrotsearch.version>0.5.2</carrotsearch.version>
 		<jobscheduler.version>1.6.0</jobscheduler.version>
 		<junit.version>4.13.2</junit.version>
-		<jdom2.version>2.0.6.1</jdom2.version>
+		<jdom2.version>2.0.6</jdom2.version>
 		<json.version>20211205</json.version>
 		<z3.version>4.8.14</z3.version>
 	</properties>
@@ -30,4 +30,12 @@
 		<module>legaltech.joblibrary</module>
 		<module>legaltech.webeditor</module>
 	</modules>
+	<!-- jdom2 is needed for jobscheduler  -->
+	<dependencies>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom2</artifactId>
+			<version>${jdom2.version}</version>
+		</dependency>
+	</dependencies>
 </project>
