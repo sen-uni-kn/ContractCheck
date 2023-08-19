@@ -126,9 +126,13 @@ public class UmlAnalysisSPAClaimLimit extends UmlAnalysisSmtAbstract
 		{
 			if (res.isUnsatisfiable())
 			{
+				result = 1;
 				reportRun(name, "Claim limitation after due", res.getDiagram(), UmlResultState.GOOD);
 			} else
+			{
+				result = 0;
 				reportUnsat(name, "Claim limitation before due", res.getUnsatCore(), UmlResultState.ERROR);
+			}
 		}
 		log(statisticsFile);
 	}

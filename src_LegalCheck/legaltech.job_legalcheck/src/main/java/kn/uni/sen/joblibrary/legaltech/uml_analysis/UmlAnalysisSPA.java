@@ -72,9 +72,13 @@ public class UmlAnalysisSPA extends UmlAnalysisSmtAbstract
 		{
 			if (res.isUnsatisfiable())
 			{
+				result = 0;
 				reportUnsat(name, "Contract not satisfiable", res.getUnsatCore(), UmlResultState.ERROR);
 			} else
+			{
+				result = 1;
 				reportRun(name, "Contract satisfiable", res.getDiagram(), UmlResultState.GOOD);
+			}
 		}
 		log(statisticsFile);
 	}

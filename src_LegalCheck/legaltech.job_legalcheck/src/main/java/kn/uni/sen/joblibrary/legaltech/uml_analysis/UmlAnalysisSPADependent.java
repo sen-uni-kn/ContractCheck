@@ -120,9 +120,13 @@ public class UmlAnalysisSPADependent extends UmlAnalysisSmtAbstract
 		{
 			if (res.isUnsatisfiable())
 			{
+				result = 1;
 				reportUnsat(name, "Dependent not satisfiable", res.getUnsatCore(), UmlResultState.GOOD);
 			} else
+			{
+				result = 0;
 				reportRun(name, "Dependent satisfiable", res.getDiagram(), UmlResultState.ERROR);
+			}
 		}
 		log(statisticsFile);
 	}

@@ -1,5 +1,8 @@
 package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlModel2;
 import kn.uni.sen.joblibrary.legaltech.smt_model.SmtModel;
 import kn.uni.sen.jobscheduler.common.model.Job;
@@ -15,6 +18,7 @@ public abstract class UmlAnalysisSmtAbstract extends UmlAnalysisAbstract impleme
 	double memZ3 = -1;
 	int constraintCount = -1;
 	int varCount = -1;
+	int result = -1;
 
 	public UmlAnalysisSmtAbstract(Job job, String name, String anaName, UmlModel2 model)
 	{
@@ -114,9 +118,20 @@ public abstract class UmlAnalysisSmtAbstract extends UmlAnalysisAbstract impleme
 			// file still not open
 			return;
 
-		String fullName = anaName + "_" + name;
-		String text = fullName + " & " + timeZ3 + "s & " + memZ3 + "MB & " + constraintCount + " & " + varCount
-				+ "\\\\\n";
-		ResourceFile.appendText2File(statisticsFile, text);
+		String resultText = "unkown";
+		if (result == 0)
+			resultText = "violation";
+		else if (result == 1)
+			resultText = "hold";
+
+		List<String> list = new ArrayList<>();
+		list.add(anaName);
+		list.add(name);
+		list.add("" + resultText);
+		list.add(timeZ3 + "s");
+		list.add(memZ3 + "MB");
+		list.add("" + constraintCount);
+		list.add("" + varCount);
+		ResourceFile.appendText2File(statisticsFile, String.join(" & ", list) + "\\\\\n");
 	}
 }

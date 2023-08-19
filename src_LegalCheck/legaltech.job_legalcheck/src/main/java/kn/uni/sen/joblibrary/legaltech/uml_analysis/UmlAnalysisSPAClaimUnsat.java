@@ -113,9 +113,13 @@ public class UmlAnalysisSPAClaimUnsat extends UmlAnalysisSmtAbstract
 		{
 			if (res.isUnsatisfiable())
 			{
-				reportUnsat(name, "SPA not satisfiable with unsat claim", res.getUnsatCore(), UmlResultState.ERROR);
+				result = 0;
+				reportUnsat(name, "SPA not satisfiable when this claim is not satisfied", res.getUnsatCore(), UmlResultState.ERROR);
 			} else
+			{
+				result = 1;
 				reportRun(name, "SPA satisfiable", res.getDiagram(), UmlResultState.GOOD);
+			}
 		}
 		log(statisticsFile);
 	}
