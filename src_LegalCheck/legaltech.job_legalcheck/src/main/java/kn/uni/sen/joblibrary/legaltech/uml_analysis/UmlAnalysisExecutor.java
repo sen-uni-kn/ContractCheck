@@ -1,8 +1,5 @@
 package kn.uni.sen.joblibrary.legaltech.uml_analysis;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import kn.uni.sen.jobscheduler.common.model.Job;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFolder;

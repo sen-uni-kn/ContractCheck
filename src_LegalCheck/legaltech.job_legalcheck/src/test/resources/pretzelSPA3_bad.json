@@ -149,7 +149,7 @@
 				"thing=Pretzels",
 				"warranty.Debtor=$Block1_seller",
 				"Block1_spa.Claim=$warranty",
-				"warranty.Performance=Block6_count==Block6_amount",
+				"warranty.Performance=Block6_count>=Block6_amount",
 				"amount=10000"
 			]
 		},

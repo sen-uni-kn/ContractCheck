@@ -171,7 +171,7 @@
     <Integer id="163" name="Block6_2">14</Integer>
     <Formula id="170" name="Block6_formula3">
       <Operand id="171" name="Op1" ref="92"/>
-      <string id="172" name="Operator">==</string>
+      <string id="172" name="Operator">&gt;=</string>
       <Operand id="173" name="Op2" ref="94"/>
     </Formula>
     <Formula id="179" name="Block8_formula4">

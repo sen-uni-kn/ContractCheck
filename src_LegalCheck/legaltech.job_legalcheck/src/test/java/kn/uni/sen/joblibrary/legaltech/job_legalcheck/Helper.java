@@ -15,7 +15,6 @@ public class Helper
 		{
 			if (words1[i].compareTo(words2[i]) != 0)
 			{
-
 				String dif = "differs in words: " + words1[i] + " " + words2[i];
 				return "line: " + line1 + "\n" + "line: " + line2 + "\n" + dif;
 			}
@@ -52,6 +51,8 @@ public class Helper
 	static List<String> getArray(String split, String text)
 	{
 		List<String> lines = new ArrayList<>();
+		if (text == null)
+			return lines;
 		for (String s : text.split(split))
 			lines.add(s);
 		return lines;

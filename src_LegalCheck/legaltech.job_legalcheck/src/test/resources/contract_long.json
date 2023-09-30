@@ -175,7 +175,7 @@
 				"extra.Trigger=ebitda>val",
 				"extra.Debtor=$20_purchaser",
 				"extra.Creditor=$20_seller",
-				"extra.Performance='pay((ebitda-val)*0.3)'"
+				"extra.Performance='pay((ebitda-val)*3)'"
 			]
 		},
 		{
@@ -476,18 +476,21 @@
 		{
 			"ID": "240",
 			"Index": "24",
-			"Text-DE": "d) Die Gesellschaft verfügt (als Eigentümerin) über keinen Grundbesitz. Anlage 3 enthält eine vollständige Liste ihrer Betriebsstandorte und der hierüber geschlossenen Miet- oder Pachtverträge.",
-			"Text": "d) The Company owns no real property. Exhibit 3 contains a list of all real properties used by it for its business operations and the lease agreements applicable thereto.",
+			"Text-DE": "d) Die Gesellschaft verfügt (als Eigentümerin) über keinen Grundbesitz. Anlage 3 enthält eine vollständige Liste ihrer Betriebsstandorte und der hierüber geschlossenen Miet- oder Pachtverträge. Es bestehen daneben keine Rechte Dritter am Grundeigentum noch wurde die Begründung solcher Rechte mit Dritten vereinbart. Es liegen hinsichtlich des Grundeigentums oder hinsichtlich der Belastungen keine unerledigten Grundbuchanträge vor.",
+			"Text": "d) The Company owns no real property. Exhibit 3 contains a list of all real properties used by it for its business operations and the lease agreements applicable thereto. In addition, there are no third-party rights to the real property, nor has the establishment of such rights been agreed with third parties. There are no outstanding applications for registration in the land register with regard to the real property or the encumbrances.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:WarrantyClaim"
+				"war:WarrantyClaim",
+				"propdebts:Integer"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
-				"war.Name=NoProperties",
+				"war.Name=NoPropertyDebts",
 				"war.Debtor=$20_seller",
 				"war.Creditor=$20_purchaser",
-				"war.DueDate=0"
+				"war.DueDate=0",
+				"propdebts=0",
+				"war.Performance=0==240_propdebts"
 			]
 		},
 		{
@@ -951,7 +954,8 @@
 				"comp.Name=SellerCompensation",
 				"comp.Trigger=$per",
 				"comp.Debtor=$20_seller",
-				"comp.Creditor=$20_purchaser"
+				"comp.Creditor=$20_purchaser",
+				"comp.Trigger=$240_war"
 			]
 		},
 		{
@@ -962,7 +966,8 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"comp:CompensationClaim"
+				"comp:CompensationClaim",
+				"delPay:Integer"
 			],
 			"Assignment": [
 				"c2.Item=10.1",
@@ -970,7 +975,7 @@
 				"comp.Trigger=$311_war",
 				"comp.Debtor=$20_seller",
 				"comp.Creditor=$20_purchaser",
-				"comp.Performance=(311_min-91_ebitda)*0.3"
+				"comp.Performance=(311_min-91_ebitda)*3==delPay"
 			]
 		},
 		{

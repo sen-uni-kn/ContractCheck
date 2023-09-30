@@ -47,13 +47,14 @@ public class TestAnalysisClaims_Bakery extends JobAbstractTest
 		expectedResults.put("Result_SPAClaim_Block1_spa_Block4_withdraw", new ResultCase(Job_LegalCheck.SEQUENCE));
 		expectedResults.put("Result_SPAClaim_Block1_spa_Block6_warranty", new ResultCase(Job_LegalCheck.SEQUENCE));
 		expectedResults.put("Result_SPAClaim_Block1_spa_Block8_per", new ResultCase(Job_LegalCheck.SEQUENCE));
-		expectedResults.put("Result_SPAClaim_Block1_spa_Block9_comp", new ResultCase(Job_LegalCheck.UNSAT_CORE));
+		expectedResults.put("Result_SPAClaim_Block1_spa_Block9_comp", new ResultCase(Job_LegalCheck.SEQUENCE));
 	}
 
 	@Override
 	protected Job createJob()
 	{
 		// ignoreTest = true;
+		System.out.println("ClaimTest");
 		return new Job_LegalCheck(this);
 	}
 

@@ -153,7 +153,11 @@ public class Legal2Constraints extends LegalVisitor
 		{
 			decl = new SmtDeclare("const", "Real_" + name, "Real");
 			decl = smtModel.addDeclaration(decl);
+		} else
+		{
+			context.reportError("Unkown type " + type);
 		}
+
 		if (decl == null)
 		{
 			context.reportWarning("Error SMT Encoding: Type " + type + " is unkown");
@@ -320,6 +324,15 @@ public class Legal2Constraints extends LegalVisitor
 		if (formNode.inheritatesFrom("Integer"))
 		{
 			String val = formNode.getContent();
+			if (val.isBlank())
+			{
+				String xmlName = formNode.getName();
+				SmtDeclare decl = createVariable(formNode, xmlName);
+				System.out.println(decl.getName());
+				if (decl.getName().compareTo("240_prop_debts") == 0)
+					System.out.println("");
+				return new SmtConstraint(decl.getName());
+			}
 			return new SmtConstraint(val);
 		}
 
@@ -331,6 +344,7 @@ public class Legal2Constraints extends LegalVisitor
 			context.reportError("Operator is missing in formula!");
 			return null;
 		}
+		opVal = opVal.replaceAll("==", "=");
 		if (op1 == null)
 		{
 			context.reportError("Op1 is missing in formula!");
@@ -501,6 +515,8 @@ public class Legal2Constraints extends LegalVisitor
 		{
 			if (ass.inheritatesFrom(LegalUml.PropertyTransfer))
 				createTransferCondition(ass, claim, dec);
+			else if (ass.inheritatesFrom(LegalUml.Formula))
+				createPerformanceFormula(ass, claim, dec);
 			else
 				createPerformanceCondition(ass, claim, dec);
 		}
@@ -536,12 +552,20 @@ public class Legal2Constraints extends LegalVisitor
 		as.addConstraint(or);
 	}
 
+	private void createPerformanceFormula(UmlNode2 ass, UmlNode2 dc, SmtDeclare dec)
+	{
+		SmtConstraint as = smtModel.createAssert(getCorrectedName(ass.getName()), 8);
+		SmtConstraint decCon = new SmtConstraint("not").addConstraint(getClaimOccursConstraint(dc, dec));
+		SmtConstraint conFormula = encodeFormula(ass);
+		SmtConstraint or = new SmtConstraint("or").addConstraint(decCon).addConstraint(conFormula);
+		as.addConstraint(or);
+	}
+
 	private void createPerformanceCondition(UmlNode2 ass, UmlNode2 dc, SmtDeclare dec)
 	{
 		String val = dc.getAttributeValue(LegalUml.Performance);
 		if ((val == null) || (val.isEmpty()))
 			return;
-
 		Pattern p = Pattern.compile("(.*?).transfer");
 		Matcher m = p.matcher(val);
 
@@ -597,14 +621,17 @@ public class Legal2Constraints extends LegalVisitor
 		String name = claim.getName();
 		for (UmlNode2 c : claimList)
 		{
-			UmlNode2 cn = c.getAssoziationByName(LegalUml.Trigger);
-			if (cn == null)
+			List<UmlNode2> triggers = c.getAssoziationsByName(LegalUml.Trigger);
+			if (triggers == null)
 				continue;
-			String val = cn.getName();
-			if (val == null)
-				continue;
-			if (val.contains(name))
-				set.add(c);
+			for (UmlNode2 t : triggers)
+			{
+				String val = t.getName();
+				if (val == null)
+					continue;
+				if (val.contains(name))
+					set.add(c);
+			}
 		}
 		return set;
 	}

@@ -88,7 +88,7 @@ public abstract class UmlAnalysisSmtAbstract extends UmlAnalysisAbstract impleme
 		timeZ3 = -1;
 		constraintCount = -1;
 		varCount = -1;
-		String fileName = "Analysis" + anaName.replace(" ", "_");
+		String fileName = "Analysis" + (anaName + "_" + name).replace(" ", "_");
 		ResourceFile file = createFile(fileName, app);
 		if (code == null)
 			return null;

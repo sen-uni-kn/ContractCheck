@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-/**	Contract is stored by a set of contract cards
+/**
+ * Contract is stored by a set of contract cards
  * 
  * @author Martin Koelbl
  */
