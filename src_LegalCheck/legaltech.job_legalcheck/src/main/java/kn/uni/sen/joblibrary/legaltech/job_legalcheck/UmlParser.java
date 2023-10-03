@@ -29,7 +29,8 @@ import kn.uni.sen.joblibrary.legaltech.parser.model.UmlNode;
 import kn.uni.sen.joblibrary.legaltech.parser.model.UmlOperation;
 import kn.uni.sen.jobscheduler.common.model.Job;
 
-/** Parser to analyze contract given as a Modelio .xmi
+/**
+ * Parser to analyze contract given as a Modelio .xmi
  * 
  * @author Martin Koelbl
  */
@@ -184,10 +185,10 @@ public class UmlParser
 			String atName = getNodeAttribute(feat, "name");
 			String atId = getNodeAttribute(c, "xmi:id");
 
-			//if (atId.equals("_lDMkl9qEEeuJ7vPsBYYixQ"))
-			//{
-			//	System.out.print("");
-			//}
+			// if (atId.equals("_lDMkl9qEEeuJ7vPsBYYixQ"))
+			// {
+			// System.out.print("");
+			// }
 
 			// todo: parse type
 			UmlNode atCl = null;

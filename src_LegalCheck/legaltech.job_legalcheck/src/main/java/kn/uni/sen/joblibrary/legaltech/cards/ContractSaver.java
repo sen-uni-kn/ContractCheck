@@ -10,7 +10,8 @@ import org.json.JSONObject;
 
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
 
-/** stores the contract cards of a contract in json
+/**
+ * stores the contract cards of a contract in json
  * 
  * @author Martin Koelbl
  */
@@ -27,7 +28,7 @@ public class ContractSaver
 			ResourceFile.createFile(file, false);
 
 			FileWriter writer = new FileWriter(file);
-			//String val = jcon.toString();
+			// String val = jcon.toString();
 			String val = jcon.toString(2);
 			writer.write(val);
 			writer.flush();
@@ -98,7 +99,8 @@ public class ContractSaver
 			jc.put("Multiplicity", multi);
 		jc.put(ContractParser.Object, createArray(c.getVariableList()));
 		jc.put(ContractParser.Assignment, createArray(c.getAssignmentList()));
-		//jc.put(ContractParser.Constraint, createArray(c.getConstraintList()));
+		// jc.put(ContractParser.Constraint,
+		// createArray(c.getConstraintList()));
 
 		Map<String, String> map = c.getResultMap();
 		if (!!!map.isEmpty())

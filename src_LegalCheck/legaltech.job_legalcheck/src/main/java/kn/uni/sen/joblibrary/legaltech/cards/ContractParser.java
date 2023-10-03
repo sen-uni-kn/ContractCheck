@@ -13,7 +13,9 @@ import org.json.JSONTokener;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.model.RunContext;
 
-/** Parses a json string and stores contract in @see Contract by its @ContractCard 
+/**
+ * Parses a json string and stores contract in @see Contract by
+ * its @ContractCard
  * 
  * @author Martin Koelbl
  */
@@ -59,7 +61,7 @@ public class ContractParser
 		}
 		return null;
 	}
-	
+
 	public JSONObject parseJSON(String content)
 	{
 		try
@@ -74,13 +76,13 @@ public class ContractParser
 		}
 		return null;
 	}
-	
+
 	public Contract parseText(String text)
 	{
 		JSONObject root = parseJSON(text);
 		return parseContent(root);
 	}
-	
+
 	public Contract parseFile(String file)
 	{
 		JSONObject root = parseJSONFile(file);
@@ -137,15 +139,12 @@ public class ContractParser
 		}
 	}
 
-	/*void parseConstraint(JSONArray ass, ContractCard c)
-	{
-		for (Iterator<Object> iter = ass.iterator(); iter.hasNext();)
-		{
-			Object o = iter.next();
-			if (o instanceof String)
-				c.setPlainConstraint((String) o);
-		}
-	}*/
+	/*
+	 * void parseConstraint(JSONArray ass, ContractCard c) { for
+	 * (Iterator<Object> iter = ass.iterator(); iter.hasNext();) { Object o =
+	 * iter.next(); if (o instanceof String) c.setPlainConstraint((String) o); }
+	 * }
+	 */
 
 	private void parseResult(JSONArray ass, ContractCard c)
 	{
@@ -201,11 +200,10 @@ public class ContractParser
 			{
 				JSONArray ass = js.getJSONArray(key);
 				parseAssignment(ass, c);
-			} /*else if (key.equals(Constraint))
-			{
-				JSONArray ass = js.getJSONArray(key);
-				parseConstraint(ass, c);
-			} */else if (key.equals(Tatbestand))
+			} /*
+				 * else if (key.equals(Constraint)) { JSONArray ass =
+				 * js.getJSONArray(key); parseConstraint(ass, c); }
+				 */else if (key.equals(Tatbestand))
 			{
 				JSONArray ass = js.getJSONArray(key);
 				parseResult(ass, c);

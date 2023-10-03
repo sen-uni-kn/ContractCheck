@@ -1,6 +1,7 @@
 package kn.uni.sen.joblibrary.legaltech.common;
 
-/** Current Legal Tech Version that should be consistent with version in pom file
+/**
+ * Current Legal Tech Version that should be consistent with version in pom file
  * 
  * @author Martin Koelbl
  */

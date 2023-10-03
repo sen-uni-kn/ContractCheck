@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Stack;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import kn.uni.sen.joblibrary.legaltech.parser.model.LegalUml;
 
@@ -51,7 +53,15 @@ public class UmlNode2
 
 	public String getContent()
 	{
-		return ele.getTextContent();
+		NodeList list = ele.getChildNodes();
+		StringBuilder textContent = new StringBuilder();
+		for (int i = 0; i < list.getLength(); ++i)
+		{
+			Node child = list.item(i);
+			if (child.getNodeType() == Node.TEXT_NODE)
+				textContent.append(child.getTextContent());
+		}
+		return textContent.toString();
 	}
 
 	public UmlNode2 getAssoziationByName(String name)

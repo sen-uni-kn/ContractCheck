@@ -321,7 +321,7 @@ public class Legal2Constraints extends LegalVisitor
 
 	private SmtConstraint encodeFormula(UmlNode2 formNode)
 	{
-		if (formNode.inheritatesFrom(LegalUml.IntegerS))
+		if (formNode.inheritatesFrom(LegalUml.IntegerS) || formNode.inheritatesFrom(LegalUml.DateS))
 		{
 			String val = formNode.getContent();
 			if (val.isBlank())
@@ -378,7 +378,11 @@ public class Legal2Constraints extends LegalVisitor
 		{
 			dueDate = claim.getAssoziationByName(LegalUml.Trigger);
 		}
-		if ((dueDate != null) && dueDate.inheritatesFrom(LegalUml.Formula))
+		if ((dueDate != null) && dueDate.isOfClass(LegalUml.DateS))
+		{
+			SmtElement ele = encodeFormula(dueDate);
+			return new SmtConstraint(ele.toText());
+		} else if ((dueDate != null) && dueDate.inheritatesFrom(LegalUml.Formula))
 		{
 			SmtConstraint con = encodeFormula(dueDate);
 			String conText = con.toText();

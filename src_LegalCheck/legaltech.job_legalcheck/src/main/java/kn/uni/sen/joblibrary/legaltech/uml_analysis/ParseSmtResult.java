@@ -376,8 +376,8 @@ public class ParseSmtResult
 	{
 		// search for underlying claim
 		String name = d.Name;
-		if(name.endsWith("_event"))
-			name = name.substring(0, name.length()-6);
+		if (name.endsWith("_event"))
+			name = name.substring(0, name.length() - 6);
 		UmlNode2 node = getUmlNode(name);
 		if ((node == null) || node.inheritatesFrom(LegalUml.DateS))
 			// ignore dates

@@ -41,7 +41,8 @@ public class TestAnalysisLimit_Bakery extends JobAbstractTest
 
 	Map<String, ResultCase> expectedResults = new HashMap<>();
 	{
-		expectedResults.put("Result_SPAClaimLimit_Block1_spa_Block1_transfer", new ResultCase(Job_LegalCheck.UNSAT_CORE));
+		expectedResults.put("Result_SPAClaimLimit_Block1_spa_Block1_transfer",
+				new ResultCase(Job_LegalCheck.UNSAT_CORE));
 		expectedResults.put("Result_SPAClaimLimit_Block1_spa_Block6_warranty", new ResultCase(Job_LegalCheck.SEQUENCE));
 		expectedResults.put("Result_SPAClaimLimit_Block1_spa_Block8_per", new ResultCase(Job_LegalCheck.UNSAT_CORE));
 		expectedResults.put("Result_SPAClaimLimit_Block1_spa_Block9_comp", new ResultCase(Job_LegalCheck.UNSAT_CORE));

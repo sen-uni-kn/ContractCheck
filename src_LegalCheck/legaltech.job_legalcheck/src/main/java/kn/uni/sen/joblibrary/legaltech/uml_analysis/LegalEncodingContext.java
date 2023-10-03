@@ -19,7 +19,7 @@ public class LegalEncodingContext implements UmlAnalysisListener
 		context = job;
 		analysis = ana;
 	}
-	
+
 	public void reportError(String text)
 	{
 		analysis.reportError(text);

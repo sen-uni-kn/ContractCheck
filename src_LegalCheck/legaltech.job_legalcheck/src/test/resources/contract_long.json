@@ -61,10 +61,15 @@
 				"court:String",
 				"hrb:String",
 				"capital:Integer",
-				"share:Share"
+				"share:Share",
+				"owns:Integer",
+				"prop:PropertyRight"
 			],
 			"Assignment": [
-				"c2.Item=1.1"
+				"c2.Item=1.1",
+				"prop.Owner=$20_seller",
+				"prop.Property=$share",
+				"owns=100"
 			]
 		},
 		{
@@ -131,8 +136,9 @@
 				"claim.Name=RatePrice",
 				"claim.Debtor=$20_purchaser",
 				"claim.Creditor=$20_seller",
+				"date=0",
 				"claim.Compensation=(70_price*rate)/100*((20_spa.Closing-date)/365)",
-				"claim.DueDate=$date"
+				"claim.DueDate=$20_closing"
 			]
 		},
 		{
@@ -175,7 +181,7 @@
 				"extra.Trigger=ebitda>val",
 				"extra.Debtor=$20_purchaser",
 				"extra.Creditor=$20_seller",
-				"extra.Performance='pay((ebitda-val)*3)'"
+				"extra.Performance='pay((ebitda-val)*0.3)'"
 			]
 		},
 		{
@@ -319,6 +325,7 @@
 				"val.Default=12",
 				"war=$120_war",
 				"war.Limitation=20_signing+val",
+				"80_claim.Limitation=30*140_val",
 				"comp=$130_comp",
 				"comp.Limitation=20_signing+val",
 				"indem=$130_indem",
@@ -390,7 +397,7 @@
 			],
 			"Assignment": [
 				"c2.Item=5.2",
-				"val=14",
+				"val=395",
 				"20_spa.Closing<180_date+val",
 				"90_payment.DueDate=$20_spa.Closing",
 				"50_transfer.DueDate=$20_spa.Closing"
@@ -399,7 +406,7 @@
 		{
 			"ID": "200",
 			"Index": "20",
-			"Text-DE": "§$c1 Garantien die Verkäuferin.",
+			"Text-DE": "§$c1 Garantien der Verkäuferin.",
 			"Text": "Section $c1 Warranties of the Seller.",
 			"Multiplicity": "1",
 			"Variable": [
@@ -425,10 +432,11 @@
 		{
 			"ID": "215",
 			"Index": "21",
-			"Text-DE": "a) Die Verkäuferin ist alleiniger Inhaber des Geschäftsanteils, wie in § 1 Abs. 1 beschrieben, und zur freien Verfügung über diesen berechtigt. Alle zur Veräußerung dieses Geschäftsanteils auf Seiten die Verkäuferin erforderlichen Zustimmungen von Gesellschaftsorganen liegen vor. Der Geschäftsanteil ist nicht mit Rechten Dritter belastet, und es bestehen hinsichtlich dieses Geschäftsanteils keine Vorkaufs- oder sonstigen Erwerbsrechte Dritter.",
-			"Text": "a) The Seller is the sole owner of the Share, as set forth in Section 1 (1), and fully authorized to dispose of such Share. All consents required from any corporate body for the sale and transfer of the Share have been obtained. The Share is not encumbered with any third party rights, and there exist no pre-emptive rights or other rights of third parties to acquire such Share.",
+			"Text-DE": "a) Die Verkäuferin ist Inhaberin eines Geschäftsanteils in Höhe von $per %, wie in § 1 Abs. 1 beschrieben, und zur freien Verfügung über diesen berechtigt. Alle zur Veräußerung dieses Geschäftsanteils auf Seiten die Verkäuferin erforderlichen Zustimmungen von Gesellschaftsorganen liegen vor. Der Geschäftsanteil ist nicht mit Rechten Dritter belastet, und es bestehen hinsichtlich dieses Geschäftsanteils keine Vorkaufs- oder sonstigen Erwerbsrechte Dritter.",
+			"Text": "a) The Seller is the owner of $per of the company shares, as set forth in Section 1 (1), and fully authorized to dispose of such Share. All consents required from any corporate body for the sale and transfer of the Share have been obtained. The Share is not encumbered with any third party rights, and there exist no pre-emptive rights or other rights of third parties to acquire such Share.",
 			"Multiplicity": "1",
 			"Variable": [
+				"per:Integer",
 				"war:WarrantyClaim"
 			],
 			"Assignment": [
@@ -436,7 +444,9 @@
 				"war.Name=SoleOwner",
 				"war.Debtor=$20_seller",
 				"war.Creditor=$20_purchaser",
-				"war.DueDate=0"
+				"war.DueDate=0",
+				"per=90",
+				"war.Performance=40_owns==215_per"
 			]
 		},
 		{
@@ -882,7 +892,6 @@
 				"war.Name=NonCompete",
 				"war.Non=true",
 				"war.DueDate=0",
-				"war.Limitation=20_spa.Closing+val*31",
 				"war.Debtor=$20_purchaser",
 				"war.Creditor=$20_seller"
 			]
@@ -976,7 +985,7 @@
 				"comp.Trigger=$311_war",
 				"comp.Debtor=$20_seller",
 				"comp.Creditor=$20_purchaser",
-				"comp.Performance=(311_min-91_ebitda)*3==delPay"
+				"comp.Performance=(311_min-91_ebitda)*0.3==delPay"
 			]
 		},
 		{
@@ -1298,15 +1307,14 @@
 				"c1:$Clause1",
 				"c2:Clause2",
 				"count:Integer",
-				"date:Date",
-				"date2:Date"
+				"date:Date"
 			],
 			"Assignment": [
 				"c1=$590_c1",
 				"c2.Item=11.7",
 				"count=3",
-				"600_claim.Limitation=date2+(30*count)",
-				"600_claim.Limitation=$date",
+				"600_claim.Limitation=20_closing+(30*count)",
+				"600_claim.Limitation=20_closing+(30*count)",
 				"610_claim.Limitation=3650",
 				"620_claim.Limitation=3650",
 				"630_war.Limitation=3650",

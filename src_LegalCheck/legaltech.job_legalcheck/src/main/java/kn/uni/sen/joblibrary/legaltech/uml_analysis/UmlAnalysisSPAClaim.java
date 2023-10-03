@@ -114,7 +114,8 @@ public class UmlAnalysisSPAClaim extends UmlAnalysisSmtAbstract
 			{
 				result = 0;
 				reportUnsat(name, "Claim not satisfiable", res.getUnsatCore(), UmlResultState.ERROR);
-			} else {
+			} else
+			{
 				result = 1;
 				reportRun(name, "Claim satisfiable", res.getDiagram(), UmlResultState.GOOD);
 			}

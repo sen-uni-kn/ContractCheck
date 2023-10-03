@@ -34,13 +34,13 @@ public class UmlAnalysisExecutor
 	{
 		if (statisticsFile == null)
 		{
-			//file not open create
+			// file not open create
 			statisticsFile = ResourceFolder.appendFolder(job.getFolderText(), "statistics.txt");
 			ResourceFile.removeFile(statisticsFile);
 			String head = "name & analysis & good & time & mem & constraints & variables\\\\\n";
 			ResourceFile.appendText2File(statisticsFile, head);
 		}
-		
+
 		ana.runAnalysis(report, statisticsFile);
 	}
 }
