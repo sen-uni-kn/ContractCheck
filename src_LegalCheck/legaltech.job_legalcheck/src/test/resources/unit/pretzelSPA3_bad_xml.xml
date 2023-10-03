@@ -10,81 +10,81 @@
         <Legal id="67" name="Reference" ref="66"/>
         <Legal id="69" name="Reference" ref="68"/>
         <Legal id="72" name="Reference" ref="70"/>
-        <string id="116" name="Item">1.1</string>
+        <string id="118" name="Item">1.1</string>
       </Clause2>
       <Clause2 id="73" name="Block2_c2">
         <Legal id="75" name="Reference" ref="74"/>
         <Legal id="78" name="Reference" ref="76"/>
-        <string id="137" name="Item">1.2</string>
+        <string id="139" name="Item">1.2</string>
       </Clause2>
       <Clause2 id="79" name="Block3_c2">
         <Legal id="82" name="Reference" ref="80"/>
-        <string id="146" name="Item">1.3</string>
+        <string id="148" name="Item">1.3</string>
       </Clause2>
       <Clause2 id="83" name="Block4_c2">
         <Legal id="86" name="Reference" ref="84"/>
-        <string id="151" name="Item">1.4</string>
+        <string id="153" name="Item">1.4</string>
       </Clause2>
-      <string id="115" name="Item">1</string>
+      <string id="117" name="Item">1</string>
     </Clause1>
     <SPA id="62" name="Block1_spa">
-      <Person id="119" name="Seller" ref="64"/>
-      <Person id="120" name="Purchaser" ref="66"/>
-      <Date id="121" name="Closing">
+      <Person id="121" name="Seller" ref="64"/>
+      <Person id="122" name="Purchaser" ref="66"/>
+      <Date id="123" name="Closing">
         28
-        <Formula id="128" name="Constraint" ref="126"/>
+        <Formula id="130" name="Constraint" ref="128"/>
       </Date>
-      <Object id="123" name="PurchaseObject" ref="68"/>
-      <Claim id="124" name="Claim" ref="70"/>
-      <Date id="125" name="Signing">
+      <Object id="125" name="PurchaseObject" ref="68"/>
+      <Claim id="126" name="Claim" ref="70"/>
+      <Date id="127" name="Signing">
         0
-        <Formula id="127" name="Constraint" ref="126"/>
+        <Formula id="129" name="Constraint" ref="128"/>
       </Date>
-      <PurchasePrice id="138" name="Price" ref="74"/>
-      <Claim id="140" name="Claim" ref="76"/>
-      <Claim id="169" name="Claim" ref="89"/>
+      <PurchasePrice id="140" name="Price" ref="74"/>
+      <Claim id="142" name="Claim" ref="76"/>
+      <Claim id="171" name="Claim" ref="89"/>
     </SPA>
     <Person id="64" name="Block1_seller">
-      <string id="118" name="Name">Eva</string>
+      <string id="120" name="Name">Eva</string>
     </Person>
     <Person id="66" name="Block1_purchaser">
-      <string id="117" name="Name">Chris</string>
+      <string id="119" name="Name">Chris</string>
     </Person>
     <Share id="68" name="Block1_shares">
-      <string id="122" name="Name">Bakery AG</string>
+      <string id="124" name="Name">Bakery AG</string>
     </Share>
     <PrimaryClaim id="70" name="Block1_transfer">
       <Date id="71" name="Event"/>
-      <string id="132" name="Name">TransferClaim</string>
-      <Person id="133" name="Debtor" ref="64"/>
-      <Person id="134" name="Creditor" ref="66"/>
-      <Date id="135" name="DueDate">28</Date>
-      <Performance id="136" name="Performance">$Block1_shares.transfer($purchaser)</Performance>
+      <string id="134" name="Name">TransferClaim</string>
+      <Person id="135" name="Debtor" ref="64"/>
+      <Person id="136" name="Creditor" ref="66"/>
+      <Date id="137" name="DueDate">28</Date>
+      <Performance id="138" name="Performance">$Block1_shares.transfer($purchaser)</Performance>
     </PrimaryClaim>
     <PurchasePrice id="74" name="Block2_price">
-      <double id="139" name="Amount">40000</double>
+      <double id="141" name="Amount">40000</double>
     </PurchasePrice>
     <PrimaryClaim id="76" name="Block2_payment">
       <Date id="77" name="Event"/>
-      <string id="141" name="Name">PayClaim</string>
-      <Person id="142" name="Debtor" ref="66"/>
-      <Person id="143" name="Creditor" ref="64"/>
-      <Performance id="144" name="Performance">$Block2_price.transfer($seller)</Performance>
-      <Date id="145" name="DueDate">28</Date>
+      <string id="143" name="Name">PayClaim</string>
+      <Person id="144" name="Debtor" ref="66"/>
+      <Person id="145" name="Creditor" ref="64"/>
+      <Performance id="146" name="Performance">$Block2_price.transfer($seller)</Performance>
+      <Date id="147" name="DueDate">28</Date>
     </PrimaryClaim>
     <RestitutionClaim id="80" name="Block3_withdraw">
       <Date id="81" name="Event"/>
-      <string id="147" name="Name">Restitution Purchaser</string>
-      <string id="148" name="Trigger" ref="70"/>
-      <Person id="149" name="Debtor" ref="66"/>
-      <Person id="150" name="Creditor" ref="64"/>
+      <string id="149" name="Name">Restitution Purchaser</string>
+      <string id="150" name="Trigger" ref="70"/>
+      <Person id="151" name="Debtor" ref="66"/>
+      <Person id="152" name="Creditor" ref="64"/>
     </RestitutionClaim>
     <RestitutionClaim id="84" name="Block4_withdraw">
       <Date id="85" name="Event"/>
-      <string id="152" name="Name">Restitution Seller</string>
-      <string id="153" name="Trigger" ref="76"/>
-      <Person id="154" name="Debtor" ref="64"/>
-      <Person id="155" name="Creditor" ref="66"/>
+      <string id="154" name="Name">Restitution Seller</string>
+      <string id="155" name="Trigger" ref="76"/>
+      <Person id="156" name="Debtor" ref="64"/>
+      <Person id="157" name="Creditor" ref="66"/>
     </RestitutionClaim>
     <Clause1 id="87" name="Block5_c1">
       <Clause2 id="88" name="Block6_c2">
@@ -92,18 +92,18 @@
         <Legal id="93" name="Reference" ref="92"/>
         <Legal id="95" name="Reference" ref="94"/>
         <Legal id="97" name="Reference" ref="96"/>
-        <string id="157" name="Item">2.1</string>
+        <string id="159" name="Item">2.1</string>
       </Clause2>
-      <string id="156" name="Item">2</string>
+      <string id="158" name="Item">2</string>
     </Clause1>
     <WarrantyClaim id="89" name="Block6_warranty">
       <Date id="90" name="Event"/>
-      <string id="158" name="Name">PretzelWarranty</string>
-      <Date id="159" name="DueDate">28</Date>
-      <Person id="160" name="Creditor" ref="66"/>
-      <Date id="167" name="Limitation" ref="161"/>
-      <Person id="168" name="Debtor" ref="64"/>
-      <Performance id="174" name="Performance" ref="170"/>
+      <string id="160" name="Name">PretzelWarranty</string>
+      <Date id="161" name="DueDate">28</Date>
+      <Person id="162" name="Creditor" ref="66"/>
+      <Date id="169" name="Limitation" ref="163"/>
+      <Person id="170" name="Debtor" ref="64"/>
+      <Performance id="176" name="Performance" ref="172"/>
     </WarrantyClaim>
     <Integer id="92" name="Block6_count"/>
     <Integer id="94" name="Block6_amount">10000</Integer>
@@ -111,99 +111,100 @@
     <Clause1 id="98" name="Block7_c1">
       <Clause2 id="99" name="Block8_c2">
         <Legal id="102" name="Reference" ref="100"/>
-        <string id="176" name="Item">3.1</string>
+        <Legal id="104" name="Reference" ref="103"/>
+        <string id="178" name="Item">3.1</string>
       </Clause2>
-      <Clause2 id="103" name="Block9_c2">
-        <Legal id="106" name="Reference" ref="104"/>
-        <string id="190" name="Item">3.2</string>
+      <Clause2 id="105" name="Block9_c2">
+        <Legal id="108" name="Reference" ref="106"/>
+        <string id="191" name="Item">3.2</string>
       </Clause2>
-      <string id="175" name="Item">3</string>
+      <string id="177" name="Item">3</string>
     </Clause1>
     <PerformanceClaim id="100" name="Block8_per">
       <Date id="101" name="Event"/>
-      <string id="177" name="Trigger" ref="89"/>
-      <string id="178" name="Name">Claim1</string>
-      <Date id="185" name="DueDate" ref="179"/>
-      <Performance id="186" name="Performance" ref="170"/>
-      <Person id="187" name="Debtor" ref="64"/>
-      <Person id="188" name="Creditor" ref="66"/>
-      <Date id="189" name="Limitation">70</Date>
+      <string id="179" name="Trigger" ref="89"/>
+      <string id="180" name="Name">Claim1</string>
+      <Date id="187" name="DueDate" ref="181"/>
+      <Person id="188" name="Debtor" ref="64"/>
+      <Person id="189" name="Creditor" ref="66"/>
+      <Date id="190" name="Limitation">70</Date>
     </PerformanceClaim>
-    <CompensationClaim id="104" name="Block9_comp">
-      <Date id="105" name="Event"/>
-      <string id="191" name="Name">Claim2</string>
-      <string id="192" name="Trigger" ref="89"/>
-      <double id="193" name="Min">1000</double>
-      <Date id="200" name="DueDate" ref="194"/>
-      <Formula id="215" name="Compensation" ref="201"/>
-      <Person id="216" name="Debtor" ref="64"/>
-      <Person id="217" name="Creditor" ref="66"/>
-      <Date id="218" name="Limitation">70</Date>
+    <Integer id="103" name="Block8_count"/>
+    <CompensationClaim id="106" name="Block9_comp">
+      <Date id="107" name="Event"/>
+      <string id="192" name="Name">Claim2</string>
+      <string id="193" name="Trigger" ref="89"/>
+      <double id="194" name="Min">1000</double>
+      <Date id="201" name="DueDate" ref="195"/>
+      <Formula id="216" name="Compensation" ref="202"/>
+      <Person id="217" name="Debtor" ref="64"/>
+      <Person id="218" name="Creditor" ref="66"/>
+      <Date id="219" name="Limitation">70</Date>
     </CompensationClaim>
-    <Clause1 id="107" name="Block10_c1">
-      <Legal id="109" name="Reference" ref="108"/>
-      <string id="219" name="Item">4</string>
+    <Clause1 id="109" name="Block10_c1">
+      <Legal id="111" name="Reference" ref="110"/>
+      <string id="220" name="Item">4</string>
     </Clause1>
-    <Date id="108" name="Block10_d">(+ 28 42)</Date>
-    <Clause1 id="110" name="Block11_c1">
-      <Legal id="112" name="Reference" ref="111"/>
+    <Date id="110" name="Block10_d">(+ 28 42)</Date>
+    <Clause1 id="112" name="Block11_c1">
       <Legal id="114" name="Reference" ref="113"/>
-      <string id="220" name="Item">5</string>
+      <Legal id="116" name="Reference" ref="115"/>
+      <string id="221" name="Item">5</string>
     </Clause1>
-    <Person id="111" name="Block11_owner">
-      <string id="221" name="Name">Bank</string>
+    <Person id="113" name="Block11_owner">
+      <string id="222" name="Name">Bank</string>
     </Person>
-    <PropertyRight id="113" name="Block11_prop">
-      <Person id="222" name="Owner" ref="111"/>
-      <Object id="223" name="Property" ref="68"/>
+    <PropertyRight id="115" name="Block11_prop">
+      <Person id="223" name="Owner" ref="113"/>
+      <Object id="224" name="Property" ref="68"/>
     </PropertyRight>
-    <Formula id="126" name="Block1_formula1">
-      <Operand id="129" name="Op1" ref="125"/>
-      <string id="130" name="Operator">&lt;=</string>
-      <Operand id="131" name="Op2" ref="121"/>
+    <Formula id="128" name="Block1_formula1">
+      <Operand id="131" name="Op1" ref="127"/>
+      <string id="132" name="Operator">&lt;=</string>
+      <Operand id="133" name="Op2" ref="123"/>
     </Formula>
-    <Formula id="161" name="Block6_formula2">
-      <Operand id="164" name="Op1" ref="162"/>
-      <string id="165" name="Operator">+</string>
-      <Operand id="166" name="Op2" ref="163"/>
+    <Formula id="163" name="Block6_formula2">
+      <Operand id="166" name="Op1" ref="164"/>
+      <string id="167" name="Operator">+</string>
+      <Operand id="168" name="Op2" ref="165"/>
     </Formula>
-    <Integer id="162" name="Block6_1"/>
-    <Integer id="163" name="Block6_2">14</Integer>
-    <Formula id="170" name="Block6_formula3">
-      <Operand id="171" name="Op1" ref="92"/>
-      <string id="172" name="Operator">&gt;=</string>
-      <Operand id="173" name="Op2" ref="94"/>
+    <Integer id="164" name="Block6_1"/>
+    <Integer id="165" name="Block6_2">14</Integer>
+    <Formula id="172" name="Block6_formula3">
+      <Operand id="173" name="Op1" ref="92"/>
+      <string id="174" name="Operator">&gt;=</string>
+      <Operand id="175" name="Op2" ref="94"/>
     </Formula>
-    <Formula id="179" name="Block8_formula4">
-      <Operand id="182" name="Op1" ref="180"/>
-      <string id="183" name="Operator">+</string>
-      <Operand id="184" name="Op2" ref="181"/>
+    <Formula id="181" name="Block8_formula4">
+      <Operand id="184" name="Op1" ref="182"/>
+      <string id="185" name="Operator">+</string>
+      <Operand id="186" name="Op2" ref="183"/>
     </Formula>
-    <Integer id="180" name="Block8_3"/>
-    <Integer id="181" name="Block8_4">28</Integer>
-    <Formula id="194" name="Block9_formula5">
-      <Operand id="197" name="Op1" ref="195"/>
-      <string id="198" name="Operator">+</string>
-      <Operand id="199" name="Op2" ref="196"/>
+    <Integer id="182" name="Block8_3"/>
+    <Integer id="183" name="Block8_4">28</Integer>
+    <Formula id="195" name="Block9_formula5">
+      <Operand id="198" name="Op1" ref="196"/>
+      <string id="199" name="Operator">+</string>
+      <Operand id="200" name="Op2" ref="197"/>
     </Formula>
-    <Integer id="195" name="Block9_5"/>
-    <Integer id="196" name="Block9_6">42</Integer>
-    <Formula id="201" name="Block9_formula6">
-      <Operand id="212" name="Op1" ref="202"/>
-      <string id="213" name="Operator">*</string>
-      <Operand id="214" name="Op2" ref="211"/>
+    <Integer id="196" name="Block9_5"/>
+    <Integer id="197" name="Block9_6">42</Integer>
+    <Formula id="202" name="Block9_formula6">
+      <Operand id="213" name="Op1" ref="203"/>
+      <string id="214" name="Operator">*</string>
+      <Operand id="215" name="Op2" ref="212"/>
     </Formula>
-    <Formula id="202" name="Block9_formula7">
-      <Operand id="208" name="Op1" ref="203"/>
-      <string id="209" name="Operator">/</string>
-      <Operand id="210" name="Op2" ref="207"/>
+    <Formula id="203" name="Block9_formula7">
+      <Operand id="209" name="Op1" ref="204"/>
+      <string id="210" name="Operator">/</string>
+      <Operand id="211" name="Op2" ref="208"/>
     </Formula>
-    <Formula id="203" name="Block9_formula8">
-      <Operand id="204" name="Op1" ref="94"/>
-      <string id="205" name="Operator">-</string>
-      <Operand id="206" name="Op2" ref="92"/>
+    <Formula id="204" name="Block9_formula8">
+      <Operand id="205" name="Op1" ref="94"/>
+      <string id="206" name="Operator">-</string>
+      <Operand id="207" name="Op2" ref="92"/>
     </Formula>
-    <Integer id="207" name="Block9_7">100</Integer>
-    <Integer id="211" name="Block9_8">1000</Integer>
+    <Integer id="208" name="Block9_7">100</Integer>
+    <Integer id="212" name="Block9_8">1000</Integer>
   </model>
 </root>

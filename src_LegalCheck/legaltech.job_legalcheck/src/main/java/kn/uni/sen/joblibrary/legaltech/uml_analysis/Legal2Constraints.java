@@ -321,16 +321,13 @@ public class Legal2Constraints extends LegalVisitor
 
 	private SmtConstraint encodeFormula(UmlNode2 formNode)
 	{
-		if (formNode.inheritatesFrom("Integer"))
+		if (formNode.inheritatesFrom(LegalUml.IntegerS))
 		{
 			String val = formNode.getContent();
 			if (val.isBlank())
 			{
 				String xmlName = formNode.getName();
 				SmtDeclare decl = createVariable(formNode, xmlName);
-				System.out.println(decl.getName());
-				if (decl.getName().compareTo("240_prop_debts") == 0)
-					System.out.println("");
 				return new SmtConstraint(decl.getName());
 			}
 			return new SmtConstraint(val);
@@ -555,9 +552,19 @@ public class Legal2Constraints extends LegalVisitor
 	private void createPerformanceFormula(UmlNode2 ass, UmlNode2 dc, SmtDeclare dec)
 	{
 		SmtConstraint as = smtModel.createAssert(getCorrectedName(ass.getName()), 8);
-		SmtConstraint decCon = new SmtConstraint("not").addConstraint(getClaimOccursConstraint(dc, dec));
+		SmtConstraint decCon = getClaimOccursConstraint(dc, dec);
 		SmtConstraint conFormula = encodeFormula(ass);
-		SmtConstraint or = new SmtConstraint("or").addConstraint(decCon).addConstraint(conFormula);
+		SmtConstraint or = null;
+		if (dc.inheritatesFrom(LegalUml.Warranty))
+		{
+			// for warranties, either event==-1 then formula holds or event>=0
+			// then formula does not hold
+			or = new SmtConstraint("=").addConstraint(decCon).addConstraint(conFormula);
+		} else
+		{
+			decCon = new SmtConstraint("not").addConstraint(decCon);
+			or = new SmtConstraint("or").addConstraint(decCon).addConstraint(conFormula);
+		}
 		as.addConstraint(or);
 	}
 

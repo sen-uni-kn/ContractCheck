@@ -78,6 +78,7 @@ public class UmlAnalysisSPAClaimUnsat extends UmlAnalysisSmtAbstract
 				if ((ele != claimEle) && !!!isClaim && !!!tmpClaimList.contains(ele))
 					return;
 				isClaim = true;
+				//super.visitClaim(ele);
 
 				if (ele == claimEle)
 				{
@@ -114,11 +115,11 @@ public class UmlAnalysisSPAClaimUnsat extends UmlAnalysisSmtAbstract
 			if (res.isUnsatisfiable())
 			{
 				result = 0;
-				reportUnsat(name, "SPA not satisfiable when this claim is not satisfied", res.getUnsatCore(), UmlResultState.ERROR);
+				reportUnsat(name, "Claim cannot be unsatisfied.", res.getUnsatCore(), UmlResultState.ERROR);
 			} else
 			{
 				result = 1;
-				reportRun(name, "SPA satisfiable", res.getDiagram(), UmlResultState.GOOD);
+				reportRun(name, "Claim can be unsatisfied.", res.getDiagram(), UmlResultState.GOOD);
 			}
 		}
 		log(statisticsFile);

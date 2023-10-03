@@ -78,8 +78,6 @@ public class UmlAnalysisSPAClaim extends UmlAnalysisSmtAbstract
 				isClaim = true;
 				super.visitClaim(ele);
 
-				// todo: ensure that primary claims are encoded and do not occur
-
 				if (ele == claimEle)
 				{
 					SmtConstraint as = smtModel.createAssert("claim_occurs", 10);

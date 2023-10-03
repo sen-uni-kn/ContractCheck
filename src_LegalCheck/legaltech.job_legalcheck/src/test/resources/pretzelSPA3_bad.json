@@ -174,7 +174,8 @@
 			"Object": [
 				"c2:Clause2",
 				"claim:$Claim",
-				"per:PerformanceClaim"
+				"per:PerformanceClaim",
+				"count:Integer"
 			],
 			"Assignment": [
 				"c2.Item=3.1",
@@ -182,7 +183,7 @@
 				"per.Trigger=$claim",
 				"per.Name=Claim1",
 				"per.DueDate=+28",
-				"per.Performance=$claim.Performance",
+				"per.Performance=$count>=10000",
 				"per.Debtor=$claim.Debtor",
 				"per.Creditor=$claim.Creditor",
 				"per.Limitation=70"

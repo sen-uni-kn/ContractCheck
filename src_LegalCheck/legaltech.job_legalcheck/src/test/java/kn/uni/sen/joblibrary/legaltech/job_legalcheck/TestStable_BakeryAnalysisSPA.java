@@ -112,7 +112,7 @@ public class TestStable_BakeryAnalysisSPA extends JobAbstractTest
 
 		// do the actual test, compare line-wise since the sequence can change
 		String dif = Helper.compareLines(dataSpa, dataCmp);
-		assertTrue("Xml file of " + nameFile + " changed.\n" + dif, dif == null);
+		assertTrue("Z3 analysis file of " + cmpFile.getFilenameOnly() + " changed.\n" + dif, dif == null);
 	}
 
 	@Override
