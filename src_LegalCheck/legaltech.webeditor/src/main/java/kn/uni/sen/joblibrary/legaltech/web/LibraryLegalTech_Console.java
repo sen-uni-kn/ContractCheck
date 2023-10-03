@@ -30,6 +30,7 @@ public class LibraryLegalTech_Console extends Console_Library
 		List<String> expList = new ArrayList<>();
 		expList.add("experiment_test");
 		expList.add("experiment_spin2022");
+		expList.add("experiment_journal2023");
 		return expList;
 	}
 

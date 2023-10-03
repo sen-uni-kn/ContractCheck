@@ -1,0 +1,12 @@
+<experiment>
+	<parameter>
+		<resource id="model" value="contract_long.json" src="file"/>
+		<resource id="xsd" value="legal.xsd" src="file"/>
+	</parameter>
+	<analysis name="{index}_{$model}">
+		<job name="Job_LegalCheck">
+			<input name="Contract" ref="model" />
+			<input name="XSDFile" ref="xsd" />
+		</job>
+	</analysis>
+</experiment>

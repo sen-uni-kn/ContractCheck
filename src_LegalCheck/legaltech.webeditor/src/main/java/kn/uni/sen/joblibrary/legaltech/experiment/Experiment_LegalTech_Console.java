@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import kn.uni.sen.joblibrary.legaltech.common.LegalCheckVersion;
 import kn.uni.sen.jobscheduler.common.helper.Helper;
 import kn.uni.sen.jobscheduler.common.model.JobEvent;
 import kn.uni.sen.jobscheduler.common.resource.ResourceFile;
@@ -42,7 +43,7 @@ public class Experiment_LegalTech_Console extends Experiment_Console
 
 	private String getLib()
 	{
-		String version = "1.2.0";
+		String version = LegalCheckVersion.version;
 		String lib = "legaltech.webeditor-" + version /* + "-jar-with-dependencies" */ + ".jar";
 		String libMaven = "target" + ResourceFolder.getSplitSign() + lib;
 		if (ResourceFile.exists(libMaven))

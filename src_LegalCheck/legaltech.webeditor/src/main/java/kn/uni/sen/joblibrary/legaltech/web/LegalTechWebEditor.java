@@ -13,12 +13,14 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import kn.uni.sen.joblibrary.legaltech.common.LegalCheckVersion;
+
 @SpringBootApplication
 @Configuration
 @EnableAsync
 public class LegalTechWebEditor implements WebMvcConfigurer
 {
-	public static final String version = "1.2.0";
+	public static final String version = LegalCheckVersion.version;
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry)
