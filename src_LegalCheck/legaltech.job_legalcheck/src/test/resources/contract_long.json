@@ -953,6 +953,7 @@
 				"per.Trigger=$290_war",
 				"comp.Name=SellerCompensation",
 				"comp.Trigger=$per",
+				"comp.Trigger=$281_war",
 				"comp.Debtor=$20_seller",
 				"comp.Creditor=$20_purchaser",
 				"comp.Trigger=$240_war"
@@ -1109,6 +1110,11 @@
 			],
 			"Assignment": [
 				"c2.Item=10.8",
+				"indem.Trigger=$350_war",
+				"indem.Trigger=$360_war",
+				"indem.Trigger=$370_war",
+				"indem.Trigger=$380_war",
+				"indem.Trigger=$390_war",
 				"indem.Trigger=$540_claim",
 				"indem.Trigger=$550_claim",
 				"indem.Name=MissNotifyResponsibility",

@@ -73,12 +73,13 @@ public class UmlAnalysisSPAClaimUnsat extends UmlAnalysisSmtAbstract
 			@Override
 			protected void visitClaim(Element ele)
 			{
+				// if the claim is unsatisfiable a consequence claim needs to
+				// occur. Hence, we need to encode the consequence claims.
 				super.visitClaim(ele);
 
 				if ((ele != claimEle) && !!!isClaim && !!!tmpClaimList.contains(ele))
 					return;
 				isClaim = true;
-				//super.visitClaim(ele);
 
 				if (ele == claimEle)
 				{
