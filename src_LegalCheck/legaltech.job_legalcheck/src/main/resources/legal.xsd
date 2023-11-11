@@ -96,7 +96,7 @@
 	<xs:complexType name="SecondaryClaim">
 		<xs:complexContent>
 			<xs:extension base="Claim">
-				<xs:attribute name="Content" type="xs:string"></xs:attribute>
+				<xs:attribute name="WarrantyCondition" type="xs:string"></xs:attribute>
 				<xs:attribute name="Trigger" type="xs:string"></xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
@@ -115,27 +115,21 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="WarrantyClaim">
+	<xs:complexType name="PerformanceClaim">
 		<xs:complexContent>
 			<xs:extension base="SecondaryClaim"></xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="PerformanceClaim">
-		<xs:complexContent>
-			<xs:extension base="WarrantyClaim"></xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-
 	<xs:complexType name="RestitutionClaim">
 		<xs:complexContent>
-			<xs:extension base="WarrantyClaim"></xs:extension>
+			<xs:extension base="SecondaryClaim"></xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="CompensationClaim">
 		<xs:complexContent>
-			<xs:extension base="WarrantyClaim">
+			<xs:extension base="SecondaryClaim">
 				<xs:sequence>
 					<xs:element name="Damage" type="Formula"></xs:element>
 					<xs:element name="Compensation" type="Formula"></xs:element>

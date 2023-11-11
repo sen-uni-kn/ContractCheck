@@ -13,7 +13,9 @@
 				"seller:Person",
 				"purchaser:Person",
 				"shares:Share",
-				"transfer:PrimaryClaim"
+				"amount:Integer",
+				"war:SecondaryClaim",
+				"per:PerformanceClaim"
 			],
 			"Assignment": [
 				"c1.Item=1",
@@ -25,14 +27,16 @@
 				"spa.Closing=28",
 				"shares.Name=Company AG",
 				"spa.PurchaseObject=$shares",
-				"spa.Claim=$transfer",
+				"spa.Claim=$war",
 				"spa.Signing=0",
 				"spa.Signing<=spa.Closing",
-				"transfer.Name=TransferClaim",
-				"transfer.Debtor=$seller",
-				"transfer.Creditor=$purchaser",
-				"transfer.DueDate=28",
-				"transfer.Performance='$Block1_shares.transfer($purchaser)'"
+				"amount=2",
+				"war.Name=WarrantyClaim",
+				"war.Debtor=$seller",
+				"war.Creditor=$purchaser",
+				"war.DueDate=28",
+				"war.Performance=Block1_amount==2",
+				"per.Trigger=$war"
 			]
 		}
 	]

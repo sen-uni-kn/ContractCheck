@@ -31,6 +31,7 @@
 				"spa.Purchaser=$purchaser",
 				"signing=0",
 				"signing<=closing",
+				"closing<365*10",
 				"spa.Signing=$signing",
 				"spa.Closing=$closing",
 				"seller.Name=Eva",
@@ -171,7 +172,7 @@
 			"Variable": [
 				"c2:Clause2",
 				"val:Integer",
-				"extra:WarrantyClaim",
+				"extra:SecondaryClaim",
 				"ebitda:Integer"
 			],
 			"Assignment": [
@@ -269,7 +270,7 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=3.1",
@@ -314,7 +315,7 @@
 				"c2:Clause2",
 				"c1:$Clause1",
 				"val:Integer",
-				"war:$WarrantyClaim",
+				"war:$SecondaryClaim",
 				"comp:$CompensationClaim",
 				"indem:$Indemnity"
 			],
@@ -437,7 +438,7 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"per:Integer",
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
@@ -456,7 +457,7 @@
 			"Text": "b) No insolvency proceedings are pending in relation to the Company and, to the Seller’s Knowledge, there are no circumstances requiring it to file for insolvency.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
@@ -473,7 +474,7 @@
 			"Text": "c) A true and complete copy of the annual accounts of the Company as of the Effective Date, including the audit report and audit certificate, has been delivered to the Purchaser. Such annual accounts have been prepared in all material respects (based on the facts known to the Company’s management at the time of their preparation) in accordance with applicable law and generally accepted accounting principles.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
@@ -490,7 +491,7 @@
 			"Text": "d) The Company owns no real property. Exhibit 3 contains a list of all real properties used by it for its business operations and the lease agreements applicable thereto. In addition, there are no third-party rights to the real property, nor has the establishment of such rights been agreed with third parties. There are no outstanding applications for registration in the land register with regard to the real property or the encumbrances.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:WarrantyClaim",
+				"war:SecondaryClaim",
 				"propdebts:Integer"
 			],
 			"Assignment": [
@@ -510,7 +511,7 @@
 			"Text": "e) Exhibit 4 contains a list of certain industrial property rights registered on behalf of the Company and considered as material for its business. To the Seller’s Knowledge, (i) the Company has paid all fees to the extent necessary to maintain these industrial property rights and (ii) no third party has commenced any cancellation or objections proceedings in relation to these rights",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
@@ -527,7 +528,7 @@
 			"Text": "f) No proceedings or investigations by any governmental authority are pending or have been threatened in writing against the Company alleging any failure to comply, in any material respect, with any applicable law. To the Seller’s Knowledge, the Company does not violate any anti-corruption or anti-trust laws.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
@@ -544,7 +545,7 @@
 			"Text": " g) No proceedings before any court or arbitrator involving an amount in excess of EUR $max are pending against the Company.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:WarrantyClaim",
+				"war:SecondaryClaim",
 				"max:Integer"
 			],
 			"Assignment": [
@@ -562,7 +563,7 @@
 			"Text": "h) True and complete copies of all service and employment agreements with the managing directors and the key employees of the Company listed in Exhibit $val have been disclosed to the Purchaser prior to the date of this Agreement. To the Seller’s Knowledge, none of these managing directors or key employees has terminated his or her service or employment agreement. The Company has not made any pension commitments, except for those contained in the employment agreements referred to above. The Company is not a member of any employer's association and does not have a workers' council.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:WarrantyClaim",
+				"war:SecondaryClaim",
 				"val:Integer"
 			],
 			"Assignment": [
@@ -580,7 +581,7 @@
 			"Text": "i) Exhibit 5 set forth the master agreements with the five largest customers and suppliers (based on sales in the financial year $year ) and any finance agreements entered into by the Company with a loan amount in excess of EUR $val each (the „Material Agreements“). To the Seller’s Knowledge, none of the Material Agreements has been terminated by either party thereto. To the Seller’s Knowledge, the Company is not in breach of any Material Agreement in a manner that would entitle the relevant other party thereto to terminate the agreement for cause or would result in any liability of the Company for damages in excess of $val2 EUR in each case.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:WarrantyClaim",
+				"war:SecondaryClaim",
 				"year:Integer",
 				"val:Integer",
 				"val2:Integer"
@@ -600,7 +601,7 @@
 			"Text": "j) To the Seller’s Knowledge, in the period between $date and the date of this Agreement, none of the actions referred to in Section $c1 has been taken with respect to the Company.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:WarrantyClaim",
+				"war:SecondaryClaim",
 				"date:Date",
 				"c1:$Clause1"
 			],
@@ -612,7 +613,7 @@
 				"war.Creditor=$20_purchaser",
 				"date<=20_spa.Signing",
 				"war.DueDate=$20_spa.Signing",
-				"war.Content='$160_text'"
+				"war.Performance='$160_text'"
 			]
 		},
 		{
@@ -625,7 +626,7 @@
 				"c2:Clause2",
 				"ebitda:Integer",
 				"min:Integer",
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=6.2",
@@ -693,7 +694,7 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"war:WarrantyClaim",
+				"war:SecondaryClaim",
 				"place:String"
 			],
 			"Assignment": [
@@ -712,7 +713,7 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=7.2",
@@ -730,7 +731,7 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=7.3",
@@ -748,7 +749,7 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=7.4",
@@ -766,7 +767,7 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=7.5",
@@ -799,7 +800,7 @@
 				"c2:Clause2",
 				"claim:PrimaryClaim",
 				"indem:IndemnityClaim",
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=8.1",
@@ -846,7 +847,7 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"claim:WarrantyClaim"
+				"claim:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=8.3",
@@ -883,7 +884,7 @@
 				"val:Integer",
 				"val2:Integer",
 				"val3:Integer",
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=9.1",
@@ -905,7 +906,7 @@
 			"Variable": [
 				"c2:Clause2",
 				"val:Integer",
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=9.2",
@@ -1220,7 +1221,7 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"claim:WarrantyClaim"
+				"claim:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=11.3",
@@ -1240,18 +1241,18 @@
 				"c2:Clause2",
 				"weeks:Integer",
 				"date:Date",
-				"war:WarrantyClaim",
-				"war2:WarrantyClaim"
+				"war:SecondaryClaim",
+				"war2:SecondaryClaim"
 			],
 			"Assignment": [
 				"c2.Item=11.4",
 				"war.Name=CreateTax",
 				"war.Arise=$20_spa.Closing",
-				"war.DueDate=$date",
+				"war.DueDate=$20_closing",
 				"war.Debtor=$20_purchaser",
 				"war.Creditor=$20_seller",
 				"war2.Name=ShowTax",
-				"war2.DueDate=war.DueDate-(7*weeks)",
+				"war2.DueDate=$date-(7*weeks)",
 				"war2.Debtor=$20_purchaser",
 				"war2.Creditor=$20_seller",
 				"560_indem.Trigger=$630_war",
@@ -1267,15 +1268,14 @@
 			"Variable": [
 				"c2:Clause2",
 				"val:Integer",
-				"date:Date",
-				"war:WarrantyClaim",
+				"war:SecondaryClaim",
 				"indem:IndemnityClaim"
 			],
 			"Assignment": [
 				"c2.Item=11.5",
 				"war.Name=InformTax",
 				"war.Arise=$20_spa.Closing",
-				"war.DueDate=date+val",
+				"war.DueDate=$20_closing",
 				"war.Debtor=$20_purchaser",
 				"war.Creditor=$20_seller",
 				"indem.Trigger=$war",
@@ -1288,12 +1288,12 @@
 			"ID": "650",
 			"Index": "65",
 			"Text-DE": "$c2 Die Vertragsparteien verpflichten sich, in allen steuerlichen Angelegenheiten der Gesellschaft, welche Zeiträume vor dem Stichtag betreffen, in angemessenem Umfang zusammenzuarbeiten. Die Käuferin wird dafür sorgen, dass die Gesellschaft alle insoweit relevanten Bücher und Unterlagen innerhalb der gesetzlichen Aufbewahrungsfristen aufbewahrt und der Verkäuferin und ihren Beauftragten hierzu zu normalen Geschäftszeiten auf Verlangen Zugang gewährt, soweit die Verkäuferin dies vernünftigerweise im Zusammenhang mit diesem § $c1 oder sonst für steuerliche Zwecke benötigt.",
-			"Text": "$c2 Die Parties shall reasonably cooperate in all Tax matters of the Companies relating to any period prior to the Effective Date. The Purchaser shall cause the Company to keep any relevant books and records for the duration of the applicable statutory retention periods and to grant the Seller and its representatives, upon request and during normal business hours, access to all relevant books and records, to the extent reasonably required by the Seller in connection with this Section $c1 or otherwise for any Tax purpose.",
+			"Text": "$c2 The parties shall reasonably cooperate in all Tax matters of the Companies relating to any period prior to the Effective Date. The Purchaser shall cause the Company to keep any relevant books and records for the duration of the applicable statutory retention periods and to grant the Seller and its representatives, upon request and during normal business hours, access to all relevant books and records, to the extent reasonably required by the Seller in connection with this Section $c1 or otherwise for any Tax purpose.",
 			"Multiplicity": "1",
 			"Variable": [
 				"c1:$Clause1",
 				"c2:Clause2",
-				"war:WarrantyClaim"
+				"war:SecondaryClaim"
 			],
 			"Assignment": [
 				"c1=$590_c1",

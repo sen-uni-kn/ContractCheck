@@ -117,7 +117,7 @@
 			"Text": "$c2 The company can produce at least the $amount of $thing every day. In case this warranty does not hold, it need to be asserted within $warranty.Limitation days.",
 			"Object": [
 				"c2:Clause2",
-				"warranty:WarrantyClaim",
+				"warranty:SecondaryClaim",
 				"count:Integer",
 				"amount:Integer",
 				"thing:String"

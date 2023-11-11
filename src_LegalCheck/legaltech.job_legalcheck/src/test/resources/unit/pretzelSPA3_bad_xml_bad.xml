@@ -96,7 +96,7 @@
       </Clause2>
       <string id="156" name="Item">2</string>
     </Clause1>
-    <WarrantyClaim id="89" name="Block6_warranty">
+    <SecondaryClaim id="89" name="Block6_warranty">
       <Date id="90" name="Event"/>
       <string id="158" name="Name">PretzelWarranty</string>
       <Date id="159" name="DueDate">28</Date>
@@ -104,7 +104,7 @@
       <Date id="167" name="Limitation" ref="161"/>
       <Person id="168" name="Debtor" ref="64"/>
       <Performance id="174" name="Performance" ref="170"/>
-    </WarrantyClaim>
+    </SecondaryClaim>
     <Integer id="92" name="Block6_count"/>
     <Integer id="94" name="Block6_amount">10000</Integer>
     <String id="96" name="Block6_thing">Pretzels</String>

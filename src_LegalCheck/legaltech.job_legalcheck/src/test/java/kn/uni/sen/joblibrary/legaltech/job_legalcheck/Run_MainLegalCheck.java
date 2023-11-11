@@ -16,7 +16,7 @@ public class Run_MainLegalCheck extends JobAbstractTest
 {
 	String projectName = "pretzelSPA3_bad";
 	{
-		 //projectName = "contract_long";
+		// projectName = "contract_long";
 	}
 
 	String nameFile = projectName + ".json";

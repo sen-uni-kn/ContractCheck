@@ -25,7 +25,6 @@ public class LegalUml
 	public static final String Claim = "Claim";
 	public static final String Latest = "Latest";
 	public static final String Claim2 = "Claim2";
-	public static final String Warranty = "WarrantyClaim";
 	public static final String IndirectOwner = "IndirectOwner";
 	public static final String Price = "Price";
 	public static final String DueDate = "DueDate";
@@ -90,6 +89,7 @@ public class LegalUml
 	public static final String Op2 = "Op2";
 	public static final String Operator = "Operator";
 
+	public static final String WarrantyCondition = "WarrantyCondition";
 	public static final String Formula = "Formula";
 	public static final String Value = "Value";
 
@@ -255,22 +255,18 @@ public class LegalUml
 		indemnity.addAttribute(new UmlAttribute(Max, Max, integerN));
 		model.addNode(indemnity);
 
-		UmlNode garan = new UmlNode("class" + counter++, Warranty);
-		garan.addInheritate(folge);
-		model.addNode(garan);
-
 		UmlNode nach = new UmlNode("class" + counter++, Supplementary);
-		nach.addInheritate(garan);
+		nach.addInheritate(folge);
 		nach.addAttribute(new UmlAttribute(DueDate, DueDate, date));
 		model.addNode(nach);
 
 		UmlNode rueck = new UmlNode("class" + counter++, Withdrawal);
-		rueck.addInheritate(garan);
+		rueck.addInheritate(folge);
 		addAssociation(rueck, Debtor, person);
 		model.addNode(rueck);
 
 		UmlNode ersatz = new UmlNode("class" + counter++, Compensation);
-		ersatz.addInheritate(garan);
+		ersatz.addInheritate(folge);
 		ersatz.addAttribute(new UmlAttribute(Damage, Damage, stringN));
 		ersatz.addAttribute(new UmlAttribute(Min, Min, integerN));
 		ersatz.addAttribute(new UmlAttribute(Max, Max, integerN));
@@ -278,7 +274,7 @@ public class LegalUml
 		model.addNode(ersatz);
 
 		UmlNode vertrag = new UmlNode("class" + counter++, SPA);
-		vertrag.addInheritate(folge);
+		vertrag.addInheritate(legalObject);
 		vertrag.addAttribute(new UmlAttribute(Closing, Closing, date));
 		vertrag.addAttribute(new UmlAttribute(Signing, Signing, date));
 		addAssociation(vertrag, Purchaser, person);

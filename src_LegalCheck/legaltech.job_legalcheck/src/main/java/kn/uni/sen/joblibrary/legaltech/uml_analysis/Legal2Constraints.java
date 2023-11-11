@@ -90,12 +90,22 @@ public class Legal2Constraints extends LegalVisitor
 
 	static boolean isClaimWarranty(UmlNode2 claim)
 	{
-		return claim.isOfClass(LegalUml.Warranty);
+		boolean sec = claim.inheritatesFrom(LegalUml.SecondaryClaim);
+		String per = claim.getAttributeValue(LegalUml.Performance);
+		UmlNode2 perChild = claim.getAssoziationByName(LegalUml.Performance);
+		String f1 = claim.getAttributeValue(LegalUml.WarrantyCondition);
+		UmlNode2 f2 = claim.getAssoziationByName(LegalUml.WarrantyCondition);
+		boolean is_per = (perChild != null) || (per != null && !!!per.isBlank());
+		boolean is_wc = (f1 != null && !!!f1.isBlank()) || (f2 != null);
+		boolean condition = is_per || is_wc;
+		return sec && condition;
 	}
 
 	static boolean isClaimConsequence(UmlNode2 claim)
 	{
-		return !isClaimWarranty(claim) && !isClaimPrimary(claim);
+		System.out.println("" + claim.getName());
+		UmlNode2 trig = claim.getAssoziationByName(LegalUml.Trigger);
+		return (trig != null) && !!!isClaimPrimary(claim);
 	}
 
 	void createDefault()
@@ -559,7 +569,7 @@ public class Legal2Constraints extends LegalVisitor
 		SmtConstraint decCon = getClaimOccursConstraint(dc, dec);
 		SmtConstraint conFormula = encodeFormula(ass);
 		SmtConstraint or = null;
-		if (dc.inheritatesFrom(LegalUml.Warranty))
+		if (Legal2Constraints.isClaimWarranty(dc))
 		{
 			// for warranties, either event==-1 then formula holds or event>=0
 			// then formula does not hold
@@ -654,7 +664,7 @@ public class Legal2Constraints extends LegalVisitor
 	 * @param claim
 	 *            primary/warranty claim
 	 */
-	private void combineConsequenceClaims(UmlNode2 claim)
+	protected void combineConsequenceClaims(UmlNode2 claim)
 	{
 		if (isClaimConsequence(claim))
 			// ignore consequence claims

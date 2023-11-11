@@ -366,7 +366,7 @@ public class ParseSmtResult
 		for (UmlNode2 n : list)
 		{
 			String from = n.getAttributeValue(LegalUml.Name);
-			if (!!!from.isBlank())
+			if ((from != null) && !!!from.isBlank())
 				return from;
 		}
 		return null;
@@ -400,7 +400,7 @@ public class ParseSmtResult
 			if (node2 != null)
 				node = node2;
 		}
-		boolean bWaran = node.inheritatesFrom(LegalUml.Warranty);
+		boolean bWaran = Legal2Constraints.isClaimWarranty(node);
 
 		// search name of creditor
 		// use creditor name in node
@@ -451,7 +451,7 @@ public class ParseSmtResult
 
 	private boolean isWarranty(UmlNode2 claim)
 	{
-		return claim.isOfClass(LegalUml.Warranty);
+		return Legal2Constraints.isClaimWarranty(claim);
 	}
 
 	private boolean isIndemnity(UmlNode2 claim)

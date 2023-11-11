@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.LegalVisitor;
 import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlModel2;
+import kn.uni.sen.joblibrary.legaltech.job_legalcheck.UmlNode2;
 import kn.uni.sen.jobscheduler.common.model.Job;
 
 /**

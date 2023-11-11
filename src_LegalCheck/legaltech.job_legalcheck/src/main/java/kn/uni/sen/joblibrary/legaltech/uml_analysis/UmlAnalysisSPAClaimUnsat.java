@@ -44,6 +44,7 @@ public class UmlAnalysisSPAClaimUnsat extends UmlAnalysisSmtAbstract
 		for (Element conEle : contracts)
 		{
 			List<Element> claims = (new UmlSearchClaims(job)).searchContractClaims(model2, conEle);
+
 			for (Element claimEle : claims)
 			{
 				String conName = (new UmlNode2(model2, conEle)).getName();
@@ -61,6 +62,12 @@ public class UmlAnalysisSPAClaimUnsat extends UmlAnalysisSmtAbstract
 		Legal2Constraints translator = new Legal2Constraints(this, job)
 		{
 			boolean isClaim = true;
+
+			@Override
+			protected void combineConsequenceClaims(UmlNode2 claim)
+			{
+				// no need to check if consequences are statisfiable
+			}
 
 			@Override
 			protected void visitContract(Element ele)
