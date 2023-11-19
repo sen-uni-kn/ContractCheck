@@ -91,19 +91,14 @@ public class Legal2Constraints extends LegalVisitor
 	static boolean isClaimWarranty(UmlNode2 claim)
 	{
 		boolean sec = claim.inheritatesFrom(LegalUml.SecondaryClaim);
-		String per = claim.getAttributeValue(LegalUml.Performance);
-		UmlNode2 perChild = claim.getAssoziationByName(LegalUml.Performance);
 		String f1 = claim.getAttributeValue(LegalUml.WarrantyCondition);
 		UmlNode2 f2 = claim.getAssoziationByName(LegalUml.WarrantyCondition);
-		boolean is_per = (perChild != null) || (per != null && !!!per.isBlank());
 		boolean is_wc = (f1 != null && !!!f1.isBlank()) || (f2 != null);
-		boolean condition = is_per || is_wc;
-		return sec && condition;
+		return sec && is_wc;
 	}
 
 	static boolean isClaimConsequence(UmlNode2 claim)
 	{
-		System.out.println("" + claim.getName());
 		UmlNode2 trig = claim.getAssoziationByName(LegalUml.Trigger);
 		return (trig != null) && !!!isClaimPrimary(claim);
 	}
@@ -158,6 +153,10 @@ public class Legal2Constraints extends LegalVisitor
 		} else if (LegalUml.IntegerS.equals(type))
 		{
 			decl = new SmtDeclare("const", "Int_" + name, "Int");
+			decl = smtModel.addDeclaration(decl);
+		} else if (LegalUml.BoolS.equals(type))
+		{
+			decl = new SmtDeclare("const", "Bool_" + name, "Bool");
 			decl = smtModel.addDeclaration(decl);
 		} else if (LegalUml.RealS.equals(type))
 		{
@@ -331,7 +330,8 @@ public class Legal2Constraints extends LegalVisitor
 
 	private SmtConstraint encodeFormula(UmlNode2 formNode)
 	{
-		if (formNode.inheritatesFrom(LegalUml.IntegerS) || formNode.inheritatesFrom(LegalUml.DateS))
+		if (formNode.inheritatesFrom(LegalUml.IntegerS) || formNode.inheritatesFrom(LegalUml.DateS)
+				|| formNode.inheritatesFrom(LegalUml.BoolS))
 		{
 			String val = formNode.getContent();
 			if (val.isBlank())
@@ -521,8 +521,11 @@ public class Legal2Constraints extends LegalVisitor
 
 	private void createPerformance(UmlNode2 claim, SmtDeclare dec)
 	{
-		List<UmlNode2> asss = claim.getAssoziationsByName(LegalUml.Performance);
-		for (UmlNode2 ass : asss)
+		List<UmlNode2> asList1 = claim.getAssoziationsByName(LegalUml.Performance);
+		List<UmlNode2> asList2 = claim.getAssoziationsByName(LegalUml.WarrantyCondition);
+		asList1.addAll(asList2);
+
+		for (UmlNode2 ass : asList1)
 		{
 			if (ass.inheritatesFrom(LegalUml.PropertyTransfer))
 				createTransferCondition(ass, claim, dec);
@@ -585,6 +588,8 @@ public class Legal2Constraints extends LegalVisitor
 	private void createPerformanceCondition(UmlNode2 ass, UmlNode2 dc, SmtDeclare dec)
 	{
 		String val = dc.getAttributeValue(LegalUml.Performance);
+		if (val == null)
+			val = dc.getAttributeValue(LegalUml.WarrantyCondition);
 		if ((val == null) || (val.isEmpty()))
 			return;
 		Pattern p = Pattern.compile("(.*?).transfer");

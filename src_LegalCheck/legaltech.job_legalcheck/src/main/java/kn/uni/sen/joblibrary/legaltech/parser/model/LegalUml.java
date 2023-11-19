@@ -14,7 +14,7 @@ public class LegalUml
 	public static final String TextS = "Text";
 	public static final String IntegerS = "Integer";
 	public static final String RealS = "Real";
-	public static final String BooleanS = "Bool";
+	public static final String BoolS = "Bool";
 	public static final String DateS = "Date";
 	public static final String Name = "Name";
 	public static final String SPA = "SPA";
@@ -109,7 +109,7 @@ public class LegalUml
 		UmlNode integerN = new UmlNode("class" + counter++, IntegerS);
 		model.addNode(integerN);
 
-		UmlNode boolN = new UmlNode("class" + counter++, BooleanS);
+		UmlNode boolN = new UmlNode("class" + counter++, BoolS);
 		model.addNode(boolN);
 
 		UmlNode date = new UmlNode("class" + counter++, DateS);
@@ -230,7 +230,7 @@ public class LegalUml
 		UmlNode folge = new UmlNode("class" + counter++, SecondaryClaim);
 		folge.addInheritate(regelung);
 		addAssociation(folge, Trigger, regelung);
-		addAssociation(folge, Content, function);
+		addAssociation(folge, WarrantyCondition, function);
 		model.addNode(folge);
 
 		UmlNode pflicht = new UmlNode("class" + counter++, PrimaryClaim);

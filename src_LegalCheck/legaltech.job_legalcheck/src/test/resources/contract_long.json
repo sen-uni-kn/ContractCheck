@@ -31,7 +31,6 @@
 				"spa.Purchaser=$purchaser",
 				"signing=0",
 				"signing<=closing",
-				"closing<365*10",
 				"spa.Signing=$signing",
 				"spa.Closing=$closing",
 				"seller.Name=Eva",
@@ -182,7 +181,7 @@
 				"extra.Trigger=ebitda>val",
 				"extra.Debtor=$20_purchaser",
 				"extra.Creditor=$20_seller",
-				"extra.Performance='pay((ebitda-val)*0.3)'"
+				"extra.WarrantyCondition='pay((ebitda-val)*0.3)'"
 			]
 		},
 		{
@@ -270,14 +269,16 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=3.1",
 				"20_spa.Claim=$war",
 				"war.Name=NoAgreements",
 				"war.Debtor=$20_seller",
-				"war.Creditor=$20_purchaser"
+				"war.Creditor=$20_purchaser",
+				"war.WarrantyCondition=120_b==1"
 			]
 		},
 		{
@@ -398,8 +399,7 @@
 			],
 			"Assignment": [
 				"c2.Item=5.2",
-				"val=395",
-				"20_spa.Closing<180_date+val",
+				"20_spa.Closing<180_date+190_val",
 				"90_payment.DueDate=$20_spa.Closing",
 				"50_transfer.DueDate=$20_spa.Closing"
 			]
@@ -447,7 +447,7 @@
 				"war.Creditor=$20_purchaser",
 				"war.DueDate=0",
 				"per=90",
-				"war.Performance=40_owns==215_per"
+				"war.WarrantyCondition=40_owns==215_per"
 			]
 		},
 		{
@@ -457,14 +457,16 @@
 			"Text": "b) No insolvency proceedings are pending in relation to the Company and, to the Seller’s Knowledge, there are no circumstances requiring it to file for insolvency.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
 				"war.Name=NoInsolvency",
 				"war.Debtor=$20_seller",
 				"war.Creditor=$20_purchaser",
-				"war.DueDate=0"
+				"war.DueDate=0",
+				"war.WarrantyCondition=220_b==1"
 			]
 		},
 		{
@@ -474,14 +476,16 @@
 			"Text": "c) A true and complete copy of the annual accounts of the Company as of the Effective Date, including the audit report and audit certificate, has been delivered to the Purchaser. Such annual accounts have been prepared in all material respects (based on the facts known to the Company’s management at the time of their preparation) in accordance with applicable law and generally accepted accounting principles.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
 				"war.Name=ProvideFinance",
 				"war.Debtor=$20_seller",
 				"war.Creditor=$20_purchaser",
-				"war.DueDate=0"
+				"war.DueDate=0",
+				"war.WarrantyCondition=230_b==1"
 			]
 		},
 		{
@@ -501,7 +505,7 @@
 				"war.Creditor=$20_purchaser",
 				"war.DueDate=0",
 				"propdebts=0",
-				"war.Performance=0==240_propdebts"
+				"war.WarrantyCondition=0==240_propdebts"
 			]
 		},
 		{
@@ -511,14 +515,16 @@
 			"Text": "e) Exhibit 4 contains a list of certain industrial property rights registered on behalf of the Company and considered as material for its business. To the Seller’s Knowledge, (i) the Company has paid all fees to the extent necessary to maintain these industrial property rights and (ii) no third party has commenced any cancellation or objections proceedings in relation to these rights",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
 				"war.Name=RegistratedPropertyRights",
 				"war.Debtor=$20_seller",
 				"war.Creditor=$20_purchaser",
-				"war.DueDate=0"
+				"war.DueDate=0",
+				"war.WarrantyCondition=250_b==1"
 			]
 		},
 		{
@@ -528,14 +534,16 @@
 			"Text": "f) No proceedings or investigations by any governmental authority are pending or have been threatened in writing against the Company alleging any failure to comply, in any material respect, with any applicable law. To the Seller’s Knowledge, the Company does not violate any anti-corruption or anti-trust laws.",
 			"Multiplicity": "1",
 			"Variable": [
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
 				"war.Name=NoLawViolation",
 				"war.Debtor=$20_seller",
 				"war.Creditor=$20_purchaser",
-				"war.DueDate=0"
+				"war.DueDate=0",
+				"war.WarrantyCondition=260_b==1"
 			]
 		},
 		{
@@ -546,14 +554,16 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"war:SecondaryClaim",
-				"max:Integer"
+				"max:Integer",
+				"b:Integer"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
 				"war.Name=NoJudicalProceeding",
 				"war.Debtor=$20_seller",
 				"war.Creditor=$20_purchaser",
-				"war.DueDate=0"
+				"war.DueDate=0",
+				"war.WarrantyCondition=270_b==1"
 			]
 		},
 		{
@@ -564,14 +574,16 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"war:SecondaryClaim",
-				"val:Integer"
+				"val:Integer",
+				"b:Integer"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
 				"war.Name=KnownEmployment",
 				"war.Debtor=$20_seller",
 				"war.Creditor=$20_purchaser",
-				"war.DueDate=0"
+				"war.DueDate=0",
+				"war.WarrantyCondition=280_b==1"
 			]
 		},
 		{
@@ -584,14 +596,16 @@
 				"war:SecondaryClaim",
 				"year:Integer",
 				"val:Integer",
-				"val2:Integer"
+				"val2:Integer",
+				"b:Integer"
 			],
 			"Assignment": [
 				"20_spa.Claim=$war",
 				"war.Name=WarrantyCustomer",
 				"war.Debtor=$20_seller",
 				"war.Creditor=$20_purchaser",
-				"war.DueDate=0"
+				"war.DueDate=0",
+				"war.WarrantyCondition=281_b==1"
 			]
 		},
 		{
@@ -613,7 +627,7 @@
 				"war.Creditor=$20_purchaser",
 				"date<=20_spa.Signing",
 				"war.DueDate=$20_spa.Signing",
-				"war.Performance='$160_text'"
+				"war.WarrantyCondition='160_text'"
 			]
 		},
 		{
@@ -626,7 +640,8 @@
 				"c2:Clause2",
 				"ebitda:Integer",
 				"min:Integer",
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=6.2",
@@ -635,7 +650,8 @@
 				"war.Trigger=91_ebitda<min",
 				"war.Debtor=$20_seller",
 				"war.Creditor=$20_purchaser",
-				"war.DueDate=3*365"
+				"war.DueDate=3*365",
+				"war.WarrantyCondition=311_b==1"
 			]
 		},
 		{
@@ -695,14 +711,16 @@
 			"Variable": [
 				"c2:Clause2",
 				"war:SecondaryClaim",
-				"place:String"
+				"place:String",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=7.1",
 				"20_spa.Claim=$war",
 				"war.Name=PurchaserExists",
 				"war.Debtor=$20_purchaser",
-				"war.Creditor=$20_seller"
+				"war.Creditor=$20_seller",
+				"war.WarrantyCondition=350_b==1"
 			]
 		},
 		{
@@ -713,14 +731,16 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=7.2",
 				"20_spa.Claim=$war",
 				"war.Name=PurchaserAllowed",
 				"war.Debtor=$20_purchaser",
-				"war.Creditor=$20_seller"
+				"war.Creditor=$20_seller",
+				"war.WarrantyCondition=360_b==1"
 			]
 		},
 		{
@@ -731,14 +751,16 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=7.3",
 				"20_spa.Claim=$war",
 				"war.Name=PurchaserAlone",
 				"war.Debtor=$20_purchaser",
-				"war.Creditor=$20_seller"
+				"war.Creditor=$20_seller",
+				"war.WarrantyCondition=370_b==1"
 			]
 		},
 		{
@@ -749,14 +771,16 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=7.4",
 				"20_spa.Claim=$war",
 				"war.Name=Payable",
 				"war.Debtor=$20_purchaser",
-				"war.Creditor=$20_seller"
+				"war.Creditor=$20_seller",
+				"war.WarrantyCondition=380_b==1"
 			]
 		},
 		{
@@ -767,14 +791,16 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=7.5",
 				"20_spa.Claim=$war",
 				"war.Name=NoResell",
 				"war.Debtor=$20_purchaser",
-				"war.Creditor=$20_seller"
+				"war.Creditor=$20_seller",
+				"war.WarrantyCondition=390_b==1"
 			]
 		},
 		{
@@ -800,7 +826,8 @@
 				"c2:Clause2",
 				"claim:PrimaryClaim",
 				"indem:IndemnityClaim",
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=8.1",
@@ -817,7 +844,8 @@
 				"20_spa.Claim=$war",
 				"war.Name=Insurance",
 				"war.Debtor=$20_purchaser",
-				"war.Creditor=$20_seller"
+				"war.Creditor=$20_seller",
+				"war.WarrantyCondition=410_b==1"
 			]
 		},
 		{
@@ -847,7 +875,8 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"claim:SecondaryClaim"
+				"claim:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=8.3",
@@ -855,7 +884,8 @@
 				"claim.Name=AccessSeller",
 				"claim.DueDate=$20_spa.Closing",
 				"claim.Debtor=$20_purchaser",
-				"claim.Creditor=$20_seller"
+				"claim.Creditor=$20_seller",
+				"claim.WarrantyCondition=430_b==1"
 			]
 		},
 		{
@@ -884,7 +914,8 @@
 				"val:Integer",
 				"val2:Integer",
 				"val3:Integer",
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=9.1",
@@ -894,7 +925,8 @@
 				"war.Non=true",
 				"war.DueDate=0",
 				"war.Debtor=$20_purchaser",
-				"war.Creditor=$20_seller"
+				"war.Creditor=$20_seller",
+				"war.WarrantyCondition=450_b==1"
 			]
 		},
 		{
@@ -906,7 +938,8 @@
 			"Variable": [
 				"c2:Clause2",
 				"val:Integer",
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=9.2",
@@ -917,7 +950,8 @@
 				"war.Limitation=20_spa.Signing+val*31",
 				"war.Non=true",
 				"war.Debtor=$20_purchaser",
-				"war.Creditor=$20_seller"
+				"war.Creditor=$20_seller",
+				"war.WarrantyCondition=460_b==1"
 			]
 		},
 		{
@@ -1069,8 +1103,8 @@
 				"val2=12",
 				"%${//Claim[@Creditor='$20_purchaser']}.Limitation='(30*$val)+$signing'",
 				"%${//Claim[@Creditor='$20_purchaser']}.Limitation='(30*$val2)+$signing'",
-				"80_claim.Limitation=30*val2",
-				"480_claim.Limitation=30*val"
+				"80_claim.Limitation=30*530_val2",
+				"480_claim.Limitation=30*530_val"
 			]
 		},
 		{
@@ -1221,14 +1255,16 @@
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"claim:SecondaryClaim"
+				"claim:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=11.3",
 				"claim.Name=PreventSellerTax",
 				"claim.DueDate=$20_spa.Closing",
 				"claim.Debtor=$20_seller",
-				"claim.Creditor=$20_purchaser"
+				"claim.Creditor=$20_purchaser",
+				"claim.WarrantyCondition=620_b==1"
 			]
 		},
 		{
@@ -1242,7 +1278,9 @@
 				"weeks:Integer",
 				"date:Date",
 				"war:SecondaryClaim",
-				"war2:SecondaryClaim"
+				"war2:SecondaryClaim",
+				"b:Integer",
+				"b2:Integer"
 			],
 			"Assignment": [
 				"c2.Item=11.4",
@@ -1251,10 +1289,12 @@
 				"war.DueDate=$20_closing",
 				"war.Debtor=$20_purchaser",
 				"war.Creditor=$20_seller",
+				"war.WarrantyCondition=630_b==1",
 				"war2.Name=ShowTax",
 				"war2.DueDate=$date-(7*weeks)",
 				"war2.Debtor=$20_purchaser",
 				"war2.Creditor=$20_seller",
+				"war2.WarrantyCondition=630_b2==1",
 				"560_indem.Trigger=$630_war",
 				"560_indem.Trigger=$630_war2"
 			]
@@ -1269,7 +1309,8 @@
 				"c2:Clause2",
 				"val:Integer",
 				"war:SecondaryClaim",
-				"indem:IndemnityClaim"
+				"indem:IndemnityClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c2.Item=11.5",
@@ -1278,6 +1319,7 @@
 				"war.DueDate=$20_closing",
 				"war.Debtor=$20_purchaser",
 				"war.Creditor=$20_seller",
+				"war.WarrantyCondition=640_b==1",
 				"indem.Trigger=$war",
 				"indem.Name=IgnoreTaxIndemnity",
 				"indem.Debtor=$20_purchaser",
@@ -1288,12 +1330,13 @@
 			"ID": "650",
 			"Index": "65",
 			"Text-DE": "$c2 Die Vertragsparteien verpflichten sich, in allen steuerlichen Angelegenheiten der Gesellschaft, welche Zeiträume vor dem Stichtag betreffen, in angemessenem Umfang zusammenzuarbeiten. Die Käuferin wird dafür sorgen, dass die Gesellschaft alle insoweit relevanten Bücher und Unterlagen innerhalb der gesetzlichen Aufbewahrungsfristen aufbewahrt und der Verkäuferin und ihren Beauftragten hierzu zu normalen Geschäftszeiten auf Verlangen Zugang gewährt, soweit die Verkäuferin dies vernünftigerweise im Zusammenhang mit diesem § $c1 oder sonst für steuerliche Zwecke benötigt.",
-			"Text": "$c2 The parties shall reasonably cooperate in all Tax matters of the Companies relating to any period prior to the Effective Date. The Purchaser shall cause the Company to keep any relevant books and records for the duration of the applicable statutory retention periods and to grant the Seller and its representatives, upon request and during normal business hours, access to all relevant books and records, to the extent reasonably required by the Seller in connection with this Section $c1 or otherwise for any Tax purpose.",
+			"Text": "$c2 Die Parties shall reasonably cooperate in all Tax matters of the Companies relating to any period prior to the Effective Date. The Purchaser shall cause the Company to keep any relevant books and records for the duration of the applicable statutory retention periods and to grant the Seller and its representatives, upon request and during normal business hours, access to all relevant books and records, to the extent reasonably required by the Seller in connection with this Section $c1 or otherwise for any Tax purpose.",
 			"Multiplicity": "1",
 			"Variable": [
 				"c1:$Clause1",
 				"c2:Clause2",
-				"war:SecondaryClaim"
+				"war:SecondaryClaim",
+				"b:Integer"
 			],
 			"Assignment": [
 				"c1=$590_c1",
@@ -1301,7 +1344,8 @@
 				"war.Name=PreserveRecord",
 				"war.DueDate=$20_spa.Signing",
 				"war.Debtor=$20_purchaser",
-				"war.Creditor=$20_seller"
+				"war.Creditor=$20_seller",
+				"war.WarrantyCondition=650_b==1"
 			]
 		},
 		{

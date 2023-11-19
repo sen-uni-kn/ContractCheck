@@ -96,7 +96,10 @@
 	<xs:complexType name="SecondaryClaim">
 		<xs:complexContent>
 			<xs:extension base="Claim">
-				<xs:attribute name="WarrantyCondition" type="xs:string"></xs:attribute>
+				<xs:sequence>
+ 				<xs:element name="WarrantyCondition" type="WarrantyCondition">
+				</xs:element>
+				</xs:sequence>
 				<xs:attribute name="Trigger" type="xs:string"></xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
@@ -335,6 +338,8 @@
 
 	<xs:complexType name="Performance"></xs:complexType>
 
+	<xs:complexType name="WarrantyCondition"></xs:complexType>
+
 	<xs:simpleType name="Head2">
 		<xs:restriction base="xs:string"></xs:restriction>
 	</xs:simpleType>
@@ -354,6 +359,12 @@
 	</xs:simpleType>
 
 	<xs:complexType name="Integer">
+		<xs:complexContent>
+			<xs:extension base="Type"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Bool">
 		<xs:complexContent>
 			<xs:extension base="Type"></xs:extension>
 		</xs:complexContent>

@@ -35,7 +35,7 @@
 				"war.Debtor=$seller",
 				"war.Creditor=$purchaser",
 				"war.DueDate=28",
-				"war.Performance=Block1_amount==2",
+				"war.WarrantyCondition=Block1_amount==2",
 				"per.Trigger=$war"
 			]
 		}
