@@ -151,11 +151,11 @@ public class ContractCard
 		if (b)
 		{
 			if (v == null)
-				setPlainVariable(HideT + ":" + LegalUml.BooleanS);
+				setPlainVariable(HideT + ":" + LegalUml.BoolS);
 			setVariableAssignment(HideT, "true");
 		} else
 		{
-			removeVariableDeclare(HideT + ":" + LegalUml.BooleanS);
+			removeVariableDeclare(HideT + ":" + LegalUml.BoolS);
 			removeVariableAssignment(HideT);
 		}
 	}

@@ -348,6 +348,15 @@ public class Contract2Uml2
 		return matcher.matches();
 	}
 
+	public static boolean isBool(String val)
+	{
+		if ("false".equals(val))
+			return true;
+		if ("true".equals(val))
+			return true;
+		return false;
+	}
+
 	int formulaCounter = 1;
 	int variableCounter = 1;
 
@@ -372,6 +381,12 @@ public class Contract2Uml2
 			{ // is value
 				String name = "" + c.getID() + "_" + (variableCounter++);
 				Element n = createNode(model, null, LegalUml.IntegerS, name);
+				n.setTextContent(assign);
+				return n;
+			} else if (isBool(assign))
+			{ // is value
+				String name = "" + c.getID() + "_" + (variableCounter++);
+				Element n = createNode(model, null, LegalUml.BoolS, name);
 				n.setTextContent(assign);
 				return n;
 			} else
@@ -414,7 +429,6 @@ public class Contract2Uml2
 				continue;
 			}
 
-			// System.out.println(v);
 			String id = c.getAssignmentName(assign);
 			String val = c.getAssignmentValue(assign);
 			if ((id == null) || (val == null))
