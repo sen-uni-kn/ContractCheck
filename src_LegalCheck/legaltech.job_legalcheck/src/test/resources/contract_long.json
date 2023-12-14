@@ -115,7 +115,8 @@
 				"price:PurchasePrice"
 			],
 			"Assignment": [
-				"c2.Item=2.1"
+				"c2.Item=2.1", 
+				"price.Amount=1800000"
 			]
 		},
 		{
@@ -1065,19 +1066,27 @@
 		{
 			"ID": "520",
 			"Index": "52",
-			"Text-DE": "$c2 Schadensersatzansprüche der Käuferin aus diesem Vertrag bestehen nur, wenn und soweit sie im Einzelfall einen Betrag von $val EUR und insgesamt einen Betrag von $comp.SumMin EUR übersteigen. Die Haftung der Verkäuferin aus den in § 6 Abs. 1 enthaltenen Garantien ist insgesamt auf einen Betrag iHv $val2 % des auf die Verkäuferin entfallenden Teils des Kaufpreises beschränkt. Ausgenommen ist nur die Haftung aus den in § 6 Abs. 1 Buchst. a) enthaltenen Garantien, die zusammen mit jeder sonstigen Haftung der Verkäuferin aus oder im Zusammenhang mit diesem Vertrag auf $val3 % des Kaufpreises beschränkt ist.",
-			"Text": "$c2 The Purchaser shall only have damage claims under this Agreement if and to the extent a claim exceeds an amount of $val EUR in each case and all such claims exceed an aggregate amount of $comp.Sum EUR. The Seller’s liability under the warranties contained in Section 6 (1) shall be limited to an amount equal to $val2 % of the portion of the Purchase Price; except that the Seller's liability under the warranties in Section 6 (1) a) shall, together with any other liability of the Seller under or in connection with this Agreement, be limited to an amount equal to $val3 % of the Purchase Price.",
+			"Text-DE": "$c2 Schadensersatzansprüche der Käuferin aus diesem Vertrag bestehen nur, wenn und soweit sie im Einzelfall einen Betrag von $min EUR und insgesamt einen Betrag von $sumMin EUR übersteigen. Die Haftung der Verkäuferin aus den in § 6 Abs. 1 enthaltenen Garantien ist insgesamt auf einen Betrag iHv $maxSum % des auf die Verkäuferin entfallenden Teils des Kaufpreises beschränkt. Ausgenommen ist nur die Haftung aus den in § 6 Abs. 1 Buchst. a) enthaltenen Garantien, die zusammen mit jeder sonstigen Haftung der Verkäuferin aus oder im Zusammenhang mit diesem Vertrag auf $sumMax2 % des Kaufpreises beschränkt ist.",
+			"Text": "$c2 The Purchaser shall only have damage claims under this Agreement if and to the extent a claim exceeds an amount of $min EUR in each case and all such claims exceed an aggregate amount of $sumMin EUR. The Seller’s liability under the warranties contained in Section 6 (1) shall be limited to an amount equal to $maxSum % of the portion of the Purchase Price; except that the Seller's liability under the warranties in Section 6 (1) a) shall, together with any other liability of the Seller under or in connection with this Agreement, be limited to an amount equal to $sumMax2 % of the Purchase Price.",
 			"Multiplicity": "1",
 			"Variable": [
 				"c2:Clause2",
-				"val:Integer",
-				"val2:Integer",
-				"val3:Integer",
+				"min:Integer",
+				"minSum:Integer",
+				"maxSum:Integer",
+				"sumMax2:Integer",
+				"price:$Integer",
+				"lol:LiabilityOfLimitation",
 				"comp2:$CompensationClaim",
 				"comp3:$CompensationClaim"
 			],
 			"Assignment": [
 				"c2.Item=10.4",
+				"min=20000",
+				"maxSum=18000",
+				"price=$70_price.Amount",
+				"lol.Max=(price*maxSum)/100",
+				"lol.Min=$minSum",
 				"%${//CompensationClaim[@Debtor='$20_purchaser']}.Min=$val",
 				"%comp2=${//Claim[@Debtor='$20_seller']}",
 				"%comp2.SumMax=(price*val2)",

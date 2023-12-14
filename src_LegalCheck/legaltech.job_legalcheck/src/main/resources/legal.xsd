@@ -124,6 +124,16 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+    <xs:complexType name="LiabilityOfLimitation">
+		<xs:complexContent>
+			<xs:extension base="SecondaryClaim">
+				<xs:sequence>
+					<xs:element name="Max" type="xs:double"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
 	<xs:complexType name="RestitutionClaim">
 		<xs:complexContent>
 			<xs:extension base="SecondaryClaim"></xs:extension>

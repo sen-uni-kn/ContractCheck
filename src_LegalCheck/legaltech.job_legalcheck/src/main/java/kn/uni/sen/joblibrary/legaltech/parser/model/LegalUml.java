@@ -37,6 +37,7 @@ public class LegalUml
 	public static final String Owner = "Owner";
 	public static final String Compensation = "CompensationClaim";
 	public static final String Supplementary = "PerformanceClaim";
+	public static final String LiabilityOfLimitation = "LiabilityOfLimitation";
 	public static final String PurchasePrice = "PurchasePrice";
 	public static final String Object = "Object";
 	public static final String Thing = "Thing";
