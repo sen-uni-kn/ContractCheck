@@ -58,7 +58,9 @@ public class LegalUml
 	public static final String From = "From";
 	public static final String To = "To";
 	public static final String Min = "Min";
+	public static final String SumMin = "SumMin";
 	public static final String Max = "Max";
+	public static final String SumMax = "SumMax";
 	public static final String Damage = "Damage";
 	public static final String ChangeMin = "ChangeMin";
 	public static final String ChangeMax = "ChangeMax";

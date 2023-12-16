@@ -26,6 +26,11 @@ public abstract class LegalVisitor extends UmlTraverseVisitor
 	{
 		visitClaim(ele);
 	}
+	
+	protected void visitLiabilityClaim(Element ele)
+	{
+		visitClaim(ele);
+	}
 
 	protected void visitClaim(Element ele)
 	{
@@ -77,6 +82,9 @@ public abstract class LegalVisitor extends UmlTraverseVisitor
 		} else if (model.inheritatesFrom(ele, LegalUml.PrimaryClaim))
 		{
 			visitPrimaryClaim(ele);
+		} else if (model.inheritatesFrom(ele, LegalUml.LiabilityOfLimitation))
+		{
+			visitLiabilityClaim(ele);
 		} else if (model.inheritatesFrom(ele, LegalUml.Claim))
 		{
 			visitClaim(ele);

@@ -145,7 +145,7 @@
 				"warranty.Name=PretzelWarranty",
 				"warranty.DueDate=28",
 				"warranty.Creditor=$Block1_purchaser",
-				"warranty.Limitation=+ 14",
+				"warranty.Limitation=+14",
 				"thing=Pretzels",
 				"warranty.Debtor=$Block1_seller",
 				"Block1_spa.Claim=$warranty",

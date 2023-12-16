@@ -128,7 +128,8 @@
 		<xs:complexContent>
 			<xs:extension base="SecondaryClaim">
 				<xs:sequence>
-					<xs:element name="Max" type="xs:double"></xs:element>
+					<xs:element name="SumMax" type="xs:double"></xs:element>
+					<xs:element name="SumMin" type="xs:double"></xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

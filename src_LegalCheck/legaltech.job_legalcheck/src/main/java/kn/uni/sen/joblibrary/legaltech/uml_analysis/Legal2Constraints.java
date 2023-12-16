@@ -101,9 +101,9 @@ public class Legal2Constraints extends LegalVisitor
 	{
 		UmlNode2 trig = claim.getAssoziationByName(LegalUml.Trigger);
 		return (trig != null) && !!!isClaimPrimary(claim);
-		//return !isClaimWarranty(claim) && !isClaimPrimary(claim);
+		// return !isClaimWarranty(claim) && !isClaimPrimary(claim);
 	}
-	
+
 	static boolean isIndemnity(UmlNode2 claim)
 	{
 		return claim.inheritatesFrom(LegalUml.Indemnity);
@@ -244,6 +244,14 @@ public class Legal2Constraints extends LegalVisitor
 	protected void visitPrimaryClaim(Element ele)
 	{
 		super.visitPrimaryClaim(ele);
+	}
+
+	@Override
+	protected void visitLiabilityClaim(Element ele)
+	{
+		createLiability(createNode(ele));
+		tmpClaimList.remove(ele);
+		super.visitClaim(ele);
 	}
 
 	@Override
@@ -531,6 +539,9 @@ public class Legal2Constraints extends LegalVisitor
 		List<UmlNode2> asList2 = claim.getAssoziationsByName(LegalUml.WarrantyCondition);
 		asList1.addAll(asList2);
 
+		if (claim.inheritatesFrom(LegalUml.Compensation))
+			addCompensationCondition(claim, dec);
+
 		for (UmlNode2 ass : asList1)
 		{
 			if (ass.inheritatesFrom(LegalUml.PropertyTransfer))
@@ -569,6 +580,50 @@ public class Legal2Constraints extends LegalVisitor
 
 		SmtConstraint decCon = new SmtConstraint("not").addConstraint(getClaimOccursConstraint(dc, dec));
 		SmtConstraint or = new SmtConstraint("or").addConstraint(decCon).addConstraint(con);
+		as.addConstraint(or);
+	}
+
+	private SmtDeclare getCompensationVar(UmlNode2 claim)
+	{
+		String name = claim.getName() + "_comp";
+		return createVariable(claim, LegalUml.RealS, varMap, name);
+	}
+
+	private void createLiability(UmlNode2 claim)
+	{
+		List<UmlNode2> triggers = claim.getAssoziationsByName(LegalUml.Trigger);
+		String max = claim.getAttributeValue(LegalUml.SumMax);
+		if ((max == null) || max.isBlank() || (triggers == null) || (triggers.isEmpty()))
+			return;
+
+		SmtConstraint as = smtModel.createAssert(getCorrectedName(claim.getName()), 8);
+		SmtConstraint con = new SmtConstraint(">=").addConstraint(new SmtConstraint(max));
+
+		for (UmlNode2 trig : triggers)
+		{
+			SmtDeclare trigEv = getCompensationVar(trig);
+			if (trigEv == null)
+				continue;
+			con.addConstraint(trigEv);
+		}
+		as.addConstraint(con);
+	}
+
+	private void addCompensationCondition(UmlNode2 claim, SmtDeclare dec)
+	{
+		// create compensation value
+		SmtDeclare comp = getCompensationVar(claim);
+
+		// ensure > min
+		String min = claim.getAttributeValue(LegalUml.Min);
+		if ((min == null) || min.isEmpty())
+			return;
+		SmtConstraint con = new SmtConstraint(">=").addConstraint(comp).addConstraint(new SmtConstraint(min));
+
+		SmtConstraint decCon = new SmtConstraint("not").addConstraint(getClaimOccursConstraint(claim, dec));
+		SmtConstraint or = new SmtConstraint("or").addConstraint(decCon).addConstraint(con);
+
+		SmtConstraint as = smtModel.createAssert(getCorrectedName(claim.getName()), 8);
 		as.addConstraint(or);
 	}
 
