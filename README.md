@@ -1,13 +1,56 @@
 # ContractCheck
+## Tool Description
+In a legal contract, the contracting parties sign agreements. From an aggreement a claim of a contract party arises if certain conditions are met. A lawyer will interpret after the signing of a contract whether the conditions are met (subsumption) and a claim arises. A contract party can either fulfill a claim or has to deal with consequences that arise in form of other claims. A legal contracts can describe hundreds of claims such that contradictions between claims are hard to find and compensation costs are complicated to estimate.
 
-Analysis tool for legal artifacts.
+The tool ContractCheck can analyze before the contract signing if a contract is consistent and behaves as the contract parties expect. After contract signing, the tool can support a contract party to select the claims to assert and to fulfill and the dates to take actions.
 
-## Prerequisites
+### Contract Formalization
+A contract is formalized into blocks. A block contains the legal text and a formalization of the contained claims: 
+- the debtor and creditor,
+- the claim conditions, and
+- relations to other claims. 
+
+Simple Contract Example:
+
+Eva sells a bakery to Chris for 40.000 Euros. She signs that the bakery can bake 10.000 pretzels a day, otherwise the purchase price is reduced by 1000€ for every 100 pretzels that are less baked. Chris has to assert less pretzels within 14 days, the compensation is limited by a year.
+
+Claims in the Example:
+- Eva debts Chris to transfer the bakery on the closing date `C` (TransferClaim)
+- Chris debts Eva to transfer 40.000 Euros on date `C` (PayClaim).
+- Eva depts Chris that the number `P` of pretzels is greater as 10.000 (PretzelWarranty).
+- If the PretzelWarranty is unfulfilled and Chris asserts it within `C+14` days, Eva debts `(P-10.0000)*100€/1000` for `C+365` days (CompensationClaim)
+
+### Contract Executions
+On an abstract level, every claim 
+- arises or not, and
+- is fulfilled or not of the debting contract party.
+
+A contract execution is a value assignment of these two dimensions for every claim. In case a debting contract party does not fulfill a claim, other claims should arise that places the debting contract party in a worse position. Only certain combinations of claims are possible.
+- If the PretzelWarranty arises and is not fulfilled, the CompensationClaim arises.
+- If the PretzelWarranty arises and is fulfilled, the CompensationClaim cannot arise.
+
+This abstraction gives the idea of a contract execution. The tool can deal with more fine grained execution details, dates, deadlines and ownership structures. 
+
+### Contract Verification
+The tool computes the possible executions of a contract and check for errors: 
+- Can every claim arise and can it be fulfilled?
+- Does a consequence claim exist for every not fulfilled claim?
+- Does a contract execution exist?
+- Can compensations result in a negative purchase price?
+
+Example:
+- Eva transfers the claim (arise+fulfilled).
+- Chris transfers the 40.000€ (arise+fulfilled).
+- Chris asserts after 7 days that the bakery just bake 5.000€ (arise+unfulfilled).
+- Eva pays a compensation of 50.000€ (arise+fulfilled).
+- The result is a negative purchase price of -10.000€.
+
+## Tool Prerequisites
 
 For the installation make sure that JDK newer than version 11 and Maven are installed on your system. This guide shows the process in Eclipse thus it is recommended to use a new version of Eclipse as your IDE.
 You also need to install the <a href="https://github.com/z3prover/z3/pkgs/container/z3">Z3Prover</a> for the analysis.
 
-## Examples
+## Examples in the Tool
 
 Two contract encodings and can be analyzed `pretzelSPA_bad.json` and `contract_long.json`.
 The contracts are in the folder `src_LegalCheck/legaltech.job_legalcheck/src/test/resources`.
