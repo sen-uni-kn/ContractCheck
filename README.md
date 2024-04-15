@@ -4,6 +4,16 @@ In a legal contract, the contracting parties sign agreements. From an aggreement
 
 The tool ContractCheck can analyze before the contract signing if a contract is consistent and behaves as the contract parties expect. After contract signing, the tool can support a contract party to select the claims to assert and to fulfill and the dates to take actions.
 
+## Legal Analysis Workflow
+
+The workflow of the tool ContractCheck is depicted in the diagram.
+The user selects and parameterizes text blocks, then ContractCheck compiles a UML object diagram from the text blocks and the
+information regarding the class structure encoded in the SPA class diagram. The object diagram serves as an internal
+representation and does not need to be edited by the user. ContractCheck extracts the formal representation of the SPA to
+be analyzed from the object diagram and synthesizes logical encodings.
+
+![LegalPipeline](./LegalPipeline.png)
+
 ### Contract Formalization
 A contract is formalized into blocks. A block contains the legal text and a formalization of the contained claims: 
 - the debtor and creditor,
