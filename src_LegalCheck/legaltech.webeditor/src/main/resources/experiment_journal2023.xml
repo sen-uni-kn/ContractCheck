@@ -1,6 +1,8 @@
 <experiment>
 	<parameter>
 		<resource id="model" value="contract_long.json" src="file"/>
+		<resource id="model" value="journal2023/pretzelSPA3_bad.json" src="file"/>
+		<resource id="model" value="journal2023/pretzelSPA3_good.json" src="file"/>
 		<resource id="xsd" value="legal.xsd" src="file"/>
 	</parameter>
 	<analysis name="{index}_{$model}">

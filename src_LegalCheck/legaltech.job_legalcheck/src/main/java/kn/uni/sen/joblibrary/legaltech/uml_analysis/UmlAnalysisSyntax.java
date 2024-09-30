@@ -41,6 +41,18 @@ public class UmlAnalysisSyntax extends UmlAnalysisAbstract implements UmlAnalysi
 		return list;
 	}
 
+	public boolean existsDueDateFormula(UmlModel2 model, UmlNode2 duty)
+	{
+		UmlNode2 formula = duty.getAssoziationByName(LegalUml.DueDate);
+		if (formula != null)
+		{
+			String opVal = formula.getAttributeValue(LegalUml.Operator);
+			if (!opVal.isBlank())
+				return true;
+		}
+		return false;
+	}
+
 	public String getFrist(UmlModel2 model, UmlNode2 duty)
 	{
 		if (duty == null)
@@ -50,7 +62,6 @@ public class UmlAnalysisSyntax extends UmlAnalysisAbstract implements UmlAnalysi
 		{
 			if ((val.startsWith("+")) || (val.startsWith("(")))
 				return val;
-
 			try
 			{
 				Float.parseFloat(val);
@@ -110,6 +121,8 @@ public class UmlAnalysisSyntax extends UmlAnalysisAbstract implements UmlAnalysi
 			// System.out.println("me");
 
 			String val = getFrist(model, node);
+			if ((val == null) && existsDueDateFormula(model, node))
+				continue;
 			if (name == null)
 				name = node.getName();
 			if (val == null)
